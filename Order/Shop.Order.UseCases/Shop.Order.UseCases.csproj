@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Shop.Common.Contract\Shop.Common.Contract.csproj" />
+    <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Order.DomainServices.Interfaces\Shop.Order.DomainServices.Interfaces.csproj" />
+    <ProjectReference Include="..\Shop.Order.Entities\Shop.Order.Entities.csproj" />
+    <ProjectReference Include="..\Shop.Order.Infrastructure.Interfaces\Shop.Order.Infrastructure.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
