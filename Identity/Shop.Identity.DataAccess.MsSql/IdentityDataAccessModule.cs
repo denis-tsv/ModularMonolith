@@ -11,7 +11,7 @@ namespace Shop.Identity.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection")));
+            services.AddDbContext<IdentityDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Identity"/*"MsSqlConnection"*/)));
             services.AddScoped<IIdentityDbContext>(fact => fact.GetService<IdentityDbContext>());
 
             services.AddIdentity<User, Role>()

@@ -10,7 +10,7 @@ namespace Shop.Common.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<CommonDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection")));
+            services.AddDbContext<CommonDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Common" /*"MsSqlConnection"*/)));
             services.AddScoped<ICommonDbContext>(fact => fact.GetService<CommonDbContext>());
         }
     }

@@ -10,7 +10,7 @@ namespace Shop.Order.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<OrderDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection")));
+            services.AddDbContext<OrderDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Order"/*"MsSqlConnection"*/)));
             services.AddScoped<IOrderDbContext>(fact => fact.GetService<OrderDbContext>());
         }
     }
