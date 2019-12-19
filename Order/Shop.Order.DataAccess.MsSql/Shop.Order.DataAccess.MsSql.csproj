@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191216094922_Initial.cs" />
+    <Compile Remove="Migrations\20191218103829_Initial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
   </ItemGroup>
 
@@ -12,10 +17,6 @@
     <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Order.Entities\Shop.Order.Entities.csproj" />
     <ProjectReference Include="..\Shop.Order.Infrastructure.Interfaces\Shop.Order.Infrastructure.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

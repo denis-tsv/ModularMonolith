@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,9 @@ namespace Shop.Web
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
-            
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>));
+
             services.AddOptions();
 
             services.AddMvc()

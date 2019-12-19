@@ -6,7 +6,7 @@ namespace Shop.Common.Infrastructure.Implementation.BackgroundJobs
     {
         public FluentSchedulerRegistry()
         {
-            Schedule<SendEmailsJob>().NonReentrant().ToRunEvery(1).Minutes();
+            //Schedule<SendEmailsJob>().NonReentrant().ToRunEvery(1).Minutes();
         }
     }
 }

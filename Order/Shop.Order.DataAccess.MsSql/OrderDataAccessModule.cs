@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 using Shop.Utils.Modules;
+using Shop.Utils.Connections;
 
 namespace Shop.Order.DataAccess.MsSql
 {
@@ -10,8 +10,11 @@ namespace Shop.Order.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<OrderDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Order"/*"MsSqlConnection"*/)));
-            services.AddScoped<IOrderDbContext>(fact => fact.GetService<OrderDbContext>());
+            services.AddDbContext<IOrderDbContext, OrderDbContext>((sp, bld) => 
+            {
+                var factory = sp.GetRequiredService<IConnectionFactory>();
+                bld.UseSqlServer(factory.GetConnection());
+            });            
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Common.Infrastructure.Interfaces.DataAccess;
 using Shop.Utils.Modules;
+using Shop.Utils.Connections;
+using Microsoft.Extensions.Configuration;
 
 namespace Shop.Common.DataAccess.MsSql
 {
@@ -10,8 +11,13 @@ namespace Shop.Common.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<CommonDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Common" /*"MsSqlConnection"*/)));
-            services.AddScoped<ICommonDbContext>(fact => fact.GetService<CommonDbContext>());
+            services.AddScoped<IConnectionFactory, ConnectionFactory>(factory => new ConnectionFactory(Configuration.GetConnectionString("MsSqlConnection")));
+
+            services.AddDbContext<ICommonDbContext, CommonDbContext>((sp, bld) => 
+            {
+                var factory = sp.GetRequiredService<IConnectionFactory>();
+                bld.UseSqlServer(factory.GetConnection());
+            });
         }
     }
 }

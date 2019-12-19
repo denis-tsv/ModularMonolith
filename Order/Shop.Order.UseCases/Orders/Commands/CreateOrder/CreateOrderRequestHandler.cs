@@ -14,7 +14,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
         private readonly ICurrentUserService _currentUserService;
-
+        
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
@@ -24,7 +24,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             _dbContext = dbContext;
             _mapper = mapper;
             _emailService = emailService;
-            _currentUserService = currentUserService;
+            _currentUserService = currentUserService;            
         }
 
         protected override async Task Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -37,7 +37,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _emailService.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");
+            await _emailService.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");            
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 schema: "Order",
                 columns: table => new
                 {
@@ -46,11 +46,11 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "OrderItems",
                 schema: "Order",
                 columns: table => new
                 {
@@ -62,33 +62,33 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.Id);
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Orders_OrderId",
+                        name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalSchema: "Order",
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Product_ProductId",
+                        name: "FK_OrderItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalSchema: "Order",
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_OrderId",
+                name: "IX_OrderItems_OrderId",
                 schema: "Order",
-                table: "OrderItem",
+                table: "OrderItems",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_ProductId",
+                name: "IX_OrderItems_ProductId",
                 schema: "Order",
-                table: "OrderItem",
+                table: "OrderItems",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -101,7 +101,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderItem",
+                name: "OrderItems",
                 schema: "Order");
 
             migrationBuilder.DropTable(
@@ -109,7 +109,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                 schema: "Order");
 
             migrationBuilder.DropTable(
-                name: "Product",
+                name: "Products",
                 schema: "Order");
         }
     }

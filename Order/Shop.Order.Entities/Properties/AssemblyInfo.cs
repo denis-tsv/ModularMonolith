@@ -5,3 +5,5 @@
 [assembly: InternalsVisibleTo("Shop.Order.Infrastructure.Interfaces")]
 [assembly: InternalsVisibleTo("Shop.Order.DataAccess.MsSql")]
 [assembly: InternalsVisibleTo("Shop.Order.UseCases")]
+
+[assembly: InternalsVisibleTo("Shop.Tests.Unit")]

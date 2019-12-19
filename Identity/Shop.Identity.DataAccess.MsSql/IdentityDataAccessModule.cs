@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Identity.Entities;
 using Shop.Identity.Infrastructure.Interfaces.DataAccess;
 using Shop.Utils.Modules;
+using Shop.Utils.Connections;
 
 namespace Shop.Identity.DataAccess.MsSql
 {
@@ -11,9 +11,12 @@ namespace Shop.Identity.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Identity"/*"MsSqlConnection"*/)));
-            services.AddScoped<IIdentityDbContext>(fact => fact.GetService<IdentityDbContext>());
-
+            services.AddDbContext<IIdentityDbContext, IdentityDbContext>((sp, bld) => 
+            {
+                var factory = sp.GetRequiredService<IConnectionFactory>();
+                bld.UseSqlServer(factory.GetConnection());
+            });
+            
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<IdentityDbContext>();
         }

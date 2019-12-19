@@ -8,10 +8,10 @@ namespace Shop.Common.Infrastructure.Implementation.Services
     internal class EmailService : IEmailService
     {
         private readonly ICommonDbContext _dbContext;
-
+        
         public EmailService(ICommonDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext;            
         }
 
         public async Task SendEmailAsync(string email, string subject, string body)

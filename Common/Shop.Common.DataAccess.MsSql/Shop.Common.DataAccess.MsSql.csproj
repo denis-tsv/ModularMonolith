@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Shop.Common.Infrastructure.Interfaces\Shop.Common.Infrastructure.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
 </Project>

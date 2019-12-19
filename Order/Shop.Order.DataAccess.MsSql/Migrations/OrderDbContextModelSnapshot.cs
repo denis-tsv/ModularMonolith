@@ -3,6 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Shop.Order.DataAccess.MsSql;
 
 namespace Shop.Order.DataAccess.MsSql.Migrations
 {
@@ -51,7 +53,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Shop.Order.Entities.Product", b =>
@@ -66,7 +68,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Shop.Order.Entities.OrderItem", b =>

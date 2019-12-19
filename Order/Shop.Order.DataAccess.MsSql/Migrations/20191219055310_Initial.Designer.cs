@@ -10,7 +10,7 @@ using Shop.Order.DataAccess.MsSql;
 namespace Shop.Order.DataAccess.MsSql.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20191216094922_Initial")]
+    [Migration("20191219055310_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Shop.Order.Entities.Product", b =>
@@ -70,7 +70,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Shop.Order.Entities.OrderItem", b =>

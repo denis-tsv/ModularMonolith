@@ -3,3 +3,5 @@
 [assembly: InternalsVisibleTo("Shop.Identity.Infrastructure.Interfaces")]
 [assembly: InternalsVisibleTo("Shop.Identity.DataAccess.MsSql")]
 [assembly: InternalsVisibleTo("Shop.Identity.UseCases")]
+
+[assembly: InternalsVisibleTo("Shop.Tests.Unit")]
