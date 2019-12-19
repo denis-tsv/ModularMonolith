@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +19,7 @@ using Shop.Order.UseCases;
 using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
+using System;
 
 namespace Shop.Web
 {
@@ -29,13 +32,13 @@ namespace Shop.Web
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public ILifetimeScope AutofacContainer { get; private set; }
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>));
 
             services.AddOptions();
 
@@ -44,7 +47,6 @@ namespace Shop.Web
                 .AddApplicationPart(typeof(IdentityController).Assembly)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //TODO migrate to autofac
             services.RegisterModule<CommonDataAccessModule>(Configuration);
             services.RegisterModule<CommonInfrastructureModule>(Configuration);
             services.RegisterModule<IdentityDataAccessModule>(Configuration);
@@ -52,6 +54,16 @@ namespace Shop.Web
             services.RegisterModule<OrderDataAccessModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
+
+            var builder = new ContainerBuilder();
+
+            builder.Populate(services);
+
+            builder.RegisterGeneric(typeof(TransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            
+            AutofacContainer = builder.Build();
+
+            return new AutofacServiceProvider(AutofacContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

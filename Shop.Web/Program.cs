@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Common.Infrastructure.Implementation.BackgroundJobs;
 using Shop.Web.BackgroundJobsConfig;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Shop.Web
 {
@@ -27,6 +28,7 @@ namespace Shop.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>();
     }
 }

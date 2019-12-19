@@ -1,12 +1,13 @@
 ﻿using MediatR;
+using Shop.Utils.Transactions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
 namespace Shop.Web
 {
-    //TODO TRequest - transactional, generic constraint, need AutoFac
     public class TransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : ITransactionalRequest
     {
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
