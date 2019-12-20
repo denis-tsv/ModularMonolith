@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{B9B3FCA7-B148-4EAE-9D3E-AB6BB915DD88}"
 EndProject
@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Tests.Unit", "Shop.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6770166F-32D3-48BA-9A33-EF94886EB326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithAnalyzer", "Tools\ModularMonolithAnalyzer\ModularMonolithAnalyzer\ModularMonolithAnalyzer.csproj", "{7DBECBA8-5481-483E-B5F0-D573A819ADC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularMonolithAnalyzer", "Tools\ModularMonolithAnalyzer\ModularMonolithAnalyzer\ModularMonolithAnalyzer.csproj", "{7DBECBA8-5481-483E-B5F0-D573A819ADC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularMonolithAnalyzer.Vsix", "Tools\ModularMonolithAnalyzer\ModularMonolithAnalyzer.Vsix\ModularMonolithAnalyzer.Vsix.csproj", "{BEDF4E64-8F5E-4E43-B030-957EABCE745E}"
 EndProject

@@ -18,15 +18,5 @@ namespace Shop.Common.Infrastructure.Implementation
 
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
         }
-
-        //protected override void Load(ContainerBuilder builder)
-        //{
-        //    builder.RegisterType<EmailService>().As<IEmailService>().InstancePerLifetimeScope();
-        //    builder.RegisterType<CurrentUserService>().As<ICurrentUserService>().InstancePerLifetimeScope();
-
-        //    builder.RegisterType<SendEmailsJob>();
-
-        //    builder.Register(p => _configuration.GetSection("EmailOptions").Get<EmailOptions>()).SingleInstance();
-        //}
     }
 }

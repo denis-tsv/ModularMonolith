@@ -1,10 +1,8 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Common.DataAccess.MsSql;
@@ -19,7 +17,7 @@ using Shop.Order.UseCases;
 using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
-using System;
+using Microsoft.Extensions.Hosting;
 
 namespace Shop.Web
 {
@@ -34,7 +32,7 @@ namespace Shop.Web
 
         public ILifetimeScope AutofacContainer { get; private set; }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
 
@@ -42,10 +40,9 @@ namespace Shop.Web
 
             services.AddOptions();
 
-            services.AddMvc()
+            services.AddControllers()
                 .AddApplicationPart(typeof(OrdersController).Assembly)
-                .AddApplicationPart(typeof(IdentityController).Assembly)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .AddApplicationPart(typeof(IdentityController).Assembly);
 
             services.RegisterModule<CommonDataAccessModule>(Configuration);
             services.RegisterModule<CommonInfrastructureModule>(Configuration);
@@ -54,20 +51,15 @@ namespace Shop.Web
             services.RegisterModule<OrderDataAccessModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
+        }
 
-            var builder = new ContainerBuilder();
-
-            builder.Populate(services);
-
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
             builder.RegisterGeneric(typeof(TransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            
-            AutofacContainer = builder.Build();
-
-            return new AutofacServiceProvider(AutofacContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -76,7 +68,14 @@ namespace Shop.Web
 
             app.UseExceptionHandlerMiddleware();
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

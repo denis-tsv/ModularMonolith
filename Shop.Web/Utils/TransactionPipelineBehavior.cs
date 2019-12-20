@@ -1,28 +1,32 @@
-﻿using MediatR;
-using Shop.Utils.Transactions;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using MediatR;
+using Shop.Utils.Connections;
+using Shop.Utils.Transactions;
 
-namespace Shop.Web
+namespace Shop.Web.Utils
 {
     public class TransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ITransactionalRequest
     {
+        private readonly IConnectionFactory _connectionFactory;
+
+        public TransactionPipelineBehavior(IConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory;
+        }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.Required,
+            using var scope = new TransactionScope(TransactionScopeOption.Required,
                 new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }, 
-                TransactionScopeAsyncFlowOption.Enabled))
-            {
-                var result = await next();
-
-                scope.Complete();
-                
-                //TODO ConnectionFactory.GetConnection().Close(); optional improvement 
-
-                return result;                                    
-            }            
+                TransactionScopeAsyncFlowOption.Enabled);
+            
+            await using var connection = _connectionFactory.GetConnection();
+            
+            var result = await next();
+            scope.Complete();
+            return result;
         }
     }
 }

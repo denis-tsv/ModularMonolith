@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Identity.Entities;
 using Shop.Identity.Infrastructure.Interfaces.DataAccess;
 using Shop.Utils.Modules;
 using Shop.Utils.Connections;
@@ -17,8 +16,9 @@ namespace Shop.Identity.DataAccess.MsSql
                 bld.UseSqlServer(factory.GetConnection());
             });
             
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<IdentityDbContext>();
+            //TODO
+            //services.AddIdentity<User, Role>() //AddDefaultIdentity<User>
+            //    .AddEntityFrameworkStores<IdentityDbContext>();
         }
     }
 }

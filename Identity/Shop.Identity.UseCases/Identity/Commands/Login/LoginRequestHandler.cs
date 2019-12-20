@@ -1,39 +1,26 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Shop.Identity.Entities;
+using Microsoft.EntityFrameworkCore;
+using Shop.Identity.Infrastructure.Interfaces.DataAccess;
 using Shop.Utils.Exceptions;
 
 namespace Shop.Identity.UseCases.Identity.Commands.Login
 {
     internal class LoginRequestHandler : AsyncRequestHandler<LoginRequest>
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly IIdentityDbContext _dbContext;
 
-        public LoginRequestHandler(UserManager<User> userManager, SignInManager<User> signInManager)
+        public LoginRequestHandler(IIdentityDbContext dbContext)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
         protected override async Task Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.LoginDto.Email);
+            var user = await _dbContext.Users.AsNoTracking()
+                .SingleOrDefaultAsync(x => x.NormalizedEmail == request.LoginDto.Email.ToUpper(), cancellationToken: cancellationToken);
             if (user == null) throw new EntityNotFoundException();
-
-            if (!await _userManager.IsEmailConfirmedAsync(user)) throw new InvalidOperationException("Email not confirmed");
-
-            var result = await _signInManager.PasswordSignInAsync(request.LoginDto.Email, request.LoginDto.Password, true, lockoutOnFailure: false);
-
-            if (result.IsLockedOut)
-            {
-                throw new InvalidOperationException("User locked out");
-            }
-
-            if (!result.Succeeded) throw new InvalidOperationException("Login failed");
         }
     }
 }
