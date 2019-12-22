@@ -15,10 +15,6 @@ namespace Shop.Identity.DataAccess.MsSql
                 var factory = sp.GetRequiredService<IConnectionFactory>();
                 bld.UseSqlServer(factory.GetConnection());
             });
-            
-            //TODO
-            //services.AddIdentity<User, Role>() //AddDefaultIdentity<User>
-            //    .AddEntityFrameworkStores<IdentityDbContext>();
         }
     }
 }
