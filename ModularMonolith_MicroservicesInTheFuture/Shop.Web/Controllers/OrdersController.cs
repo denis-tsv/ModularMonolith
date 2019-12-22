@@ -11,9 +11,9 @@ namespace Shop.Web.Controllers
     {
         private readonly IOrderServiceContract _orderService;
 
-        public OrdersController(IOrderServiceContract orderServcie)
+        public OrdersController(IOrderServiceContract orderService)
         {
-            _orderService = orderServcie;
+            _orderService = orderService;
         }
 
         // GET api/orders/5
