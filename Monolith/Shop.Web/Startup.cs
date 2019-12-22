@@ -42,8 +42,7 @@ namespace Shop.Web
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddScoped<IEmailService, EmailService>();
-
+            
             services.AddMediatR(typeof(CreateOrderRequestHandler));
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
 
