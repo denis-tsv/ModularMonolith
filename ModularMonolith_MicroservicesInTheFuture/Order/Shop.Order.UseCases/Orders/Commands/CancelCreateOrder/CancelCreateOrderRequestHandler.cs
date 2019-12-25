@@ -16,9 +16,17 @@ namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
 
         protected override async Task Handle(CancelCreateOrderRequest request, CancellationToken cancellationToken)
         {
-            var order = _dbContext.Orders.Find(request.Id); //order already tracked by context
-            _dbContext.Orders.Remove(order);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            try
+            {
+                var order = await _dbContext.Orders.FindAsync(request.Id); //order already tracked by context
+                _dbContext.Orders.Remove(order);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                //log
+                //schedule task to remove order
+            }
         }
     }
 }
