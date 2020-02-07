@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Order.Contract.Orders;
 using Shop.Order.Contract.Orders.Dto;
+using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web.Controllers
 {
@@ -10,10 +12,12 @@ namespace Shop.Web.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderServiceContract _orderServiceContract;
+        private readonly IWaitingTasksStore _waitingTasksStore;
 
-        public OrdersController(IOrderServiceContract orderServiceContract)
+        public OrdersController(IOrderServiceContract orderServiceContract, IWaitingTasksStore waitingTasksStore)
         {
             _orderServiceContract = orderServiceContract;
+            _waitingTasksStore = waitingTasksStore;
         }
 
         // GET api/orders/5
@@ -28,7 +32,15 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            var orderId = await _orderServiceContract.CreateOrderAsync(createOrderDto);
+            var correlationId = Guid.NewGuid().ToString();
+
+            var resTask = _waitingTasksStore.Add<int>(correlationId);
+            
+            //await ir not await? ))
+            _orderServiceContract.CreateOrderAsync(correlationId, createOrderDto);
+
+            var orderId = await resTask;
+
             return orderId;
         }
     }

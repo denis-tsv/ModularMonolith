@@ -3,9 +3,8 @@ using Shop.Utils.ServiceBus;
 
 namespace Shop.Order.Contract.Orders.Messages
 {
-    public class CancelOrderCreationMessage : Message
+    public class FinishedOrderCreationMessage : Message
     {
         public int OrderId { get; set; }
-        public Exception Exception { get; set; }
     }
 }

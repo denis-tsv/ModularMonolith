@@ -6,6 +6,6 @@ namespace Shop.Order.Contract.Orders
     public interface IOrderServiceContract
     {
         Task<OrderDto> GetOrderAsync(int id);
-        Task<int> CreateOrderAsync(CreateOrderDto createOrderDto);        
+        Task CreateOrderAsync(string correlationId, CreateOrderDto createOrderDto);        
     }
 }

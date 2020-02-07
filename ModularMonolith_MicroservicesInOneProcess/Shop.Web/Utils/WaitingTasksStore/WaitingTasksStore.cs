@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace Shop.Utils.WaitingTasksStore
+namespace Shop.Web.Utils.WaitingTasksStore
 {
     public class WaitingTasksStore : IWaitingTasksStore
     {

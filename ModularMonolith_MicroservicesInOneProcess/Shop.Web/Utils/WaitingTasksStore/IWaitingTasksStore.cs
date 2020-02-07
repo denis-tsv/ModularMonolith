@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Shop.Utils.WaitingTasksStore
+namespace Shop.Web.Utils.WaitingTasksStore
 {
     public interface IWaitingTasksStore
     {

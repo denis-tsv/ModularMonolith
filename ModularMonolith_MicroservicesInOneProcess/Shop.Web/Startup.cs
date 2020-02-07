@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +20,8 @@ using Shop.Common.Contract.Implementation;
 using Shop.Identity.Contract.Implementation;
 using Shop.Order.Contract.Implementation;
 using Shop.Utils.ServiceBus;
-using Shop.Utils.WaitingTasksStore;
+using Shop.Web.Handlers;
+using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web
 {
@@ -39,6 +41,8 @@ namespace Shop.Web
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
+
+            services.AddMediatR(typeof(FinishedOrderCreationMessageHandler));
 
             services.AddOptions();
 
