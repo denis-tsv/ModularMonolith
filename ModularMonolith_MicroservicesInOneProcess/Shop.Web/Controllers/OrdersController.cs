@@ -32,11 +32,14 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
+            //We can create one more implementation of IOrderServiceContract for controllers.
+            //Or we can create other service to use in in controller instead of IOrderServiceContract 
+
             var correlationId = Guid.NewGuid().ToString();
 
             var resTask = _waitingTasksStore.Add<int>(correlationId);
             
-            //await ir not await? ))
+            //await or not await? ))
             _orderServiceContract.CreateOrderAsync(correlationId, createOrderDto);
 
             var orderId = await resTask;
