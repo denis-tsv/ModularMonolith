@@ -24,6 +24,7 @@ namespace Shop.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
+            //If Query requires send messages between modules then our application have bad boundaries 
             return await _orderServiceContract.GetOrderAsync(id);
             
         }
