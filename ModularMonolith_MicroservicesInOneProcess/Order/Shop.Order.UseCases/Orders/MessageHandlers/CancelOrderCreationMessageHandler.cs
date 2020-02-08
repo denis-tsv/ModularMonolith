@@ -4,7 +4,7 @@ using MediatR;
 using Shop.Order.Contract.Orders.Messages;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
-namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
+namespace Shop.Order.UseCases.Orders.MessageHandlers
 {
     internal class CancelOrderCreationMessageHandler : INotificationHandler<CancelOrderCreationMessage>
     {

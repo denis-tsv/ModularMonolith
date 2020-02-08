@@ -1,12 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Shop.Order.Contract.Orders.Messages;
 using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web.Handlers
 {
-    public class FinishedOrderCreationMessageHandler : INotificationHandler<FinishedOrderCreationMessage>
+    public class FinishedOrderCreationMessageHandler : NotificationHandler<FinishedOrderCreationMessage>
     {
         private readonly IWaitingTasksStore _waitingTasksStore;
 
@@ -14,11 +12,9 @@ namespace Shop.Web.Handlers
         {
             _waitingTasksStore = waitingTasksStore;
         }
-        public Task Handle(FinishedOrderCreationMessage message, CancellationToken cancellationToken)
+        protected override void Handle(FinishedOrderCreationMessage message)
         {
             _waitingTasksStore.Complete(message.CorrelationId, message.OrderId);
-
-            return Task.CompletedTask;
         }
     }
 }

@@ -39,8 +39,7 @@ namespace Shop.Web.Controllers
 
             var resTask = _waitingTasksStore.Add<int>(correlationId);
             
-            //await or not await? ))
-            _orderServiceContract.CreateOrderAsync(correlationId, createOrderDto);
+            await _orderServiceContract.CreateOrderAsync(correlationId, createOrderDto);
 
             var orderId = await resTask;
 

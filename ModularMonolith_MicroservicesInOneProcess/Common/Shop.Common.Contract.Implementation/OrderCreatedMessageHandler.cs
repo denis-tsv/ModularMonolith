@@ -22,7 +22,7 @@ namespace Shop.Common.Contract.Implementation
         {
             try
             {
-                throw new Exception("Send email failed");
+                //throw new Exception("Send email failed");
 
                 await _emailService.SendEmailAsync(message.UserEmail, "Order created", $"Your order {message.OrderId} created successfully");
 
