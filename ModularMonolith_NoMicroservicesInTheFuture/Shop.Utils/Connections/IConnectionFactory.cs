@@ -5,5 +5,6 @@ namespace Shop.Utils.Connections
     public interface IConnectionFactory 
     {
         DbConnection GetConnection();
+        DbTransaction GetTransaction();
     }
 }

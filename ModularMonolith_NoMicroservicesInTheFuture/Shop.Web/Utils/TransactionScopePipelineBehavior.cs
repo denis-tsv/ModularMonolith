@@ -7,12 +7,12 @@ using Shop.Utils.Transactions;
 
 namespace Shop.Web.Utils
 {
-    public class TransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class TransactionScopePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : ITransactionalRequest
     {
         private readonly IConnectionFactory _connectionFactory;
 
-        public TransactionPipelineBehavior(IConnectionFactory connectionFactory)
+        public TransactionScopePipelineBehavior(IConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }

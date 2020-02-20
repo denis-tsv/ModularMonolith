@@ -12,6 +12,7 @@ namespace Shop.Common.DataAccess.MsSql
         }
 
         private DbConnection _connection;
+        private DbTransaction _transaction;
         private readonly string _connectionString;
 
         public DbConnection GetConnection()
@@ -22,6 +23,11 @@ namespace Shop.Common.DataAccess.MsSql
                 _connection.Open();
             }
             return _connection;
+        }
+
+        public DbTransaction GetTransaction()
+        {
+            return _transaction ?? (_transaction = GetConnection().BeginTransaction());
         }
     }
 }

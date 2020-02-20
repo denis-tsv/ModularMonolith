@@ -45,21 +45,31 @@ namespace Shop.Web
                 .AddApplicationPart(typeof(OrdersController).Assembly)
                 .AddApplicationPart(typeof(IdentityController).Assembly);
 
+#if !DB_TRANSACTION
             services.RegisterModule<CommonDataAccessModule>(Configuration);
+            services.RegisterModule<IdentityDataAccessModule>(Configuration);
+            services.RegisterModule<OrderDataAccessModule>(Configuration);
+#endif
             services.RegisterModule<CommonInfrastructureModule>(Configuration);
             services.RegisterModule<CommonContractModule>(Configuration);
-
-            services.RegisterModule<IdentityDataAccessModule>(Configuration);
+            
             services.RegisterModule<IdentityUseCasesModule>(Configuration);
-
-            services.RegisterModule<OrderDataAccessModule>(Configuration);
+            
             services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterGeneric(typeof(TransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+#if DB_TRANSACTION
+            builder.RegisterGeneric(typeof(DbTransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            
+            builder.RegisterModule<CommonDataAccessAutofacModule>();
+            builder.RegisterModule<OrderDataAccessAutofacModule>();
+            builder.RegisterModule<IdentityDataAccessAutofacModule>();
+#else
+            builder.RegisterGeneric(typeof(TransactionScopePipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
