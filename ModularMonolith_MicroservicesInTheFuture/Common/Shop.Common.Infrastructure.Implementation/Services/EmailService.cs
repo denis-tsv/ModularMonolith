@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Shop.Common.Contract.Services;
 using Shop.Common.Entities;
 using Shop.Common.Infrastructure.Interfaces.DataAccess;
+using Shop.Common.Infrastructure.Interfaces.Services;
 
-namespace Shop.Common.Contract.Implementation.Services
+namespace Shop.Common.Infrastructure.Implementation.Services
 {
     internal class EmailService : IEmailService
     {
@@ -24,7 +24,7 @@ namespace Shop.Common.Contract.Implementation.Services
             };
 
             _dbContext.Emails.Add(newMail);
-            //throw new Exception("Something wrong with send email");
+            throw new System.Exception("Something wrong with send email");
 
             await _dbContext.SaveChangesAsync();
         }

@@ -9,7 +9,7 @@ namespace Shop.Common.Contract.Implementation
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailServiceContract, EmailServiceContract>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
         }
     }

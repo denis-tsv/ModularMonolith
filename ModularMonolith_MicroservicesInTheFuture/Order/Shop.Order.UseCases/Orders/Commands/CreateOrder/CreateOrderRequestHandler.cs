@@ -14,20 +14,20 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
+        private readonly IEmailServiceContract _emailServiceContract;
         private readonly ICurrentUserService _currentUserService;
         private readonly ISaga _saga;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
-            IMapper mapper, 
-            IEmailService emailService,
+            IMapper mapper,
+            IEmailServiceContract emailServiceContract,
             ICurrentUserService currentUserService,
             ISaga saga)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _emailService = emailService;
+            _emailServiceContract = emailServiceContract;
             _currentUserService = currentUserService;
             _saga = saga;
         }
@@ -41,9 +41,13 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             _dbContext.Orders.Add(order);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-            _saga.AddValue(OrderSagaKeys.OrderId, order.Id);
 
-            await _emailService.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");            
+            //with saga
+            _saga.AddValue(OrderSagaKeys.OrderId, order.Id);
+            await _emailServiceContract.SendOrderEmailSagaAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");
+
+            //without saga
+            //await _emailServiceContract.SendOrderEmailAsync(order.Id, _currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");
         }
     }
 }
