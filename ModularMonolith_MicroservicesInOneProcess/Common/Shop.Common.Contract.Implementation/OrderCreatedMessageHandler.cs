@@ -2,33 +2,32 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Shop.Common.Contract.Services;
-using Shop.Order.Contract.Orders.Messages;
-using Shop.Utils.ServiceBus;
+using Shop.Common.Contract.Messages;
+using Shop.Common.Infrastructure.Interfaces.Services;
+using Shop.Order.Contract.Orders.Messages.CreateOrder;
+using Shop.Utils.Messaging;
 
 namespace Shop.Common.Contract.Implementation
 {
     internal class OrderCreatedMessageHandler : INotificationHandler<OrderCreatedMessage>
     {
         private readonly IEmailService _emailService;
-        private readonly IServiceBus _serviceBus;
+        private readonly IMessageBroker _messageBroker;
 
-        public OrderCreatedMessageHandler(IEmailService emailService, IServiceBus serviceBus)
+        public OrderCreatedMessageHandler(IEmailService emailService, IMessageBroker messageBroker)
         {
             _emailService = emailService;
-            _serviceBus = serviceBus;
+            _messageBroker = messageBroker;
         }
         public async Task Handle(OrderCreatedMessage message, CancellationToken cancellationToken)
         {
             try
             {
-                //throw new Exception("Send email failed");
-
                 await _emailService.SendEmailAsync(message.UserEmail, "Order created", $"Your order {message.OrderId} created successfully");
 
-                await _serviceBus.PublishAsync(new FinishedOrderCreationMessage
+                await _messageBroker.PublishAsync(new EntityEmailMessage
                 {
-                    OrderId = message.OrderId,
+                    Id = message.OrderId,
                     CorrelationId = message.CorrelationId
                 });
             }
@@ -36,9 +35,8 @@ namespace Shop.Common.Contract.Implementation
             {
                 // log exception using correlation id
 
-                await _serviceBus.PublishAsync(new CancelOrderCreationMessage
+                await _messageBroker.PublishAsync(new ExceptionMessage
                 {
-                    OrderId = message.OrderId,
                     CorrelationId = message.CorrelationId,
                     Exception = e
                 });

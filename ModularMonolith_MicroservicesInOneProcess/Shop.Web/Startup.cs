@@ -18,9 +18,12 @@ using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
 using Shop.Common.Contract.Implementation;
 using Shop.Identity.Contract.Implementation;
-using Shop.Order.Contract.Implementation;
-using Shop.Utils.ServiceBus;
-using Shop.Web.Handlers;
+using Shop.Utils.CancelUseCase;
+using Shop.Utils.Implementation.Messaging;
+using Shop.Utils.Implementation.Services;
+using Shop.Utils.Messaging;
+using Shop.Utils.Services;
+using Shop.Web.Utils.Dispatcher;
 using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web
@@ -42,14 +45,15 @@ namespace Shop.Web
 
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
 
-            services.AddMediatR(typeof(FinishedOrderCreationMessageHandler));
-
             services.AddOptions();
 
             services.AddControllers();
 
-            services.AddScoped<IServiceBus, ServiceBus>();
+            services.AddScoped<IMessageBroker, MediatrMessageBroker>(); //Singleton?
             services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
+            services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<ICancelUseCaseService, CancelUseCaseService>();
 
             services.RegisterModule<CommonDataAccessModule>(Configuration);
             services.RegisterModule<CommonInfrastructureModule>(Configuration);
@@ -62,12 +66,13 @@ namespace Shop.Web
             services.RegisterModule<OrderDataAccessModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
-            services.RegisterModule<OrderContractModule>(Configuration);
+            
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            
+            builder.RegisterGeneric(typeof(CompleteTaskMessageHandler<>)).As(typeof(INotificationHandler<>)).SingleInstance();
+            builder.RegisterGeneric(typeof(CancelUseCaseMessageHandler<>)).As(typeof(INotificationHandler<>)).SingleInstance();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

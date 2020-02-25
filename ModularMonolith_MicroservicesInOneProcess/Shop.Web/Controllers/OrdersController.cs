@@ -1,9 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Order.Contract.Orders;
+using Shop.Common.Contract.Messages;
 using Shop.Order.Contract.Orders.Dto;
-using Shop.Web.Utils.WaitingTasksStore;
+using Shop.Order.Contract.Orders.Messages.CreateOrder;
+using Shop.Order.Contract.Orders.Messages.GetOrder;
+using Shop.Order.UseCases.Orders.Commands.CreateOrder;
+using Shop.Web.Utils.Dispatcher;
 
 namespace Shop.Web.Controllers
 {
@@ -11,40 +13,29 @@ namespace Shop.Web.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderServiceContract _orderServiceContract;
-        private readonly IWaitingTasksStore _waitingTasksStore;
+        private readonly IMessageDispatcher _messageDispatcher;
 
-        public OrdersController(IOrderServiceContract orderServiceContract, IWaitingTasksStore waitingTasksStore)
+        public OrdersController(IMessageDispatcher messageDispatcher)
         {
-            _orderServiceContract = orderServiceContract;
-            _waitingTasksStore = waitingTasksStore;
+            _messageDispatcher = messageDispatcher;
         }
 
         // GET api/orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            //If Query requires send messages between modules then our application have bad boundaries 
-            return await _orderServiceContract.GetOrderAsync(id);
-            
+            var message = new GetOrderMessage {Id = id};
+            var resultMessage =  await _messageDispatcher.SendMessageAsync<OrderDetailsMessage>(message);
+            return resultMessage.Order;
         }
 
         // POST api/orders
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            //We can create one more implementation of IOrderServiceContract for controllers.
-            //Or we can create other service to use in in controller instead of IOrderServiceContract 
-
-            var correlationId = Guid.NewGuid().ToString();
-
-            var resTask = _waitingTasksStore.Add<int>(correlationId);
-            
-            await _orderServiceContract.CreateOrderAsync(correlationId, createOrderDto);
-
-            var orderId = await resTask;
-
-            return orderId;
+            var message = new CreateOrderMessage {CreateOrderDto = createOrderDto};
+            var resultMessage = await _messageDispatcher.SendMessageAsync<EntityEmailMessage>(message);
+            return resultMessage.Id;
         }
     }
 }

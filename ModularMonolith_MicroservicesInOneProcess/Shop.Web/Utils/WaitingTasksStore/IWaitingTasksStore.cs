@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shop.Utils.Messaging;
 
 namespace Shop.Web.Utils.WaitingTasksStore
 {
     public interface IWaitingTasksStore
     {
-        Task Add(string correlationId);
-        Task<T> Add<T>(string correlationId);
-        void Complete(string correlationId);
-        void Complete<T>(string correlationId, T value);
-        void CompleteException(string correlationId, Exception exception);
+        Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message;
+        bool TryComplete<TMessage>(TMessage message) where TMessage : Message;
     }
 }

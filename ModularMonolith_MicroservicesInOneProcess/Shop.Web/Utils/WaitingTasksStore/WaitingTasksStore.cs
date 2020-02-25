@@ -1,50 +1,70 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Shop.Utils.Extensions;
+using Shop.Utils.Messaging;
 
 namespace Shop.Web.Utils.WaitingTasksStore
 {
     public class WaitingTasksStore : IWaitingTasksStore
     {
-        private  readonly ConcurrentDictionary<string, object> _waitingTasks = new ConcurrentDictionary<string, object>();
-        public Task Add(string correlationId)
+        private  readonly ConcurrentDictionary<(string CorrelationId, string TypeName), object> _waitingTasks = new ConcurrentDictionary<
+            (string CorrelationId, string TypeName), object>();
+        
+        public Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message
         {
-            return Add<object>(correlationId);
-        }
+            if (correlationId.IsEmpty()) throw new InvalidOperationException("message.CorrelationId is null or empty");
+            var tcs = new TaskCompletionSource<TMessage>();
 
-        public Task<T> Add<T>(string correlationId)
-        {
-            var tcs = new TaskCompletionSource<T>();
-
-            if (!_waitingTasks.TryAdd(correlationId, tcs))
-                throw new Exception($"Waiting task with correlation id '{correlationId}' already exists");
+            if (!_waitingTasks.TryAdd((correlationId, typeof(TMessage).Name), tcs))
+                throw new Exception($"Waiting task with correlation id '{correlationId}' and name '{typeof(TMessage).Name}' already exists");
 
             return tcs.Task;
         }
 
-        public void Complete<T>(string correlationId, T value)
+        public bool TryComplete<TMessage>(TMessage message) where TMessage : Message
         {
-            if (!_waitingTasks.TryRemove(correlationId, out var obj))
-                throw new Exception($"Waiting task with correlation id '{correlationId}' does not exist");
-            
-            var tcs = (TaskCompletionSource<T>) obj;
-            
-            tcs.SetResult(value);
+            if (message is ExceptionMessage exceptionMessage)
+            {
+                return CompleteException(exceptionMessage);
+            }
+            else
+            {
+                return CompleteResult(message);
+            }
         }
 
-        public void Complete(string correlationId)
+        private bool CompleteResult<TMessage>(TMessage message) where TMessage : Message
         {
-            Complete<object>(correlationId, null);
+            if (!_waitingTasks.TryRemove((message.CorrelationId, typeof(TMessage).Name), out var obj))
+                return false;
+            
+            var tcs = (TaskCompletionSource<TMessage>) obj;
+            
+            tcs.SetResult(message);
+
+            return true;
         }
 
-        public void CompleteException(string correlationId, Exception exception)
+        private bool CompleteException<TMessage>(TMessage message) where TMessage : ExceptionMessage
         {
-            if(!_waitingTasks.TryRemove(correlationId, out var obj))
-                throw new Exception($"Waiting task with correlation id '{correlationId}' does not exist");
+            var keys = _waitingTasks.Keys
+                .Where(x => x.CorrelationId == message.CorrelationId)
+                .ToList();
+            if (!keys.Any()) return false;
 
-            dynamic tcs = obj;
+            foreach (var key in keys)
+            {
+                _waitingTasks.Remove(key, out var obj);
 
-            tcs.SetException(exception);
+                dynamic tcs = obj;
+
+                tcs.SetException(message.Exception);
+            }
+
+            return true;
         }
     }
 }

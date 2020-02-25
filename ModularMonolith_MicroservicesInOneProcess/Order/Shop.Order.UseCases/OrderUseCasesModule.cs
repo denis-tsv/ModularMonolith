@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.UseCases.Orders.Commands.CreateOrder;
+using Shop.Order.UseCases.Orders.MessageHandlers;
+using Shop.Utils.CancelUseCase;
 using Shop.Utils.Modules;
 
 namespace Shop.Order.UseCases
@@ -9,7 +11,9 @@ namespace Shop.Order.UseCases
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddMediatR(typeof(CreateOrderRequest));
+            services.AddMediatR(typeof(CreateOrderMessageHandler));
+
+            services.AddTransient<ICancelUseCase<CancelOrderCreationContext>, CancelOrderCreation>();
         }
     }
 }
