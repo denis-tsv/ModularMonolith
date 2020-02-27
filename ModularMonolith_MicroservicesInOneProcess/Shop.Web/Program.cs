@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Shop.Common.Infrastructure.Implementation.BackgroundJobs;
 using Shop.Web.BackgroundJobsConfig;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Shop.Communication.Infrastructure.Implementation.BackgroundJobs;
 
 namespace Shop.Web
 {

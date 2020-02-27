@@ -20,16 +20,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Shop.Common.Contract.Implementation\Shop.Common.Contract.Implementation.csproj" />
-    <ProjectReference Include="..\Common\Shop.Common.DataAccess.MsSql\Shop.Common.DataAccess.MsSql.csproj" />
-    <ProjectReference Include="..\Common\Shop.Common.Infrastructure.Implementation\Shop.Common.Infrastructure.Implementation.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.Contract.Implementation\Shop.Communication.Contract.Implementation.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.DataAccess.MsSql\Shop.Communication.DataAccess.MsSql.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.Infrastructure.Implementation.csproj" />
+    <ProjectReference Include="..\Framework\Shop.Framework.Implementation\Shop.Framework.Implementation.csproj" />
     <ProjectReference Include="..\Identity\Shop.Identity.Contract.Implementation\Shop.Identity.Contract.Implementation.csproj" />
     <ProjectReference Include="..\Identity\Shop.Identity.DataAccess.MsSql\Shop.Identity.DataAccess.MsSql.csproj" />
     <ProjectReference Include="..\Identity\Shop.Identity.UseCases\Shop.Identity.UseCases.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.DomainServices.Implementation\Shop.Order.DomainServices.Implementation.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
-    <ProjectReference Include="..\Shop.Utils.Implementation\Shop.Utils.Implementation.csproj" />
     <ProjectReference Include="..\Shop.Utils\Shop.Utils.csproj" />
   </ItemGroup>
 

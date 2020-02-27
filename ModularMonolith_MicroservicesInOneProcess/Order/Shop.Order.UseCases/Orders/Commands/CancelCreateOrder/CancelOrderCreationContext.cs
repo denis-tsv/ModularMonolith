@@ -1,6 +1,6 @@
-﻿using Shop.Utils.CancelUseCase;
+﻿using Shop.Framework.Interfaces.CancelUseCase;
 
-namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
+namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
 {
     internal class CancelOrderCreationContext : ICancelContext
     {

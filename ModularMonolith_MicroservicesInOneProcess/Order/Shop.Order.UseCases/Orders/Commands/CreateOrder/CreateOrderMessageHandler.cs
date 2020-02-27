@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using Shop.Framework.Interfaces.CancelUseCase;
+using Shop.Framework.Interfaces.Messaging;
+using Shop.Framework.Interfaces.Services;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
-using Shop.Utils.CancelUseCase;
-using Shop.Utils.Messaging;
-using Shop.Utils.Services;
+using Shop.Order.UseCases.Orders.Commands.CancelCreateOrder;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {

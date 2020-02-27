@@ -3,8 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shop.Framework.Interfaces.Messaging;
 using Shop.Utils.Extensions;
-using Shop.Utils.Messaging;
 
 namespace Shop.Web.Utils.WaitingTasksStore
 {

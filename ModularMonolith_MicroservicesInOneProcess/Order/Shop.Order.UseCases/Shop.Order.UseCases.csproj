@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Shop.Common.Contract\Shop.Common.Contract.csproj" />
     <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Order.Contract\Shop.Order.Contract.csproj" />
     <ProjectReference Include="..\Shop.Order.DomainServices.Interfaces\Shop.Order.DomainServices.Interfaces.csproj" />

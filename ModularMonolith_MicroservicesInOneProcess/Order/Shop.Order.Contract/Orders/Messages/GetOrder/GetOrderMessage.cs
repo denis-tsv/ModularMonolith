@@ -1,4 +1,4 @@
-﻿using Shop.Utils.Messaging;
+﻿using Shop.Framework.Interfaces.Messaging;
 
 namespace Shop.Order.Contract.Orders.Messages.GetOrder
 {

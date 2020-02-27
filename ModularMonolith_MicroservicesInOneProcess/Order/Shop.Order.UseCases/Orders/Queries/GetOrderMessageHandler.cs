@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Shop.Framework.Interfaces.Exceptions;
+using Shop.Framework.Interfaces.Messaging;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.GetOrder;
 using Shop.Order.DomainServices.Interfaces;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
-using Shop.Utils.Exceptions;
-using Shop.Utils.Messaging;
 
 namespace Shop.Order.UseCases.Orders.Queries
 {

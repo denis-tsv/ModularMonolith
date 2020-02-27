@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Common.DataAccess.MsSql;
-using Shop.Common.Infrastructure.Implementation;
 using Shop.Identity.DataAccess.MsSql;
 using Shop.Identity.UseCases;
 using Shop.Order.DataAccess.MsSql;
@@ -16,13 +14,11 @@ using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
-using Shop.Common.Contract.Implementation;
+using Shop.Communication.Contract.Implementation;
+using Shop.Communication.DataAccess.MsSql;
+using Shop.Communication.Infrastructure.Implementation;
+using Shop.Framework.Implementation;
 using Shop.Identity.Contract.Implementation;
-using Shop.Utils.CancelUseCase;
-using Shop.Utils.Implementation.Messaging;
-using Shop.Utils.Implementation.Services;
-using Shop.Utils.Messaging;
-using Shop.Utils.Services;
 using Shop.Web.Utils.Dispatcher;
 using Shop.Web.Utils.WaitingTasksStore;
 
@@ -46,18 +42,18 @@ namespace Shop.Web
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
 
             services.AddOptions();
-
+            
             services.AddControllers();
 
-            services.AddScoped<IMessageBroker, MediatrMessageBroker>(); //Singleton?
+             
             services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
             services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddSingleton<ICancelUseCaseService, CancelUseCaseService>();
 
-            services.RegisterModule<CommonDataAccessModule>(Configuration);
-            services.RegisterModule<CommonInfrastructureModule>(Configuration);
-            services.RegisterModule<CommonContractModule>(Configuration);
+            services.RegisterModule<FrameworkModule>(Configuration);
+
+            services.RegisterModule<CommunicationDataAccessModule>(Configuration);
+            services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
+            services.RegisterModule<CommunicationContractModule>(Configuration);
 
             services.RegisterModule<IdentityDataAccessModule>(Configuration);
             services.RegisterModule<IdentityUseCasesModule>(Configuration);

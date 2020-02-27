@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Shop.Framework.Interfaces.CancelUseCase;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
-using Shop.Utils.CancelUseCase;
 
-namespace Shop.Order.UseCases.Orders.MessageHandlers
+namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
 {
     internal class CancelOrderCreation : ICancelUseCase<CancelOrderCreationContext>
     {
@@ -13,7 +12,6 @@ namespace Shop.Order.UseCases.Orders.MessageHandlers
         {
             _dbContext = dbContext;
         }
-
         
         public async Task CancelAsync(CancelOrderCreationContext context)
         {

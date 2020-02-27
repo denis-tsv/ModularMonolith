@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Common.Contract.Messages;
+using Shop.Communication.Contract.Messages;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 using Shop.Order.Contract.Orders.Messages.GetOrder;

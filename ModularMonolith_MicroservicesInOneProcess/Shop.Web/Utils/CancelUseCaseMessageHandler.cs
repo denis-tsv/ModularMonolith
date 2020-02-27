@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Shop.Utils.CancelUseCase;
-using Shop.Utils.Messaging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Shop.Framework.Interfaces.CancelUseCase;
+using Shop.Framework.Interfaces.Messaging;
 
 namespace Shop.Web.Utils
 {

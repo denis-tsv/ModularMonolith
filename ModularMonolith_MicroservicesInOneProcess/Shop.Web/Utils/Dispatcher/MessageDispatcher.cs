@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Shop.Utils.Messaging;
+using Shop.Framework.Interfaces.Messaging;
 using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web.Utils.Dispatcher

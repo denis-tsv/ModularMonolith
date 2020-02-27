@@ -16,6 +16,20 @@ namespace Shop.Identity.DataAccess.MsSql
             base.OnModelCreating(modelBuilder);
             
             modelBuilder.HasDefaultSchema("Identity");
+
+            DataSeed(modelBuilder);
+        }
+
+        private void DataSeed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Email = "test@tets.com",
+                    EmailConfirmed = true,
+                }
+            );
         }
     }
 }
