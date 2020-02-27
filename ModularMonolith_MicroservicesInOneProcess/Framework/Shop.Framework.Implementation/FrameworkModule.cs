@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Framework.Implementation.CancelUseCase;
+using Shop.Framework.Implementation.Cancel;
 using Shop.Framework.Implementation.Messaging;
 using Shop.Framework.Implementation.Services;
 using Shop.Framework.Interfaces.Cancel;

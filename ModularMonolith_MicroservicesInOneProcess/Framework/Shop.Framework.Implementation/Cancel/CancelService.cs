@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Shop.Framework.Interfaces.Cancel;
 
-namespace Shop.Framework.Implementation.CancelUseCase
+namespace Shop.Framework.Implementation.Cancel
 {
     internal class CancelService : ICancelService
     {
