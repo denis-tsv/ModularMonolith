@@ -44,7 +44,6 @@ namespace Shop.Web
             services.AddOptions();
             
             services.AddControllers();
-
              
             services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
             services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
