@@ -9,7 +9,7 @@ namespace Shop.Identity.UseCases
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddMediatR(typeof(LoginRequest));
+            services.AddMediatR(typeof(LoginMessageHandler));
         }
     }
 }

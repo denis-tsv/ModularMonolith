@@ -24,7 +24,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             _orderService = orderService;
         }
 
-        protected async override Task Handle(GetOrderMessage message)
+        protected override async Task Handle(GetOrderMessage message)
         {
             var order = await _dbContext.Orders.AsNoTracking()
                 .Include(x => x.Items).ThenInclude(x => x.Product)

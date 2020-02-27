@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Account\Dto\" />
+    <ProjectReference Include="..\..\Framework\Shop.Framework.Interfaces\Shop.Framework.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Identity.Contract.Identity;
 using Shop.Identity.Contract.Identity.Dto;
+using Shop.Identity.Contract.Identity.Login;
+using Shop.Web.Utils.Dispatcher;
 
 namespace Shop.Web.Controllers
 {
@@ -9,17 +10,18 @@ namespace Shop.Web.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
-        private readonly IIdentityService _identityService;
+        private readonly IMessageDispatcher _messageDispatcher;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IMessageDispatcher messageDispatcher)
         {
-            _identityService = identityService;
+            _messageDispatcher = messageDispatcher;
         }
 
         [HttpPost]
         public async Task Login([FromBody]LoginDto loginDto)
         {
-            await _identityService.LoginAsync(loginDto);
+            var message = new LoginMessage {LoginDto = loginDto};
+            await _messageDispatcher.SendMessageAsync<LoginSucceededMessage>(message);
         }
 
         //Register

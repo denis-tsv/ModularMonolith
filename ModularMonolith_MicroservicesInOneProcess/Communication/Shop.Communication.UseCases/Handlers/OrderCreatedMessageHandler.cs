@@ -5,7 +5,7 @@ using Shop.Framework.Interfaces.Messaging;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 
-namespace Shop.Communication.Contract.Implementation
+namespace Shop.Communication.UseCases.Handlers
 {
     internal class OrderCreatedMessageHandler : MessageHandler<OrderCreatedMessage>
     {
