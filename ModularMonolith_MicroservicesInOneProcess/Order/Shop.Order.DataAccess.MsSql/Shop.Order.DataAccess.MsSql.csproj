@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Order.Entities\Shop.Order.Entities.csproj" />
     <ProjectReference Include="..\Shop.Order.Infrastructure.Interfaces\Shop.Order.Infrastructure.Interfaces.csproj" />
   </ItemGroup>

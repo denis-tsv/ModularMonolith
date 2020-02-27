@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Identity.Entities\Shop.Identity.Entities.csproj" />
     <ProjectReference Include="..\Shop.Identity.Infrastructure.Interfaces\Shop.Identity.Infrastructure.Interfaces.csproj" />
   </ItemGroup>

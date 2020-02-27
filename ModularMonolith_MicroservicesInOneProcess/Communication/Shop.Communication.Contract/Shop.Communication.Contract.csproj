@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Shop.Framework.Interfaces\Shop.Framework.Interfaces.csproj" />
-    <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
   </ItemGroup>
 
 </Project>
