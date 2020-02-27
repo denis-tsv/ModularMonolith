@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using System.Transactions;
 using MediatR;
-using Shop.Utils.Connections;
-using Shop.Utils.Transactions;
+using Shop.Framework.Interfaces.Services;
+using Shop.Framework.Interfaces.Transactions;
 
 namespace Shop.Web.Utils
 {

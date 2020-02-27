@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shop.Framework.Interfaces.Exceptions;
 using Shop.Order.DomainServices.Interfaces;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 using Shop.Order.UseCases.Orders.Dto;
-using Shop.Utils.Exceptions;
 
 namespace Shop.Order.UseCases.Orders.Queries.GetOrder
 {

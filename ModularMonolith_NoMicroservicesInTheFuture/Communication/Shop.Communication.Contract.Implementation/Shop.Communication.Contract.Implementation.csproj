@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Communication.Contract\Shop.Communication.Contract.csproj" />
+    <ProjectReference Include="..\Shop.Communication.Entities\Shop.Communication.Entities.csproj" />
+    <ProjectReference Include="..\Shop.Communication.Infrastructure.Interfaces\Shop.Communication.Infrastructure.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

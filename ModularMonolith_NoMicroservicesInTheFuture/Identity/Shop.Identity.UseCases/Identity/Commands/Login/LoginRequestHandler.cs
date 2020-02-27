@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shop.Framework.Interfaces.Exceptions;
 using Shop.Identity.Infrastructure.Interfaces.DataAccess;
-using Shop.Utils.Exceptions;
 
 namespace Shop.Identity.UseCases.Identity.Commands.Login
 {

@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Common.DataAccess.MsSql;
-using Shop.Common.Infrastructure.Implementation;
 using Shop.Identity.Controllers;
 using Shop.Identity.DataAccess.MsSql;
 using Shop.Identity.UseCases;
@@ -18,7 +16,10 @@ using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
-using Shop.Common.Contract.Implementation;
+using Shop.Communication.Contract.Implementation;
+using Shop.Communication.DataAccess.MsSql;
+using Shop.Communication.Infrastructure.Implementation;
+using Shop.Framework.Implementation;
 
 namespace Shop.Web
 {
@@ -45,13 +46,15 @@ namespace Shop.Web
                 .AddApplicationPart(typeof(OrdersController).Assembly)
                 .AddApplicationPart(typeof(IdentityController).Assembly);
 
+            services.RegisterModule<FrameworkModule>(Configuration);
+
 #if !DB_TRANSACTION
-            services.RegisterModule<CommonDataAccessModule>(Configuration);
+            services.RegisterModule<CommunicationDataAccessModule>(Configuration);
             services.RegisterModule<IdentityDataAccessModule>(Configuration);
             services.RegisterModule<OrderDataAccessModule>(Configuration);
 #endif
-            services.RegisterModule<CommonInfrastructureModule>(Configuration);
-            services.RegisterModule<CommonContractModule>(Configuration);
+            services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
+            services.RegisterModule<CommunicationContractModule>(Configuration);
             
             services.RegisterModule<IdentityUseCasesModule>(Configuration);
             
@@ -64,7 +67,7 @@ namespace Shop.Web
 #if DB_TRANSACTION
             builder.RegisterGeneric(typeof(DbTransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             
-            builder.RegisterModule<CommonDataAccessAutofacModule>();
+            builder.RegisterModule<CommunicationDataAccessAutofacModule>();
             builder.RegisterModule<OrderDataAccessAutofacModule>();
             builder.RegisterModule<IdentityDataAccessAutofacModule>();
 #else
