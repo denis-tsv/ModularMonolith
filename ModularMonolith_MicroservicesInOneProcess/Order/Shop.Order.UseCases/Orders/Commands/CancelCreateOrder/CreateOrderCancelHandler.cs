@@ -1,23 +1,23 @@
 ﻿using System.Threading.Tasks;
-using Shop.Framework.Interfaces.CancelUseCase;
+using Shop.Framework.Interfaces.Cancel;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
 {
-    internal class CancelOrderCreation : ICancelUseCase<CancelOrderCreationContext>
+    internal class CreateOrderCancelHandler : ICancelHandler<CreateOrderCancel>
     {
         private readonly IOrderDbContext _dbContext;
 
-        public CancelOrderCreation(IOrderDbContext dbContext)
+        public CreateOrderCancelHandler(IOrderDbContext dbContext)
         {
             _dbContext = dbContext;
         }
         
-        public async Task CancelAsync(CancelOrderCreationContext context)
+        public async Task HandleAsync(CreateOrderCancel cancel)
         {
             try
             {
-                var order = await _dbContext.Orders.FindAsync(context.OrderId); //order already tracked by context
+                var order = await _dbContext.Orders.FindAsync(cancel.OrderId); //order already tracked by context
                 _dbContext.Orders.Remove(order);
                 await _dbContext.SaveChangesAsync();
             }

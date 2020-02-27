@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Shop.Framework.Interfaces.CancelUseCase;
+using Shop.Framework.Interfaces.Cancel;
 using Shop.Framework.Interfaces.Messaging;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
@@ -15,14 +15,14 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        private readonly ICancelUseCaseService _cancelService;
+        private readonly ICancelService _cancelService;
 
         public CreateOrderMessageHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
             ICurrentUserService currentUserService,
             IMessageBroker messageBroker,
-            ICancelUseCaseService cancelService) 
+            ICancelService cancelService) 
             : base(messageBroker)
         {
             _dbContext = dbContext;
@@ -41,7 +41,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync();
 
-            _cancelService.Add<CancelOrderCreationContext, ICancelUseCase<CancelOrderCreationContext>>(message.CorrelationId, new CancelOrderCreationContext { OrderId = order.Id });
+            _cancelService.AddCancel<CreateOrderCancel, ICancelHandler<CreateOrderCancel>>(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
 
             await MessageBroker.PublishAsync(new OrderCreatedMessage
             {

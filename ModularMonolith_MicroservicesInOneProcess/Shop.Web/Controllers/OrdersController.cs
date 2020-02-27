@@ -4,7 +4,6 @@ using Shop.Communication.Contract.Messages;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 using Shop.Order.Contract.Orders.Messages.GetOrder;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Web.Utils.Dispatcher;
 
 namespace Shop.Web.Controllers

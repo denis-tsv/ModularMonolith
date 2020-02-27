@@ -68,7 +68,6 @@ namespace Shop.Web
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterGeneric(typeof(CompleteTaskMessageHandler<>)).As(typeof(INotificationHandler<>)).SingleInstance();
-            builder.RegisterGeneric(typeof(CancelUseCaseMessageHandler<>)).As(typeof(INotificationHandler<>)).SingleInstance();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
