@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Shop.Framework.Implementation.Messaging.WaitingTasksStore;
 using Shop.Framework.Interfaces.Messaging;
-using Shop.Web.Utils.WaitingTasksStore;
 
-namespace Shop.Web.Utils.Dispatcher
+namespace Shop.Framework.Implementation.Messaging
 {
-    public class MessageDispatcher : IMessageDispatcher
+    internal class MessageDispatcher : IMessageDispatcher
     {
         private readonly IMessageBroker _messageBroker;
         private readonly IWaitingTasksStore _waitingTasksStore;

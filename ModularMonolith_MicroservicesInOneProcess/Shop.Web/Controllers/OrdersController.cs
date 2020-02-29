@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Communication.Contract.Messages;
+using Shop.Framework.Interfaces.Messaging;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 using Shop.Order.Contract.Orders.Messages.GetOrder;
-using Shop.Web.Utils.Dispatcher;
 
 namespace Shop.Web.Controllers
 {
@@ -33,8 +33,8 @@ namespace Shop.Web.Controllers
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
             var message = new CreateOrderMessage {CreateOrderDto = createOrderDto};
-            var resultMessage = await _messageDispatcher.SendMessageAsync<EntityEmailMessage>(message);
-            return resultMessage.Id;
+            var resultMessage = await _messageDispatcher.SendMessageAsync<UserEmailNotifiedMessage>(message);
+            return resultMessage.OrderId;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Framework.Interfaces.Messaging;
 using Shop.Identity.Contract.Identity.Dto;
 using Shop.Identity.Contract.Identity.Login;
-using Shop.Web.Utils.Dispatcher;
 
 namespace Shop.Web.Controllers
 {
@@ -23,13 +23,6 @@ namespace Shop.Web.Controllers
             var message = new LoginMessage {LoginDto = loginDto};
             await _messageDispatcher.SendMessageAsync<LoginSucceededMessage>(message);
         }
-
-        //Register
-
-        //Logout
-
-        //Forgot password
-
-        //Confirm email
+        
     }
 }

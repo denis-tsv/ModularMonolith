@@ -24,9 +24,9 @@ namespace Shop.Communication.UseCases.Handlers
             var orderDetailsUrl = _urlHelper.Action("get", "/api/orders", new object[]{message.OrderId.ToString()}, "http");
             await _emailService.SendEmailAsync(message.UserEmail, "Order created", $"Your order {message.OrderId} created successfully. You can see details using link {orderDetailsUrl}");
 
-            await MessageBroker.PublishAsync(new EntityEmailMessage
+            await MessageBroker.PublishAsync(new UserEmailNotifiedMessage
             {
-                Id = message.OrderId,
+                OrderId = message.OrderId,
                 CorrelationId = message.CorrelationId
             });
         }

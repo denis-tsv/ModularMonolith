@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Shop.Framework.Implementation.Messaging.WaitingTasksStore;
 using Shop.Framework.Interfaces.Cancel;
 using Shop.Framework.Interfaces.Messaging;
-using Shop.Web.Utils.WaitingTasksStore;
 
-namespace Shop.Web.Utils
+namespace Shop.Framework.Implementation.Messaging
 {
-    public class CompleteTaskMessageHandler<TMessage> : INotificationHandler<TMessage>
+    internal class CompleteTaskMessageHandler<TMessage> : INotificationHandler<TMessage>
         where TMessage : Message
     {
         private readonly IWaitingTasksStore _waitingTasksStore;

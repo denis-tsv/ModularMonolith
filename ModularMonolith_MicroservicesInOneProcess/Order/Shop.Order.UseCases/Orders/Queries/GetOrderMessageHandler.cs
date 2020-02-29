@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.Framework.Interfaces.Exceptions;
 using Shop.Framework.Interfaces.Messaging;
+using Shop.Identity.Contract.Identity.UserDetails;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.GetOrder;
 using Shop.Order.DomainServices.Interfaces;
@@ -15,13 +17,18 @@ namespace Shop.Order.UseCases.Orders.Queries
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IOrdersService _orderService;
-        
-        public GetOrderMessageHandler(IOrderDbContext dbContext, IMapper mapper, IOrdersService orderService, IMessageBroker messageBroker)
+        private readonly IMessageDispatcher _messageDispatcher;
+
+        public GetOrderMessageHandler(IOrderDbContext dbContext, 
+            IMapper mapper, IOrdersService orderService, 
+            IMessageBroker messageBroker,
+            IMessageDispatcher messageDispatcher)
             : base(messageBroker)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _orderService = orderService;
+            _messageDispatcher = messageDispatcher;
         }
 
         protected override async Task Handle(GetOrderMessage message)
@@ -31,6 +38,11 @@ namespace Shop.Order.UseCases.Orders.Queries
                 .SingleOrDefaultAsync(x => x.Id == message.Id);
 
             if (order == null) throw new EntityNotFoundException();
+
+            var request = new UserDetailsRequestMessage {CorrelationId = message.CorrelationId};
+            var userDetails = await _messageDispatcher.SendMessageAsync<UserDetailsResponseMessage>(request);
+            if (userDetails.UserDetailsDto.LockoutEnd.HasValue && userDetails.UserDetailsDto.LockoutEnd > DateTime.Now)
+                throw new InvalidOperationException("User locked");
 
             var result = _mapper.Map<OrderDto>(order);
             result.Price = _orderService.GetPrice(order);

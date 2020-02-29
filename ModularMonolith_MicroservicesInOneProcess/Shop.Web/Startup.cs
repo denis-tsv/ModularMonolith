@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +17,6 @@ using Shop.Communication.DataAccess.MsSql;
 using Shop.Communication.Infrastructure.Implementation;
 using Shop.Communication.UseCases;
 using Shop.Framework.Implementation;
-using Shop.Web.Utils.Dispatcher;
-using Shop.Web.Utils.WaitingTasksStore;
 
 namespace Shop.Web
 {
@@ -43,10 +40,7 @@ namespace Shop.Web
             services.AddOptions();
             
             services.AddControllers();
-             
-            services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
-            services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
-
+            
             services.RegisterModule<FrameworkModule>(Configuration);
 
             services.RegisterModule<CommunicationDataAccessModule>(Configuration);
@@ -63,7 +57,6 @@ namespace Shop.Web
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterGeneric(typeof(CompleteTaskMessageHandler<>)).As(typeof(INotificationHandler<>)).SingleInstance();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

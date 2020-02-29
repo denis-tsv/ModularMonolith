@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
 using Shop.Utils.Extensions;
 
-namespace Shop.Web.Utils.WaitingTasksStore
+namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 {
-    public class WaitingTasksStore : IWaitingTasksStore
+    internal class WaitingTasksStore : IWaitingTasksStore
     {
         private  readonly ConcurrentDictionary<(string CorrelationId, string TypeName), object> _waitingTasks = new ConcurrentDictionary<
             (string CorrelationId, string TypeName), object>();
