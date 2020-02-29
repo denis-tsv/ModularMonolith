@@ -2,9 +2,9 @@
 
 namespace Shop.Communication.Infrastructure.Implementation.BackgroundJobs
 {
-    public class FluentSchedulerRegistry : Registry
+    public class CommunicationJobRegistry : Registry
     {
-        public FluentSchedulerRegistry()
+        public CommunicationJobRegistry()
         {
             //Schedule<SendEmailsJob>().NonReentrant().ToRunEvery(1).Minutes();
         }

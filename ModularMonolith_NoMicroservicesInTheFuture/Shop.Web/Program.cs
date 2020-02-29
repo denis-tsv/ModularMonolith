@@ -16,7 +16,7 @@ namespace Shop.Web
             var webHost = CreateWebHostBuilder(args).Build();
 
             JobManager.JobFactory = new JobFactory(webHost.Services);
-            JobManager.Initialize(new FluentSchedulerRegistry());
+            JobManager.Initialize(new CommunicationJobRegistry());
             JobManager.JobException += info =>
             {
                 var logger = webHost.Services.GetRequiredService<ILogger<Program>>();
