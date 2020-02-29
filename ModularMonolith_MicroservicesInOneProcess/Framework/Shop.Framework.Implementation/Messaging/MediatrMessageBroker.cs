@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Shop.Framework.Interfaces.Messaging;
+using Shop.Utils.Extensions;
 
 namespace Shop.Framework.Implementation.Messaging
 {
@@ -15,6 +17,8 @@ namespace Shop.Framework.Implementation.Messaging
 
         public Task PublishAsync<T>(T message) where T : Message
         {
+            if (message.CorrelationId.IsEmpty()) throw new ArgumentException("message.CorrelationId is null");
+            
             return _mediator.Publish(message);
         }
     }

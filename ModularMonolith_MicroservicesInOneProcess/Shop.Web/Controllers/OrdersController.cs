@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Communication.Contract.Messages;
 using Shop.Framework.Interfaces.Messaging;
@@ -23,7 +24,8 @@ namespace Shop.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            var message = new GetOrderMessage {Id = id};
+            // we can create some service which will create messages, add CorrelationId and return messages result
+            var message = new GetOrderMessage {Id = id, CorrelationId = Guid.NewGuid().ToString()};
             var resultMessage =  await _messageDispatcher.SendMessageAsync<OrderDetailsMessage>(message);
             return resultMessage.Order;
         }
@@ -32,7 +34,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            var message = new CreateOrderMessage {CreateOrderDto = createOrderDto};
+            var message = new CreateOrderMessage {CreateOrderDto = createOrderDto, CorrelationId = Guid.NewGuid().ToString() };
             var resultMessage = await _messageDispatcher.SendMessageAsync<UserEmailNotifiedMessage>(message);
             return resultMessage.OrderId;
         }

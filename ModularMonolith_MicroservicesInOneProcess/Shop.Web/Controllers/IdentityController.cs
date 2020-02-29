@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Framework.Interfaces.Messaging;
 using Shop.Identity.Contract.Identity.Dto;
@@ -20,7 +21,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task Login([FromBody]LoginDto loginDto)
         {
-            var message = new LoginMessage {LoginDto = loginDto};
+            var message = new LoginMessage {LoginDto = loginDto, CorrelationId = Guid.NewGuid().ToString() };
             await _messageDispatcher.SendMessageAsync<LoginSucceededMessage>(message);
         }
         
