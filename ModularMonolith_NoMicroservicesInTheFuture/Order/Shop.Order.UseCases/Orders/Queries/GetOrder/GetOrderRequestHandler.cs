@@ -4,9 +4,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shop.Framework.Interfaces.Exceptions;
+using Shop.Order.Contract.Dto;
 using Shop.Order.DomainServices.Interfaces;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
-using Shop.Order.UseCases.Orders.Dto;
 
 namespace Shop.Order.UseCases.Orders.Queries.GetOrder
 {

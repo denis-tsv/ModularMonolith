@@ -20,6 +20,8 @@ using Shop.Communication.Contract.Implementation;
 using Shop.Communication.DataAccess.MsSql;
 using Shop.Communication.Infrastructure.Implementation;
 using Shop.Framework.Implementation;
+using Shop.Order.Contract.Implementation;
+using Shop.Identity.Contract.Implementation;
 
 namespace Shop.Web
 {
@@ -55,9 +57,11 @@ namespace Shop.Web
 #endif
             services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
             services.RegisterModule<CommunicationContractModule>(Configuration);
-            
+
+            services.RegisterModule<IdentityContractModule>(Configuration);
             services.RegisterModule<IdentityUseCasesModule>(Configuration);
-            
+
+            services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
         }

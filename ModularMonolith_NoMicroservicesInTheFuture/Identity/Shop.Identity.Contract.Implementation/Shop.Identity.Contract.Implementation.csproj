@@ -6,16 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Identity.Contract\Shop.Identity.Contract.csproj" />
     <ProjectReference Include="..\Shop.Identity.UseCases\Shop.Identity.UseCases.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

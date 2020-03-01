@@ -10,7 +10,7 @@ using Shop.Order.UseCases.Orders.Commands.CancelCreateOrder;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {
-    internal class CreateOrderMessageHandler : MessageHandler<CreateOrderMessage>
+    internal class CreateOrderMessageHandler : MessageHandler<CreateOrderRequestMessage>
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             _cancelService = cancelService;
         }
 
-        protected override async Task Handle(CreateOrderMessage message)
+        protected override async Task Handle(CreateOrderRequestMessage message)
         {            
             var order = _mapper.Map<Entities.Order>(message.CreateOrderDto);
             order.CreationDate = DateTime.Now;
@@ -43,10 +43,9 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             _cancelService.AddCancel<CreateOrderCancel, ICancelHandler<CreateOrderCancel>>(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
 
-            await MessageBroker.PublishAsync(new OrderCreatedMessage
+            await MessageBroker.PublishAsync(new CreateOrderResponseMessage
             {
                 OrderId = order.Id,
-                UserEmail = _currentUserService.Email,
                 CorrelationId = message.CorrelationId
             });
         }

@@ -8,7 +8,7 @@ using Shop.Identity.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Identity.UseCases.Identity.Commands.Login
 {
-    internal class LoginMessageHandler : MessageHandler<LoginMessage>
+    internal class LoginMessageHandler : MessageHandler<LoginRequestMessage>
     {
         private readonly IIdentityDbContext _dbContext;
 
@@ -17,13 +17,13 @@ namespace Shop.Identity.UseCases.Identity.Commands.Login
             _dbContext = dbContext;
         }
 
-        protected override async Task Handle(LoginMessage message)
+        protected override async Task Handle(LoginRequestMessage message)
         {
             var user = await _dbContext.Users.AsNoTracking()
                 .SingleOrDefaultAsync(x => x.NormalizedEmail == message.LoginDto.Email.ToUpper());
             if (user == null) throw new EntityNotFoundException();
 
-            await MessageBroker.PublishAsync(new LoginSucceededMessage {CorrelationId = message.CorrelationId});
+            await MessageBroker.PublishAsync(new LoginResponseMessage {CorrelationId = message.CorrelationId});
         }
     }
 }

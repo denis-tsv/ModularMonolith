@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Shop.Communication.Contract.Services
+namespace Shop.Communication.Contract
 {
-    public interface IEmailService
+    public interface ICommunicationContract
     {
         Task SendEmailAsync(string email, string subject, string body);
     }

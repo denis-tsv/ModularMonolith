@@ -12,7 +12,7 @@ using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Order.UseCases.Orders.Queries
 {
-    internal class GetOrderMessageHandler : MessageHandler<GetOrderMessage>
+    internal class GetOrderMessageHandler : MessageHandler<GetOrderRequestMessage>
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             _messageDispatcher = messageDispatcher;
         }
 
-        protected override async Task Handle(GetOrderMessage message)
+        protected override async Task Handle(GetOrderRequestMessage message)
         {
             var order = await _dbContext.Orders.AsNoTracking()
                 .Include(x => x.Items).ThenInclude(x => x.Product)
@@ -47,7 +47,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             var result = _mapper.Map<OrderDto>(order);
             result.Price = _orderService.GetPrice(order);
 
-            var resultMessage = new OrderDetailsMessage {CorrelationId = message.CorrelationId, Order = result};
+            var resultMessage = new GetOrderResponseMessage {CorrelationId = message.CorrelationId, Order = result};
             await MessageBroker.PublishAsync(resultMessage);            
         }
     }

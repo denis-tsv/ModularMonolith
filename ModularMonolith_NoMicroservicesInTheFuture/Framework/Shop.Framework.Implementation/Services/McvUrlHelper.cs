@@ -4,7 +4,7 @@ using IUrlHelper = Shop.Framework.Interfaces.Services.IUrlHelper;
 
 namespace Shop.Framework.Implementation.Services
 {
-    public class McvUrlHelper : IUrlHelper
+    internal class McvUrlHelper : IUrlHelper
     {
         private readonly IMvcUrlHelper _urlHelper;
 

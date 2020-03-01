@@ -2,7 +2,7 @@
 
 namespace Shop.Order.Contract.Orders.Messages.GetOrder
 {
-    public class GetOrderMessage : Message
+    public class GetOrderRequestMessage : Message
     {
         public int Id { get; set; }
     }

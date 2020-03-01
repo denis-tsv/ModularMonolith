@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Identity.UseCases.Identity.Commands.Login;
+using Shop.Identity.Contract;
 using Shop.Identity.UseCases.Identity.Dto;
 
 namespace Shop.Identity.Controllers
@@ -10,25 +9,17 @@ namespace Shop.Identity.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IIdentityContract _identityContract;
 
-        public IdentityController(IMediator mediator)
+        public IdentityController(IIdentityContract identityContract)
         {
-            _mediator = mediator;
+            _identityContract = identityContract;
         }
 
         [HttpPost]
         public async Task Login([FromBody]LoginDto loginDto)
         {
-            await _mediator.Send(new LoginRequest {LoginDto = loginDto});
+            await _identityContract.LoginAsync(loginDto);
         }
-
-        //Register
-
-        //Logout
-
-        //Forgot password
-
-        //Confirm email
     }
 }

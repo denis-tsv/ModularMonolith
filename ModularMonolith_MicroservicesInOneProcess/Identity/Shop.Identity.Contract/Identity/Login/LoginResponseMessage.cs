@@ -2,7 +2,7 @@
 
 namespace Shop.Identity.Contract.Identity.Login
 {
-    public class LoginSucceededMessage : Message
+    public class LoginResponseMessage : Message
     {
     }
 }

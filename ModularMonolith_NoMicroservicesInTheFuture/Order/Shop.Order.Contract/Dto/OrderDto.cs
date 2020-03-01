@@ -1,4 +1,4 @@
-﻿namespace Shop.Order.UseCases.Orders.Dto
+﻿namespace Shop.Order.Contract.Dto
 {
     public class OrderDto
     {

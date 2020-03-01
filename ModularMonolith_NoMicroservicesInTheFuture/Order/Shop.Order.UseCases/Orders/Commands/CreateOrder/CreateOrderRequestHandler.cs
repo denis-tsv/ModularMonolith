@@ -3,35 +3,35 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Shop.Communication.Contract.Services;
+using Shop.Communication.Contract;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {
-    internal class CreateOrderRequestHandler : AsyncRequestHandler<CreateOrderRequest>
+    internal class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, int>
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IEmailService _emailService;
+        private readonly ICommunicationContract _communicationContract;
         private readonly ICurrentUserService _currentUserService;
         private readonly IUrlHelper _urlHelper;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
-            IEmailService emailService,
+            ICommunicationContract communicationContract,
             ICurrentUserService currentUserService,
             IUrlHelper urlHelper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _emailService = emailService;
+            _communicationContract = communicationContract;
             _currentUserService = currentUserService;
             _urlHelper = urlHelper;
         }
 
-        protected override async Task Handle(CreateOrderRequest request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
         {
             var order = _mapper.Map<Entities.Order>(request.CreateOrderDto);
             order.CreationDate = DateTime.Now;
@@ -42,7 +42,9 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             var orderDetailsUrl = _urlHelper.GetOrderDetails(order.Id);
-            await _emailService.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully. You can find order details using link {orderDetailsUrl}");            
+            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully. You can find order details using link {orderDetailsUrl}");
+
+            return order.Id;
         }
     }
 }

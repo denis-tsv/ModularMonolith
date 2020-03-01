@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
-using Shop.Communication.Contract.Services;
 using Shop.Communication.Entities;
 using Shop.Communication.Infrastructure.Interfaces.DataAccess;
 
-namespace Shop.Communication.Contract.Implementation.Services
+namespace Shop.Communication.Contract.Implementation
 {
-    internal class EmailService : IEmailService
+    internal class CommunicationContract : ICommunicationContract
     {
         private readonly ICommunicationDbContext _dbContext;
         
-        public EmailService(ICommunicationDbContext dbContext)
+        public CommunicationContract(ICommunicationDbContext dbContext)
         {
             _dbContext = dbContext;            
         }

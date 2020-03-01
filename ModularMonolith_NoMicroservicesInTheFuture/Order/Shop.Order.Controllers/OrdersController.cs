@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
-using Shop.Order.UseCases.Orders.Dto;
-using Shop.Order.UseCases.Orders.Queries.GetOrder;
+using Shop.Order.Contract;
+using Shop.Order.Contract.Dto;
 
 namespace Shop.Order.Controllers
 {
@@ -11,25 +9,25 @@ namespace Shop.Order.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IOrderContract _orderContract;
 
-        public OrdersController(IMediator mediator)
+        public OrdersController(IOrderContract orderContract)
         {
-            _mediator = mediator;
+            _orderContract = orderContract;
         }
 
         // GET api/orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            return await _mediator.Send(new GetOrderRequest {Id = id});
+            return await _orderContract.GetOrderAsync(id);
         }
 
         // POST api/orders
         [HttpPost]
-        public async Task Post([FromBody] CreateOrderDto createOrderDto)
+        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            await _mediator.Send(new CreateOrderRequest {CreateOrderDto = createOrderDto});
+            return await _orderContract.CreateOrderAsync(createOrderDto);
         }
     }
 }

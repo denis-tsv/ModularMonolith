@@ -25,8 +25,8 @@ namespace Shop.Web.Controllers
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
             // we can create some service which will create messages, add CorrelationId and return messages result
-            var message = new GetOrderMessage {Id = id, CorrelationId = Guid.NewGuid().ToString()};
-            var resultMessage =  await _messageDispatcher.SendMessageAsync<OrderDetailsMessage>(message);
+            var message = new GetOrderRequestMessage {Id = id, CorrelationId = Guid.NewGuid().ToString()};
+            var resultMessage =  await _messageDispatcher.SendMessageAsync<GetOrderResponseMessage>(message);
             return resultMessage.Order;
         }
 
@@ -34,7 +34,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            var message = new CreateOrderMessage {CreateOrderDto = createOrderDto, CorrelationId = Guid.NewGuid().ToString() };
+            var message = new CreateOrderRequestMessage {CreateOrderDto = createOrderDto, CorrelationId = Guid.NewGuid().ToString() };
             var resultMessage = await _messageDispatcher.SendMessageAsync<UserEmailNotifiedMessage>(message);
             return resultMessage.OrderId;
         }
