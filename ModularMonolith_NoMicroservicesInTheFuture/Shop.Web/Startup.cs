@@ -22,6 +22,7 @@ using Shop.Communication.Infrastructure.Implementation;
 using Shop.Framework.Implementation;
 using Shop.Order.Contract.Implementation;
 using Shop.Identity.Contract.Implementation;
+using Shop.Communication.UseCases;
 
 namespace Shop.Web
 {
@@ -57,6 +58,7 @@ namespace Shop.Web
 #endif
             services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
             services.RegisterModule<CommunicationContractModule>(Configuration);
+            services.RegisterModule<CommunicationUseCasesModule>(Configuration);
 
             services.RegisterModule<IdentityContractModule>(Configuration);
             services.RegisterModule<IdentityUseCasesModule>(Configuration);

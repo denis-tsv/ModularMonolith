@@ -1,30 +1,26 @@
 ﻿using System.Threading.Tasks;
-using Shop.Communication.Entities;
-using Shop.Communication.Infrastructure.Interfaces.DataAccess;
+using MediatR;
+using Shop.Communication.UseCases.Emails.Commands.SendEmail;
 
 namespace Shop.Communication.Contract.Implementation
 {
     internal class CommunicationContract : ICommunicationContract
     {
-        private readonly ICommunicationDbContext _dbContext;
-        
-        public CommunicationContract(ICommunicationDbContext dbContext)
+        private readonly IMediator _mediator;
+
+        public CommunicationContract(IMediator mediator)
         {
-            _dbContext = dbContext;            
+            _mediator = mediator;
         }
 
         public async Task SendEmailAsync(string email, string subject, string body)
         {
-            var newMail = new Email
+            await _mediator.Send(new SendEmailRequest
             {
                 Address = email,
                 Subject = subject,
                 Body = body
-            };
-
-            _dbContext.Emails.Add(newMail);
-
-            await _dbContext.SaveChangesAsync();
+            });
         }
     }
 }
