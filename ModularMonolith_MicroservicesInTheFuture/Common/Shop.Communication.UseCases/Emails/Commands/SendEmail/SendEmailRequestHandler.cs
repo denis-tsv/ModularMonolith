@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Shop.Communication.Entities;
@@ -24,7 +25,7 @@ namespace Shop.Communication.UseCases.Emails.Commands.SendEmail
             };
 
             _dbContext.Emails.Add(newMail);
-
+            throw new Exception("Test exception");
             await _dbContext.SaveChangesAsync();
         }
     }

@@ -19,7 +19,17 @@ namespace Shop.Communication.Contract.Implementation
             _orderContract = orderContract;
             _requestContext = requestContext;
         }
-        
+
+        public async Task SendEmailAsync(string email, string subject, string body)
+        {
+            await _mediator.Send(new SendEmailRequest
+            {
+                Address = email,
+                Subject = subject,
+                Body = body
+            });
+        }
+
         public async Task SendOrderEmailRequestContextAsync(string email, string subject, string body)
         {
             try

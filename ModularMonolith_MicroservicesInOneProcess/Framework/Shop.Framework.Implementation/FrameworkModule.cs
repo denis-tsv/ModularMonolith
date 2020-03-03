@@ -18,14 +18,18 @@ namespace Shop.Framework.Implementation
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddScoped<IMessageBroker, MediatrMessageBroker>();
-            services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
-            services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddSingleton<ICancelService, CancelService>();
-            services.AddScoped<IUrlHelper, MvcUrlHelper>();
             services.AddSingleton(typeof(INotificationHandler<>), typeof(CompleteTaskMessageHandler<>));
 
+            //these singleton services may be replaced by scoped services.
+            //in this case CompleteTaskMessageHandler request for ICancelService and IWaitingTasksStore from IServiceProvider on every message
+            services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
+            services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
+            services.AddSingleton<ICancelService, CancelService>();
+            
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IMessageBroker, MediatrMessageBroker>();
+            services.AddScoped<IUrlHelper, MvcUrlHelper>();
+            
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IMvcUrlHelper>(serviceProvider =>
             {
