@@ -1,4 +1,4 @@
-﻿namespace Shop.Common.Infrastructure.Interfaces.Options
+﻿namespace Shop.Communication.Infrastructure.Interfaces.Options
 {
     internal class EmailOptions
     {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Shop.Identity.Contract.Identity;
 using Shop.Utils.Modules;
 
 namespace Shop.Identity.Contract.Implementation
@@ -8,7 +7,7 @@ namespace Shop.Identity.Contract.Implementation
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IIdentityContract, IdentityContract>();
         }
     }
 }

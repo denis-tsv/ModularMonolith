@@ -1,4 +1,4 @@
-﻿namespace Shop.Common.Entities
+﻿namespace Shop.Communication.Entities
 {
     internal class Email
     {

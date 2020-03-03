@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Shop.Common.Entities;
-using Shop.Common.Infrastructure.Interfaces.DataAccess;
-using Shop.Common.Infrastructure.Interfaces.Services;
+using Shop.Communication.Entities;
+using Shop.Communication.Infrastructure.Interfaces.DataAccess;
+using Shop.Communication.Infrastructure.Interfaces.Services;
 
-namespace Shop.Common.Infrastructure.Implementation.Services
+namespace Shop.Communication.Infrastructure.Implementation.Services
 {
     internal class EmailService : IEmailService
     {
-        private readonly ICommonDbContext _dbContext;
+        private readonly ICommunicationDbContext _dbContext;
 
-        public EmailService(ICommonDbContext dbContext)
+        public EmailService(ICommunicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

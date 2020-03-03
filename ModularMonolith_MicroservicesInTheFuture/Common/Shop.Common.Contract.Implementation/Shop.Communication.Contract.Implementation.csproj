@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Shop.Framework.Interfaces\Shop.Framework.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Order\Shop.Order.Contract\Shop.Order.Contract.csproj" />
+    <ProjectReference Include="..\..\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Common.Contract\Shop.Communication.Contract.csproj" />
+    <ProjectReference Include="..\Shop.Communication.UseCases\Shop.Communication.UseCases.csproj" />
+  </ItemGroup>
+
+</Project>

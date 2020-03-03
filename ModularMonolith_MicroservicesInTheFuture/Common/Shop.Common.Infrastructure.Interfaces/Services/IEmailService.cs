@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Shop.Common.Infrastructure.Interfaces.Services
+namespace Shop.Communication.Infrastructure.Interfaces.Services
 {
     internal interface IEmailService
     {

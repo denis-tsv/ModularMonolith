@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Order.Contract.Orders;
-using Shop.Order.Contract.Orders.Dto;
+using Shop.Order.Contract;
+using Shop.Order.Contract.Dto;
 
 namespace Shop.Web.Controllers
 {
@@ -9,18 +9,18 @@ namespace Shop.Web.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderServiceContract _orderService;
+        private readonly IOrderContract _order;
 
-        public OrdersController(IOrderServiceContract orderService)
+        public OrdersController(IOrderContract order)
         {
-            _orderService = orderService;
+            _order = order;
         }
 
         // GET api/orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            return await _orderService.GetOrderAsync(id);
+            return await _order.GetOrderAsync(id);
             
         }
 
@@ -28,7 +28,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task Post([FromBody] CreateOrderDto createOrderDto)
         {
-            await _orderService.CreateOrderAsync(createOrderDto);
+            await _order.CreateOrderAsync(createOrderDto);
         }
     }
 }

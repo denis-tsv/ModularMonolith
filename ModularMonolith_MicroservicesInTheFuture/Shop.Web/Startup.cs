@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Common.DataAccess.MsSql;
-using Shop.Common.Infrastructure.Implementation;
 using Shop.Identity.DataAccess.MsSql;
 using Shop.Identity.UseCases;
 using Shop.Order.DataAccess.MsSql;
@@ -15,10 +13,13 @@ using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
-using Shop.Common.Contract.Implementation;
+using Shop.Communication.Contract.Implementation;
+using Shop.Communication.DataAccess.MsSql;
+using Shop.Communication.Infrastructure.Implementation;
+using Shop.Communication.UseCases;
+using Shop.Framework.Implementation;
 using Shop.Identity.Contract.Implementation;
 using Shop.Order.Contract.Implementation;
-using Shop.Utils.Sagas;
 
 namespace Shop.Web
 {
@@ -43,11 +44,12 @@ namespace Shop.Web
 
             services.AddControllers();
 
-            services.AddScoped<ISaga, Saga>();
+            services.RegisterModule<FrameworkModule>(Configuration);
 
-            services.RegisterModule<CommonDataAccessModule>(Configuration);
-            services.RegisterModule<CommonInfrastructureModule>(Configuration);
-            services.RegisterModule<CommonContractModule>(Configuration);
+            services.RegisterModule<CommunicationDataAccessModule>(Configuration);
+            services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
+            services.RegisterModule<CommunicationContractModule>(Configuration);
+            services.RegisterModule<CommunicationUseCasesModule>(Configuration);
 
             services.RegisterModule<IdentityDataAccessModule>(Configuration);
             services.RegisterModule<IdentityUseCasesModule>(Configuration);

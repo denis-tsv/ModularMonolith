@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Shop.Order.Contract.Orders.Dto;
+using Shop.Order.Contract.Dto;
 
 namespace Shop.Order.UseCases.Orders.Queries.GetOrder
 {

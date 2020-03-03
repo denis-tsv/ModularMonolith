@@ -4,17 +4,17 @@ using System.Net;
 using System.Net.Mail;
 using FluentScheduler;
 using Microsoft.Extensions.Options;
-using Shop.Common.Infrastructure.Interfaces.DataAccess;
-using Shop.Common.Infrastructure.Interfaces.Options;
+using Shop.Communication.Infrastructure.Interfaces.DataAccess;
+using Shop.Communication.Infrastructure.Interfaces.Options;
 
-namespace Shop.Common.Infrastructure.Implementation.BackgroundJobs
+namespace Shop.Communication.Infrastructure.Implementation.BackgroundJobs
 {
     internal class SendEmailsJob : IJob
     {
-        private readonly ICommonDbContext _dbContext;
+        private readonly ICommunicationDbContext _dbContext;
         private readonly EmailOptions _emailOptions;
 
-        public SendEmailsJob(ICommonDbContext dbContext, IOptions<EmailOptions> emailOptions)
+        public SendEmailsJob(ICommunicationDbContext dbContext, IOptions<EmailOptions> emailOptions)
         {
             _dbContext = dbContext;
             _emailOptions = emailOptions.Value;
