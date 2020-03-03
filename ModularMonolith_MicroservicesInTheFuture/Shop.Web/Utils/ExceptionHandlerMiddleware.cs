@@ -7,6 +7,7 @@ using Shop.Framework.Interfaces.Exceptions;
 
 namespace Shop.Web.Utils
 {
+    //We can't use ICancelService at this middleware because middleware is singleton and we need to use some correlationId to identify cancels for request
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;

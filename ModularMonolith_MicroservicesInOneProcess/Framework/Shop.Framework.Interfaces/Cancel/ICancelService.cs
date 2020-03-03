@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 
 namespace Shop.Framework.Interfaces.Cancel
 {
@@ -9,6 +8,8 @@ namespace Shop.Framework.Interfaces.Cancel
             where TCancel : ICancel
             where TCancelHandler : ICancelHandler<TCancel>;
 
-        bool TryRemoveCancel(string correlationId, out ICollection<(Type CancelHandlerType, ICancel Cancel)> res);
+        void RemoveAll(string correlationId);
+        Task CancelAllAsync(string correlationId);
+
     }
 }
