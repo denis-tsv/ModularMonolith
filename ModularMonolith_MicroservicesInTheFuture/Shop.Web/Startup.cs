@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,7 @@ namespace Shop.Web
             services.AddHttpContextAccessor();
 
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile));
+            services.AddMediatR(typeof(CancelRequestExceptionAction<>));
 
             services.AddOptions();
 

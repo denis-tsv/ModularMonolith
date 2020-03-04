@@ -15,9 +15,9 @@ namespace Shop.Framework.Implementation.Cancel
             _serviceProvider = serviceProvider;
         }
         private readonly List<(Type CancelHandlerType, ICancel Cancel)> _cancels = new List<(Type CancelHandlerType, ICancel Cancel)>();
-        public void AddCancel<TCancel, TCancelHandler>(TCancel cancel) where TCancel : ICancel where TCancelHandler : ICancelHandler<TCancel>
+        public void AddCancel<TCancel>(TCancel cancel) where TCancel : ICancel
         {
-            _cancels.Add((typeof(TCancelHandler), cancel));
+            _cancels.Add((typeof(ICancelHandler<TCancel>), cancel));
         }
 
         public async Task CancelAllAsync()
@@ -30,6 +30,7 @@ namespace Shop.Framework.Implementation.Cancel
                 tasks.Add(task);
             }
             await Task.WhenAll(tasks);
+            _cancels.Clear();
         }
     }
 }
