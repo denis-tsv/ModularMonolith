@@ -4,9 +4,8 @@ namespace Shop.Framework.Interfaces.Cancel
 {
     public interface ICancelService
     {
-        void AddCancel<TCancel, TCancelHandler>(string correlationId, TCancel cancel)
-            where TCancel : ICancel
-            where TCancelHandler : ICancelHandler<TCancel>;
+        void AddCancel<TCancel>(string correlationId, TCancel cancel)
+            where TCancel : ICancel;
 
         void RemoveAll(string correlationId);
         Task CancelAllAsync(string correlationId);

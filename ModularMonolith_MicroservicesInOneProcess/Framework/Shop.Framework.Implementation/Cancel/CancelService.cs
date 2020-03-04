@@ -16,11 +16,10 @@ namespace Shop.Framework.Implementation.Cancel
             _serviceProvider = serviceProvider;
         }
         
-        public void AddCancel<TCancel, TCancelHandler>(string correlationId, TCancel cancel)
+        public void AddCancel<TCancel>(string correlationId, TCancel cancel)
             where TCancel : ICancel
-            where TCancelHandler : ICancelHandler<TCancel>
         {
-            var value = (typeof(TCancelHandler), cancel);
+            var value = (typeof(ICancelHandler<TCancel>), cancel);
             var values = new List<(Type CancelHandlerType, ICancel Cancel)>
             {
                 value

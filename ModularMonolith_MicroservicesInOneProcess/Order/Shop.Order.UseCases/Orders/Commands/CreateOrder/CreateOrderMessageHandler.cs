@@ -41,7 +41,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync();
 
-            _cancelService.AddCancel<CreateOrderCancel, ICancelHandler<CreateOrderCancel>>(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
+            _cancelService.AddCancel(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
 
             await MessageBroker.PublishAsync(new CreateOrderResponseMessage
             {
