@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Shop.Framework.Interfaces.Cancel;
 
-namespace Shop.Web.Utils
+namespace Shop.Framework.Implementation.Cancel
 {
     public class CancelRequestExceptionAction<TRequest> : IRequestExceptionAction<TRequest>
     {

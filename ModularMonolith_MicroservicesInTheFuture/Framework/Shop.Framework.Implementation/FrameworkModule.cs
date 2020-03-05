@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.Implementation.Cancel;
@@ -18,6 +19,8 @@ namespace Shop.Framework.Implementation
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IRequestContext, RequestContext>();
             services.AddScoped<ICancelService, CancelService>();
+
+            services.AddMediatR(typeof(CancelRequestExceptionAction<>));
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IMvcUrlHelper>(serviceProvider =>
