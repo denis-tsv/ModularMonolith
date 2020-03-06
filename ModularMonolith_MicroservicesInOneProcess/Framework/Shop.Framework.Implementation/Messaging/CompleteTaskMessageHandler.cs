@@ -24,14 +24,14 @@ namespace Shop.Framework.Implementation.Messaging
         {
             if (_waitingTasksStore.TryComplete(message))
             {
-                if (message is ExceptionMessage exceptionMessage)
-                {
-                    await _cancelService.CancelAllAsync(message.CorrelationId);
-                }
-                else
-                {
-                    _cancelService.RemoveAll(message.CorrelationId);
-                }
+                //if (message is ExceptionMessage exceptionMessage)
+                //{
+                //    await _cancelService.CancelAllAsync(message.CorrelationId);
+                //}
+                //else
+                //{
+                //    _cancelService.RemoveAll(message.CorrelationId);
+                //}
             }
         }
     }

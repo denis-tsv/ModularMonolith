@@ -6,7 +6,6 @@ using Shop.Framework.Interfaces.Messaging;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Contract.Orders.Messages.CreateOrder;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
-using Shop.Order.UseCases.Orders.Commands.CancelCreateOrder;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {
@@ -41,7 +40,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync();
 
-            _cancelService.AddCancel(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
+            //_cancelService.AddCancel(message.CorrelationId, new CreateOrderCancel { OrderId = order.Id });
 
             await MessageBroker.PublishAsync(new CreateOrderResponseMessage
             {

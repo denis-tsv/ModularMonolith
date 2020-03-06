@@ -24,7 +24,7 @@ namespace Shop.Communication.Infrastructure.Implementation.Services
             };
 
             _dbContext.Emails.Add(newMail);
-            //throw new Exception("Something wrong with send email");
+            throw new System.Exception("Something wrong with send email");
 
             await _dbContext.SaveChangesAsync();
         }

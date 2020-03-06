@@ -9,17 +9,21 @@ namespace Shop.Framework.Implementation.Messaging
     internal class MediatrMessageBroker : IMessageBroker
     {
         private readonly IMediator _mediator;
+        private readonly IMessageStore _messageStore;
 
-        public MediatrMessageBroker(IMediator mediator)
+        public MediatrMessageBroker(IMediator mediator, IMessageStore messageStore)
         {
             _mediator = mediator;
+            _messageStore = messageStore;
         }
 
-        public Task PublishAsync<T>(T message) where T : Message
+        public async Task PublishAsync<T>(T message) where T : Message
         {
             if (message.CorrelationId.IsEmpty()) throw new ArgumentException("message.CorrelationId is null");
-            
-            return _mediator.Publish(message);
+
+            await _messageStore.AddAsync(message);
+
+            await _mediator.Publish(message);
         }
     }
 }

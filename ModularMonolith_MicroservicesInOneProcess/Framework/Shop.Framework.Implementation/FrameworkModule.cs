@@ -25,7 +25,8 @@ namespace Shop.Framework.Implementation
             services.AddSingleton<IWaitingTasksStore, WaitingTasksStore>();
             services.AddSingleton<IMessageDispatcher, MessageDispatcher>();
             services.AddSingleton<ICancelService, CancelService>();
-            
+            services.AddSingleton<IMessageStore, InMemoryMessageStore>();
+
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IMessageBroker, MediatrMessageBroker>();
             services.AddScoped<IUrlHelper, MvcUrlHelper>();
