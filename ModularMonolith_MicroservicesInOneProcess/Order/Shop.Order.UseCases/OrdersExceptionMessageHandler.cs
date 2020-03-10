@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Shop.Framework.Interfaces.Messaging;
@@ -19,8 +20,12 @@ namespace Shop.Order.UseCases
         }
         public async Task Handle(ExceptionMessage message, CancellationToken cancellationToken)
         {
-            var orderCreatedMessage= await _messageStore.SingleOrDefaultAsync<CreateOrderResponseMessage>(message.CorrelationId);
+            var messages = await _messageStore.AllAsync(message.CorrelationId);
 
+            var cancelMessage = messages.FirstOrDefault(x => x is CancelOrderMesage);
+            if (cancelMessage != null) return; // already canceled
+
+            var orderCreatedMessage = (CreateOrderResponseMessage) messages.FirstOrDefault(x => x is CreateOrderResponseMessage);
             if (orderCreatedMessage != null)
             {
                 var cancelOrderMessage = new CancelOrderMesage

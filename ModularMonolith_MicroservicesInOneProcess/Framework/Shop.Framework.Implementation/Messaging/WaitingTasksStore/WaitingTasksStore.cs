@@ -16,12 +16,9 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
         public Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message
         {
             if (correlationId.IsEmpty()) throw new InvalidOperationException("message.CorrelationId is null or empty");
-            var tcs = new TaskCompletionSource<TMessage>();
 
-            if (!_waitingTasks.TryAdd((correlationId, typeof(TMessage).Name), tcs))
-                throw new Exception($"Waiting task with correlation id '{correlationId}' and name '{typeof(TMessage).Name}' already exists");
-
-            return tcs.Task;
+            var tcs = _waitingTasks.GetOrAdd((correlationId, typeof(TMessage).Name), new TaskCompletionSource<TMessage>());
+            return ((TaskCompletionSource<TMessage>)tcs).Task;
         }
 
         public bool TryComplete<TMessage>(TMessage message) where TMessage : Message
