@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 
 namespace Shop.Framework.Interfaces.Messaging
 {
     public abstract class Message : INotification
     {
-        public string CorrelationId { get; set; }
+        public Guid CorrelationId { get; set; }
     }
 }

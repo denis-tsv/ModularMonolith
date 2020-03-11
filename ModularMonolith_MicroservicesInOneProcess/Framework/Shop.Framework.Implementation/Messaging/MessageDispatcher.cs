@@ -20,7 +20,7 @@ namespace Shop.Framework.Implementation.Messaging
         public  async Task<TResultMessage> SendMessageAsync<TResultMessage>(Message message) where TResultMessage : Message
         {
             //we can't handle result message without correlationId
-            if (message.CorrelationId.IsEmpty()) throw new ArgumentException("message.CorrelationId is null");
+            if (message.CorrelationId == Guid.Empty) throw new ArgumentException("message.CorrelationId is null");
 
             var resTask = _waitingTasksStore.Add<TResultMessage>(message.CorrelationId);
 

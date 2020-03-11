@@ -21,7 +21,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task Login([FromBody]LoginDto loginDto)
         {
-            var message = new LoginRequestMessage {LoginDto = loginDto, CorrelationId = Guid.NewGuid().ToString() };
+            var message = new LoginRequestMessage {LoginDto = loginDto, CorrelationId = Guid.NewGuid() };
             await _messageDispatcher.SendMessageAsync<LoginResponseMessage>(message);
         }
         

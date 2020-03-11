@@ -10,12 +10,12 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 {
     internal class WaitingTasksStore : IWaitingTasksStore
     {
-        private  readonly ConcurrentDictionary<(string CorrelationId, string TypeName), object> _waitingTasks = new ConcurrentDictionary<
-            (string CorrelationId, string TypeName), object>();
+        private  readonly ConcurrentDictionary<(Guid CorrelationId, string TypeName), object> _waitingTasks = new ConcurrentDictionary<
+            (Guid CorrelationId, string TypeName), object>();
         
-        public Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message
+        public Task<TMessage> Add<TMessage>(Guid correlationId) where TMessage : Message
         {
-            if (correlationId.IsEmpty()) throw new InvalidOperationException("message.CorrelationId is null or empty");
+            if (correlationId == Guid.Empty) throw new InvalidOperationException("message.CorrelationId is null or empty");
 
             var tcs = _waitingTasks.GetOrAdd((correlationId, typeof(TMessage).Name), new TaskCompletionSource<TMessage>());
             return ((TaskCompletionSource<TMessage>)tcs).Task;

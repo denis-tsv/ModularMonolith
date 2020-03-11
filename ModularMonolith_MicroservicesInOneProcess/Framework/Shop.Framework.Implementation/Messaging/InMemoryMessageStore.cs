@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
@@ -15,7 +16,7 @@ namespace Shop.Framework.Implementation.Messaging
             return Task.CompletedTask;
         }
 
-        public Task<List<TMessage>> AllAsync<TMessage>(string correlationId) where TMessage : Message
+        public Task<List<TMessage>> AllAsync<TMessage>(Guid correlationId) where TMessage : Message
         {
             var messageType = typeof(TMessage);
             var result = _messages
@@ -25,7 +26,7 @@ namespace Shop.Framework.Implementation.Messaging
             return Task.FromResult(result);
         }
 
-        public Task<List<Message>> AllAsync(string correlationId)
+        public Task<List<Message>> AllAsync(Guid correlationId)
         {
             var result = _messages
                 .Where(x => x.CorrelationId == correlationId)
@@ -33,7 +34,7 @@ namespace Shop.Framework.Implementation.Messaging
             return Task.FromResult(result);
         }
 
-        public Task<TMessage> SingleOrDefaultAsync<TMessage>(string correlationId) where TMessage : Message
+        public Task<TMessage> SingleOrDefaultAsync<TMessage>(Guid correlationId) where TMessage : Message
         {
             var messageType = typeof(TMessage);
             var result = _messages
