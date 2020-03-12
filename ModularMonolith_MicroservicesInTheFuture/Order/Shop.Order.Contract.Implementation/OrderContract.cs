@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Shop.Order.Contract.Dto;
-using Shop.Order.UseCases.Orders.Commands.CancelCreateOrder;
+using Shop.Order.UseCases.Orders.Commands.CancelOrder;
 using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Order.UseCases.Orders.Queries.GetOrder;
 
@@ -27,7 +27,7 @@ namespace Shop.Order.Contract.Implementation
 
         public async Task CancelCreateOrderAsync(int orderId)
         {
-            await _mediator.Send(new CancelCreateOrderRequest {Id = orderId});
+            await _mediator.Send(new CancelOrderRequest {Id = orderId});
         }
     }
 }

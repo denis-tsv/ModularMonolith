@@ -18,7 +18,7 @@ namespace Shop.Framework.Implementation
             services.AddScoped<IUrlHelper, MvcUrlHelper>(); 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IRequestContext, RequestContext>();
-            services.AddScoped<ICancelService, CancelService>();
+            services.AddScoped<ICancelService, MediatrCancelService>();
 
             services.AddMediatR(typeof(CancelRequestExceptionAction<>));
 

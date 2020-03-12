@@ -7,6 +7,7 @@ using Shop.Communication.Contract;
 using Shop.Framework.Interfaces.Cancel;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
+using Shop.Order.UseCases.Orders.Commands.CancelOrder;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {
@@ -46,7 +47,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             //with cancel
-            _cancelService.AddCancel(new CreateOrderCancel.CreateOrderCancel {OrderId = order.Id});
+            _cancelService.AddCancel(new CancelOrderRequest {Id = order.Id});
             await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");
 
             //with request context

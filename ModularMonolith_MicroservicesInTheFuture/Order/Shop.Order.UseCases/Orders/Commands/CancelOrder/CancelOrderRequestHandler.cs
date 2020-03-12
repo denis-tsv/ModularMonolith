@@ -3,18 +3,18 @@ using System.Threading.Tasks;
 using MediatR;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
-namespace Shop.Order.UseCases.Orders.Commands.CancelCreateOrder
+namespace Shop.Order.UseCases.Orders.Commands.CancelOrder
 {
-    internal class CancelCreateOrderRequestHandler : AsyncRequestHandler<CancelCreateOrderRequest>
+    internal class CancelOrderRequestHandler : AsyncRequestHandler<CancelOrderRequest>
     {
         private readonly IOrderDbContext _dbContext;
 
-        public CancelCreateOrderRequestHandler(IOrderDbContext dbContext)
+        public CancelOrderRequestHandler(IOrderDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        protected override async Task Handle(CancelCreateOrderRequest request, CancellationToken cancellationToken)
+        protected override async Task Handle(CancelOrderRequest request, CancellationToken cancellationToken)
         {
             try
             {

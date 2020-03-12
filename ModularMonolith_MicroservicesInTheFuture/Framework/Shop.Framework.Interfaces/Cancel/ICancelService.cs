@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MediatR;
 
 namespace Shop.Framework.Interfaces.Cancel
 {
     public interface ICancelService
     {
-        void AddCancel<TCancel>(TCancel cancel)
-            where TCancel : ICancel;
+        void AddCancel<TCancelRequest>(TCancelRequest cancel)
+            where TCancelRequest : IRequest;
             
 
         Task CancelAllAsync();
