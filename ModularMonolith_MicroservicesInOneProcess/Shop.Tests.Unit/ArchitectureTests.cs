@@ -3,12 +3,30 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using NetArchTest.Rules;
 using Xunit;
 
 namespace Shop.Tests.Unit
 {
     public class ArchitectureTests
     {
+        private readonly string[] _modules = {"Communication", "Identity", "Order"};
+        [Fact]
+        public void Use_Cases_Not_Refers_To_DataAccess()
+        {
+            foreach (var module in _modules)
+            {
+                var result = Types.InCurrentDomain()
+                    .That()
+                    .ResideInNamespaceContaining($"Shop.{module}.UseCases")
+                    .Should()
+                    .NotHaveDependencyOn($"Shop.{module}.DataAccess")
+                    .GetResult();
+
+                Assert.True(result.IsSuccessful);
+            }
+        }
+
         [Fact]
         public void CrossLayerReferences()
         {
@@ -48,19 +66,14 @@ namespace Shop.Tests.Unit
         [Fact]
         public void CrossModuleReferences()
         {
-            var modules = new List<string>
-            {
-                "Communication", "Identity", "Order"
-            };
-
             var location = Assembly.GetExecutingAssembly().Location;
             var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*.dll")
                 .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
                 .ToList();
 
-            for (int i = 0; i < modules.Count; i++)
+            for (int i = 0; i < _modules.Length; i++)
             {
-                for (int j = 0; j < modules.Count; j++)
+                for (int j = 0; j < _modules.Length; j++)
                 {
                     if (i == j) continue;
 
@@ -69,8 +82,8 @@ namespace Shop.Tests.Unit
                         foreach (var reference in assembly.GetReferencedAssemblies())
                         {
                             //not only reference, but real usage of class from other assembly
-                            Assert.False(assembly.FullName.Contains(modules[i]) && 
-                                         reference.FullName.Contains(modules[j]) && 
+                            Assert.False(assembly.FullName.Contains(_modules[i]) && 
+                                         reference.FullName.Contains(_modules[j]) && 
                                          !reference.FullName.Contains("Contract"),
                                 $"Cross-context reference from '{assembly.FullName}' to '{reference.FullName}'");
                         }
