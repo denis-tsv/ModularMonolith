@@ -25,7 +25,7 @@ namespace Shop.Framework.Interfaces.Messaging
             }
             catch (Exception e)
             {
-                await MessageBroker.PublishAsync(new ExceptionMessage { CorrelationId = message.CorrelationId, Exception = e });
+                await MessageBroker.PublishAsync(new ExceptionMessage { Exception = e });
             }
         }
     }

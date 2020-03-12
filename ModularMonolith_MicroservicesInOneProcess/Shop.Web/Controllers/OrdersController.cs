@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Communication.Contract.Messages;
@@ -24,8 +24,7 @@ namespace Shop.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> Get(int id)
         {
-            // we can create some service which will create messages, add CorrelationId and return messages result
-            var message = new GetOrderRequestMessage {Id = id, CorrelationId = Guid.NewGuid()};
+            var message = new GetOrderRequestMessage {Id = id};
             var resultMessage =  await _messageDispatcher.SendMessageAsync<GetOrderResponseMessage>(message);
             return resultMessage.Order;
         }
@@ -34,9 +33,10 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<int> Post([FromBody] CreateOrderDto createOrderDto)
         {
-            var message = new CreateOrderRequestMessage {CreateOrderDto = createOrderDto, CorrelationId = Guid.NewGuid() };
-            var resultMessage = await _messageDispatcher.SendMessageAsync<UserEmailNotifiedMessage>(message);
-            return resultMessage.OrderId;
+            var message = new CreateOrderRequestMessage { CreateOrderDto = createOrderDto };
+            var resultMessageTypes = new[] { typeof(CreateOrderResponseMessage), typeof(UserEmailNotifiedMessage) };
+            var resultMessages = await _messageDispatcher.SendMessageAsync(message, resultMessageTypes);
+            return resultMessages.OfType<CreateOrderResponseMessage>().Single().OrderId;
         }
     }
 }

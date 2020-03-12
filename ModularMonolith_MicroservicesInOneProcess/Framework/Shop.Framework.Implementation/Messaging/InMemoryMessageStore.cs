@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
@@ -13,33 +12,32 @@ namespace Shop.Framework.Implementation.Messaging
         public Task AddAsync<TMessage>(TMessage message) where TMessage : Message
         {
             _messages.Add(message);
+
+            //TODO save message in store with columns: DateTime, MessageType, CorrelationId, MessageData (serialized message)
+
             return Task.CompletedTask;
         }
 
-        public Task<List<TMessage>> AllAsync<TMessage>(Guid correlationId) where TMessage : Message
+        public Task<List<TMessage>> AllOfTypeAsync<TMessage>() where TMessage : Message
         {
             var messageType = typeof(TMessage);
             var result = _messages
-                .Where(x => x.CorrelationId == correlationId && x.GetType() == messageType)
+                .Where(x => x.GetType() == messageType)
                 .Cast<TMessage>()
                 .ToList();
             return Task.FromResult(result);
         }
 
-        public Task<List<Message>> AllAsync(Guid correlationId)
+        public Task<List<Message>> AllAsync()
         {
-            var result = _messages
-                .Where(x => x.CorrelationId == correlationId)
-                .ToList();
+            var result = _messages.ToList();
             return Task.FromResult(result);
         }
 
-        public Task<TMessage> SingleOrDefaultAsync<TMessage>(Guid correlationId) where TMessage : Message
+        public Task<TMessage> SingleOrDefaultAsync<TMessage>() where TMessage : Message
         {
-            var messageType = typeof(TMessage);
             var result = _messages
-                .Where(x => x.CorrelationId == correlationId && x.GetType() == messageType)
-                .Cast<TMessage>()
+                .OfType<TMessage>()
                 .SingleOrDefault();
             return Task.FromResult(result);
         }

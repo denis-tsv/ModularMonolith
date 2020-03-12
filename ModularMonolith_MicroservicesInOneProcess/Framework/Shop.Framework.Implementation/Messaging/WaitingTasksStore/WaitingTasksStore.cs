@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
-using Shop.Utils.Extensions;
 
 namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 {
     internal class WaitingTasksStore : IWaitingTasksStore
     {
-        private  readonly ConcurrentDictionary<(Guid CorrelationId, string TypeName), object> _waitingTasks = new ConcurrentDictionary<
-            (Guid CorrelationId, string TypeName), object>();
+        //ConcurrentDictionary can be replaced by Dictionary because request processed in single thread
+        private readonly ConcurrentDictionary<string, object> _waitingTasks = new ConcurrentDictionary<string, object>();
         
-        public Task<TMessage> Add<TMessage>(Guid correlationId) where TMessage : Message
+        public Task<TMessage> Add<TMessage>() where TMessage : Message
         {
-            if (correlationId == Guid.Empty) throw new InvalidOperationException("message.CorrelationId is null or empty");
-
-            var tcs = _waitingTasks.GetOrAdd((correlationId, typeof(TMessage).Name), new TaskCompletionSource<TMessage>());
+            var tcs = _waitingTasks.GetOrAdd(typeof(TMessage).Name, new TaskCompletionSource<TMessage>());
             return ((TaskCompletionSource<TMessage>)tcs).Task;
         }
 
@@ -35,7 +31,7 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 
         private bool CompleteResult<TMessage>(TMessage message) where TMessage : Message
         {
-            if (!_waitingTasks.TryRemove((message.CorrelationId, typeof(TMessage).Name), out var obj))
+            if (!_waitingTasks.TryRemove(typeof(TMessage).Name, out var obj))
                 return false;
             
             var tcs = (TaskCompletionSource<TMessage>) obj;
@@ -48,7 +44,6 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
         private bool CompleteException<TMessage>(TMessage message) where TMessage : ExceptionMessage
         {
             var keys = _waitingTasks.Keys
-                .Where(x => x.CorrelationId == message.CorrelationId)
                 .ToList();
             if (!keys.Any()) return false;
 

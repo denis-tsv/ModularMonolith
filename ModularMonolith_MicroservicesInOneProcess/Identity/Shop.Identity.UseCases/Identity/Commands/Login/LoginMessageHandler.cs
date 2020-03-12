@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.Framework.Interfaces.Exceptions;
 using Shop.Framework.Interfaces.Messaging;
-using Shop.Identity.Contract.Identity;
 using Shop.Identity.Contract.Identity.Login;
 using Shop.Identity.Infrastructure.Interfaces.DataAccess;
 
@@ -23,7 +22,7 @@ namespace Shop.Identity.UseCases.Identity.Commands.Login
                 .SingleOrDefaultAsync(x => x.NormalizedEmail == message.LoginDto.Email.ToUpper());
             if (user == null) throw new EntityNotFoundException();
 
-            await MessageBroker.PublishAsync(new LoginResponseMessage {CorrelationId = message.CorrelationId});
+            await MessageBroker.PublishAsync(new LoginResponseMessage ());
         }
     }
 }

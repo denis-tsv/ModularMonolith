@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Shop.Framework.Interfaces.Messaging
 {
@@ -6,5 +7,7 @@ namespace Shop.Framework.Interfaces.Messaging
     public interface IMessageDispatcher
     {
         Task<TResultMessage> SendMessageAsync<TResultMessage>(Message message) where TResultMessage : Message;
+
+        Task<Message[]> SendMessageAsync(Message message, Type[] resultMessageTypes);
     }
 }

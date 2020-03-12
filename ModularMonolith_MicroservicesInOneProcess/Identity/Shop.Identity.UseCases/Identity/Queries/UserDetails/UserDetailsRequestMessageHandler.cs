@@ -18,7 +18,6 @@ namespace Shop.Identity.UseCases.Identity.Queries.UserDetails
 
             var response = new UserDetailsResponseMessage
             {
-                CorrelationId = message.CorrelationId,
                 UserDetailsDto = new UserDetailsDto { LockoutEnd  = lockoutEnd}
             }; 
             await MessageBroker.PublishAsync(response);

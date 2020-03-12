@@ -20,17 +20,16 @@ namespace Shop.Order.UseCases
         }
         public async Task Handle(ExceptionMessage message, CancellationToken cancellationToken)
         {
-            var messages = await _messageStore.AllAsync(message.CorrelationId);
+            var messages = await _messageStore.AllAsync();
 
             var cancelMessage = messages.FirstOrDefault(x => x is CancelOrderMesage);
             if (cancelMessage != null) return; // already canceled
 
-            var orderCreatedMessage = (CreateOrderResponseMessage) messages.FirstOrDefault(x => x is CreateOrderResponseMessage);
+            var orderCreatedMessage = messages.OfType<CreateOrderResponseMessage>().SingleOrDefault();
             if (orderCreatedMessage != null)
             {
                 var cancelOrderMessage = new CancelOrderMesage
                 {
-                    CorrelationId = message.CorrelationId, 
                     OrderId = orderCreatedMessage.OrderId
                 };
                 await _messageBroker.PublishAsync(cancelOrderMessage);

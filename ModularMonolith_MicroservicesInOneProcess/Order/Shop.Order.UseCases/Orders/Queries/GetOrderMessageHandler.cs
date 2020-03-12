@@ -39,7 +39,7 @@ namespace Shop.Order.UseCases.Orders.Queries
 
             if (order == null) throw new EntityNotFoundException();
 
-            var request = new UserDetailsRequestMessage {CorrelationId = message.CorrelationId};
+            var request = new UserDetailsRequestMessage ();
             var userDetails = await _messageDispatcher.SendMessageAsync<UserDetailsResponseMessage>(request);
             if (userDetails.UserDetailsDto.LockoutEnd.HasValue && userDetails.UserDetailsDto.LockoutEnd > DateTime.Now)
                 throw new InvalidOperationException("User locked");
@@ -47,7 +47,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             var result = _mapper.Map<OrderDto>(order);
             result.Price = _orderService.GetPrice(order);
 
-            var resultMessage = new GetOrderResponseMessage {CorrelationId = message.CorrelationId, Order = result};
+            var resultMessage = new GetOrderResponseMessage {Order = result};
             await MessageBroker.PublishAsync(resultMessage);            
         }
     }
