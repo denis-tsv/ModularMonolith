@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
 
-namespace Shop.Framework.Implementation.Messaging
+namespace Shop.Framework.Implementation.Messaging.MessageStore
 {
     internal class InMemoryMessageStore : IMessageStore
     {
@@ -12,8 +12,6 @@ namespace Shop.Framework.Implementation.Messaging
         public Task AddAsync<TMessage>(TMessage message) where TMessage : Message
         {
             _messages.Add(message);
-
-            //TODO save message in store with columns: DateTime, MessageType, CorrelationId, MessageData (serialized message)
 
             return Task.CompletedTask;
         }

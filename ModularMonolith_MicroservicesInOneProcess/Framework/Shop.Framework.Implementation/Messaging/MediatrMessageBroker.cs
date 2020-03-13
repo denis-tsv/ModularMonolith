@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Shop.Framework.Implementation.Messaging.MessageStore;
 using Shop.Framework.Implementation.Messaging.WaitingTasksStore;
 using Shop.Framework.Interfaces.Messaging;
 

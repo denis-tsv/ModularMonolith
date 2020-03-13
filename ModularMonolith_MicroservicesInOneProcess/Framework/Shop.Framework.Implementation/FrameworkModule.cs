@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.Implementation.Messaging;
+using Shop.Framework.Implementation.Messaging.MessageStore;
 using Shop.Framework.Implementation.Messaging.WaitingTasksStore;
 using Shop.Framework.Implementation.Services;
 using Shop.Framework.Interfaces.Messaging;

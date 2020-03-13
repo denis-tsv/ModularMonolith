@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shop.Framework.Interfaces.Messaging;
 
-namespace Shop.Framework.Interfaces.Messaging
+namespace Shop.Framework.Implementation.Messaging.MessageStore
 {
     public interface IMessageStore
     {
