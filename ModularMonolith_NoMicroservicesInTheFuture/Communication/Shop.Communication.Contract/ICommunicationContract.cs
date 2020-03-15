@@ -4,6 +4,6 @@ namespace Shop.Communication.Contract
 {
     public interface ICommunicationContract
     {
-        Task SendEmailAsync(string email, string subject, string body);
+        Task SendEmailAsync(string email, string subject, string body, int orderId);
     }
 }

@@ -42,7 +42,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             var orderDetailsUrl = _urlHelper.GetOrderDetails(order.Id);
-            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully. You can find order details using link {orderDetailsUrl}");
+            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully. You can find order details using link {orderDetailsUrl}", order.Id);
 
             return order.Id;
         }

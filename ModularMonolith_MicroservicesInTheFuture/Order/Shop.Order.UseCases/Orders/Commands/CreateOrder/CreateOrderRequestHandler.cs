@@ -48,7 +48,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             //with cancel
             _cancelService.AddCancel(new CancelOrderRequest {Id = order.Id});
-            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully");
+            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully", order.Id);
 
             //with request context
             //_requestContext.AddValue(OrderRequestContextKeys.OrderId, order.Id);

@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Identity.Controllers;
-using Shop.Identity.DataAccess.MsSql;
-using Shop.Identity.UseCases;
 using Shop.Order.Controllers;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.DomainServices.Implementation;
@@ -21,7 +18,6 @@ using Shop.Communication.DataAccess.MsSql;
 using Shop.Communication.Infrastructure.Implementation;
 using Shop.Framework.Implementation;
 using Shop.Order.Contract.Implementation;
-using Shop.Identity.Contract.Implementation;
 using Shop.Communication.UseCases;
 
 namespace Shop.Web
@@ -46,22 +42,16 @@ namespace Shop.Web
             services.AddOptions();
 
             services.AddControllers()
-                .AddApplicationPart(typeof(OrdersController).Assembly)
-                .AddApplicationPart(typeof(IdentityController).Assembly);
-
+                .AddApplicationPart(typeof(OrdersController).Assembly);
             services.RegisterModule<FrameworkModule>(Configuration);
 
 #if !DB_TRANSACTION
             services.RegisterModule<CommunicationDataAccessModule>(Configuration);
-            services.RegisterModule<IdentityDataAccessModule>(Configuration);
             services.RegisterModule<OrderDataAccessModule>(Configuration);
 #endif
             services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
             services.RegisterModule<CommunicationContractModule>(Configuration);
             services.RegisterModule<CommunicationUseCasesModule>(Configuration);
-
-            services.RegisterModule<IdentityContractModule>(Configuration);
-            services.RegisterModule<IdentityUseCasesModule>(Configuration);
 
             services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);

@@ -30,7 +30,9 @@ namespace Shop.Communication.UseCases.Handlers
             {
                 Address = _currentUserService.Email,
                 Subject = "Order created",
-                Body = $"Your order {message.OrderId} created successfully. You can see details using link {orderDetailsUrl}"
+                Body = $"Your order {message.OrderId} created successfully. You can see details using link {orderDetailsUrl}",
+                OrderId = message.OrderId,
+                UserId = _currentUserService.Id
             };
 
             _dbContext.Emails.Add(newEmail);

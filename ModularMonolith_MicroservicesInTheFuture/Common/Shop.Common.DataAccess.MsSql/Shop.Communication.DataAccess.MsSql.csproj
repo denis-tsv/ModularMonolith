@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Shop.Common.Infrastructure.Interfaces\Shop.Communication.Infrastructure.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

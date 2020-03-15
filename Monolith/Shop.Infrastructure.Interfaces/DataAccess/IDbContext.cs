@@ -11,7 +11,6 @@ namespace Shop.Infrastructure.Interfaces.DataAccess
         DbSet<OrderItem> OrderItems { get; set; }
         DbSet<Product> Products { get; set; }
         DbSet<Email> Emails { get; set; }
-        DbSet<User> Users { get; set; }
         Task<int> SaveChangesAsync(CancellationToken token = default);
         int SaveChanges();
     }

@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Identity.DataAccess.MsSql;
-using Shop.Identity.UseCases;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.DomainServices.Implementation;
 using Shop.Order.UseCases;
@@ -18,7 +16,6 @@ using Shop.Communication.DataAccess.MsSql;
 using Shop.Communication.Infrastructure.Implementation;
 using Shop.Communication.UseCases;
 using Shop.Framework.Implementation;
-using Shop.Identity.Contract.Implementation;
 using Shop.Order.Contract.Implementation;
 
 namespace Shop.Web
@@ -50,10 +47,6 @@ namespace Shop.Web
             services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
             services.RegisterModule<CommunicationContractModule>(Configuration);
             services.RegisterModule<CommunicationUseCasesModule>(Configuration);
-
-            services.RegisterModule<IdentityDataAccessModule>(Configuration);
-            services.RegisterModule<IdentityUseCasesModule>(Configuration);
-            services.RegisterModule<IdentityContractModule>(Configuration);
 
             services.RegisterModule<OrderDataAccessModule>(Configuration);
             services.RegisterModule<OrderDomainServicesModule>(Configuration);

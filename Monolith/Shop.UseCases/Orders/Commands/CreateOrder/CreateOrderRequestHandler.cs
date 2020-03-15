@@ -27,7 +27,7 @@ namespace Shop.UseCases.Orders.Commands.CreateOrder
 
         protected override async Task Handle(CreateOrderRequest request, CancellationToken cancellationToken)
         {
-            var order = _mapper.Map<Entities.Order>(request.CreateOrderDto);
+            var order = _mapper.Map<Order>(request.CreateOrderDto);
             order.CreationDate = DateTime.Now;
             order.UserId = _currentUserService.Id;
             _dbContext.Orders.Add(order);
@@ -36,7 +36,9 @@ namespace Shop.UseCases.Orders.Commands.CreateOrder
             {
                 Address = _currentUserService.Email,
                 Subject = "Order created",
-                Body = $"Your order {order.Id} created successfully"
+                Body = "Your order created successfully",
+                UserId = _currentUserService.Id,
+                Order = order 
             };
             _dbContext.Emails.Add(newMail);
 

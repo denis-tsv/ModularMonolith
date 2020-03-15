@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shop.Entities;
 
 namespace Shop.DataAccess.MsSql
@@ -23,25 +20,7 @@ namespace Shop.DataAccess.MsSql
                     Name = "Product 2",
                     Price = 100
                 }
-                );
-            builder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    Email = "test@test.test",
-                    NormalizedEmail = "TEST@TEST.TEST",
-                    EmailConfirmed = true,
-                    LockoutEnabled = false,
-                    AccessFailedCount = 0,
-                    UserName = "test",
-                    NormalizedUserName = "TEST",
-                    TwoFactorEnabled = false,
-                    PasswordHash = "123",
-                    PhoneNumber = "123",
-                    PhoneNumberConfirmed = true,
-                    SecurityStamp = "sstamp",
-                    ConcurrencyStamp = "cctamp"
-                });
+            );
         }
     }
 }

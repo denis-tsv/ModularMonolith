@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shop.Entities;
 using Shop.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.DataAccess.MsSql
 {
-    public class AppDbContext : IdentityDbContext<User, Role, int>, IDbContext
+    public class AppDbContext : DbContext, IDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

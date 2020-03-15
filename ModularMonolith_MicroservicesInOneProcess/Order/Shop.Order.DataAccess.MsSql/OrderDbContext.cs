@@ -19,6 +19,31 @@ namespace Shop.Order.DataAccess.MsSql
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("Order");
+
+            DataSeed(modelBuilder);
+        }
+
+        private void DataSeed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().HasData(
+                new Product
+                {
+                    Id = 1,
+                    Name = "First",
+                    Price = 10
+                },
+                new Product
+                {
+                    Id = 2,
+                    Name = "Second",
+                    Price = 20
+                },
+                new Product
+                {
+                    Id = 3,
+                    Name = "Third",
+                    Price = 10
+                });
         }
     }
 }

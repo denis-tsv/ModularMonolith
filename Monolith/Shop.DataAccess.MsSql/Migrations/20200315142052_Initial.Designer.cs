@@ -3,24 +3,60 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Shop.Order.DataAccess.MsSql;
+using Shop.DataAccess.MsSql;
 
-namespace Shop.Order.DataAccess.MsSql.Migrations
+namespace Shop.DataAccess.MsSql.Migrations
 {
-    [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20200315142052_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Order")
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Shop.Order.Entities.Order", b =>
+            modelBuilder.Entity("Shop.Entities.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSended")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Emails");
+                });
+
+            modelBuilder.Entity("Shop.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +74,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Shop.Order.Entities.OrderItem", b =>
+            modelBuilder.Entity("Shop.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +99,7 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("Shop.Order.Entities.Product", b =>
+            modelBuilder.Entity("Shop.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,32 +120,35 @@ namespace Shop.Order.DataAccess.MsSql.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "First",
+                            Name = "Product 1",
                             Price = 10m
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Second",
-                            Price = 20m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Third",
-                            Price = 10m
+                            Name = "Product 2",
+                            Price = 100m
                         });
                 });
 
-            modelBuilder.Entity("Shop.Order.Entities.OrderItem", b =>
+            modelBuilder.Entity("Shop.Entities.Email", b =>
                 {
-                    b.HasOne("Shop.Order.Entities.Order", "Order")
+                    b.HasOne("Shop.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Shop.Entities.OrderItem", b =>
+                {
+                    b.HasOne("Shop.Entities.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Shop.Order.Entities.Product", "Product")
+                    b.HasOne("Shop.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -18,7 +18,7 @@ namespace Shop.Entities
         [Required]
         public Product Product { get; set; }
 
-        [Range(1, Int32.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int Count { get; set; }
     }
 }

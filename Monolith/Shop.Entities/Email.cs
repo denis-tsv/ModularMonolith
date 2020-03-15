@@ -8,5 +8,8 @@
         public string Body { get; set; }
         public bool IsSended { get; set; }
         public int Attempts { get; set; }
+        public int UserId { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }

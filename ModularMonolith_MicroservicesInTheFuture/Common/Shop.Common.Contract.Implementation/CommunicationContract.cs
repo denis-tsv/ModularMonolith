@@ -20,13 +20,14 @@ namespace Shop.Communication.Contract.Implementation
             _requestContext = requestContext;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string body)
+        public async Task SendEmailAsync(string email, string subject, string body, int orderId)
         {
             await _mediator.Send(new SendEmailRequest
             {
                 Address = email,
                 Subject = subject,
-                Body = body
+                Body = body,
+                OrderId = orderId
             });
         }
 
