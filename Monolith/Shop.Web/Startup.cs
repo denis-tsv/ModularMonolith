@@ -40,6 +40,7 @@ namespace Shop.Web
 
             services.AddTransient<SendEmailsJob>();
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             

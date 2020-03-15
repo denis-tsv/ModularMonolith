@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shop.Framework.Interfaces.Messaging;
 
-namespace Shop.Framework.Implementation.Messaging.MessageStore
+namespace Shop.Framework.Implementation.Messaging
 {
     internal class InMemoryMessageStore : IMessageStore
     {

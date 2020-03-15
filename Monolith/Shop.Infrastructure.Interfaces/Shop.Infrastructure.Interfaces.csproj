@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Shop.Entities\Shop.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
