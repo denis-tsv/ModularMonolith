@@ -11,13 +11,18 @@ namespace Shop.Web.Utils
         where TRequest : ITransactionalRequest
     {
         private readonly IConnectionFactory _connectionFactory;
-
+        
         public TransactionScopePipelineBehavior(IConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            if (_connectionFactory.IsConnectionOpened)
+            {
+                return await next();
+            }
+
             using var scope = new TransactionScope(TransactionScopeOption.Required,
                 new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }, 
                 TransactionScopeAsyncFlowOption.Enabled);

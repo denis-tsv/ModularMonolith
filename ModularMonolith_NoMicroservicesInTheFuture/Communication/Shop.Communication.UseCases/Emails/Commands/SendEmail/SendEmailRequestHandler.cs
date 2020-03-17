@@ -29,7 +29,7 @@ namespace Shop.Communication.UseCases.Emails.Commands.SendEmail
             };
 
             _dbContext.Emails.Add(newMail);
-
+            throw new System.Exception("Email error");
             await _dbContext.SaveChangesAsync();
         }
     }

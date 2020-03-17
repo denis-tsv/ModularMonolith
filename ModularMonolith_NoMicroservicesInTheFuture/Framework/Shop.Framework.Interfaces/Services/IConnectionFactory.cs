@@ -6,5 +6,7 @@ namespace Shop.Framework.Interfaces.Services
     {
         DbConnection GetConnection();
         DbTransaction GetTransaction();
+        bool IsConnectionOpened { get; }
+        bool IsTransactionStarted { get; }
     }
 }

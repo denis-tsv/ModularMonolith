@@ -65,7 +65,6 @@ namespace Shop.Web
             
             builder.RegisterModule<CommunicationDataAccessAutofacModule>();
             builder.RegisterModule<OrderDataAccessAutofacModule>();
-            builder.RegisterModule<IdentityDataAccessAutofacModule>();
 #else
             builder.RegisterGeneric(typeof(TransactionScopePipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 #endif

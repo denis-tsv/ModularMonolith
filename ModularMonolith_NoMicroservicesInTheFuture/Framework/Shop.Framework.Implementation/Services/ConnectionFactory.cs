@@ -27,7 +27,11 @@ namespace Shop.Framework.Implementation.Services
 
         public DbTransaction GetTransaction()
         {
-            return _transaction ?? (_transaction = GetConnection().BeginTransaction());
+            return _transaction ??= GetConnection().BeginTransaction();
         }
+
+        public bool IsConnectionOpened => _connection != null;
+
+        public bool IsTransactionStarted => _transaction != null;
     }
 }
