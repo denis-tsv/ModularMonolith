@@ -17,6 +17,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CancelOrder
 
         public async Task Handle(CancelOrderMesage message, CancellationToken token)
         {
+            //in real project online handler can schedule a background task to remove an order. in this demo project we don't use background jobs to make demo as simply as possible
             try
             {
                 var order = await _dbContext.Orders.FindAsync(message.OrderId); //order already tracked by context
