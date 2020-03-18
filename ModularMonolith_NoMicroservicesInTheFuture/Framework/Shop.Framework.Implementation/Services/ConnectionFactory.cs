@@ -33,5 +33,11 @@ namespace Shop.Framework.Implementation.Services
         public bool IsConnectionOpened => _connection != null;
 
         public bool IsTransactionStarted => _transaction != null;
+
+        public void Dispose()
+        {
+            _transaction?.Dispose();
+            _connection?.Dispose();
+        }
     }
 }
