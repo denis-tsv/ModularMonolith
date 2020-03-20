@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.Framework.Interfaces.Exceptions;
 using Shop.Framework.Interfaces.Messaging;
 using Shop.Order.Contract.Orders.Dto;
 using Shop.Order.Contract.Orders.Messages.GetOrder;
-using Shop.Order.DomainServices.Interfaces;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Order.UseCases.Orders.Queries
@@ -15,16 +13,14 @@ namespace Shop.Order.UseCases.Orders.Queries
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IOrdersService _orderService;
 
         public GetOrderMessageHandler(IOrderDbContext dbContext, 
-            IMapper mapper, IOrdersService orderService, 
+            IMapper mapper, 
             IMessageBroker messageBroker)
             : base(messageBroker)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _orderService = orderService;
         }
 
         protected override async Task Handle(GetOrderRequestMessage message)
@@ -36,7 +32,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             if (order == null) throw new EntityNotFoundException();
 
             var result = _mapper.Map<OrderDto>(order);
-            result.Price = _orderService.GetPrice(order);
+            result.Price = order.GetPrice();
 
             var resultMessage = new GetOrderResponseMessage {Order = result};
             await MessageBroker.PublishAsync(resultMessage);            

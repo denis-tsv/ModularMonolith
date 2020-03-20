@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Shop.DomainServices.Interfaces;
 using Shop.Infrastructure.Interfaces.DataAccess;
 using Shop.UseCases.Orders.Dto;
 using Shop.Utils.Exceptions;
@@ -14,13 +13,11 @@ namespace Shop.UseCases.Orders.Queries.GetOrder
     {
         private readonly IDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly IOrdersService _orderService;
         
-        public GetOrderRequestHandler(IDbContext dbContext, IMapper mapper, IOrdersService orderService)
+        public GetOrderRequestHandler(IDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _orderService = orderService;            
         }
 
         public async Task<OrderDto> Handle(GetOrderRequest request, CancellationToken cancellationToken)
@@ -32,7 +29,7 @@ namespace Shop.UseCases.Orders.Queries.GetOrder
             if (order == null) throw new EntityNotFoundException();
 
             var result = _mapper.Map<OrderDto>(order);
-            result.Price = _orderService.GetPrice(order);            
+            result.Price = order.GetPrice();            
 
             return result;
         }

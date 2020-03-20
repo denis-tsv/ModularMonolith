@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop.DataAccess.MsSql;
-using Shop.DomainServices.Implementation;
-using Shop.DomainServices.Interfaces;
 using Shop.Infrastructure.Implementation.Services;
 using Shop.Infrastructure.Interfaces.DataAccess;
 using Shop.Infrastructure.Interfaces.Services;
@@ -35,8 +33,6 @@ namespace Shop.Web
             services.AddControllers();
 
             services.AddHttpContextAccessor();
-
-            services.AddScoped<IOrdersService, OrdersService>();
 
             services.AddTransient<SendEmailsJob>();
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));

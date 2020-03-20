@@ -33,7 +33,6 @@
     <ProjectReference Include="..\Order\Shop.Order.Contract.Implementation\Shop.Order.Contract.Implementation.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.Controllers\Shop.Order.Controllers.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj" />
-    <ProjectReference Include="..\Order\Shop.Order.DomainServices.Implementation\Shop.Order.DomainServices.Implementation.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
   </ItemGroup>
 

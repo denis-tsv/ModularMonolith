@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.Controllers;
 using Shop.Order.DataAccess.MsSql;
-using Shop.Order.DomainServices.Implementation;
 using Shop.Order.UseCases;
 using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
@@ -54,7 +53,6 @@ namespace Shop.Web
             services.RegisterModule<CommunicationUseCasesModule>(Configuration);
 
             services.RegisterModule<OrderContractModule>(Configuration);
-            services.RegisterModule<OrderDomainServicesModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
         }
 

@@ -26,7 +26,6 @@
     <ProjectReference Include="..\Framework\Shop.Framework.Implementation\Shop.Framework.Implementation.csproj" />
     <ProjectReference Include="..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj" />
-    <ProjectReference Include="..\Order\Shop.Order.DomainServices.Implementation\Shop.Order.DomainServices.Implementation.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
   </ItemGroup>
 

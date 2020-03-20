@@ -20,8 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shop.DataAccess.MsSql\Shop.DataAccess.MsSql.csproj" />
-    <ProjectReference Include="..\Shop.DomainServices.Implementation\Shop.DomainServices.Implementation.csproj" />
-    <ProjectReference Include="..\Shop.DomainServices.Interfaces\Shop.DomainServices.Interfaces.csproj" />
     <ProjectReference Include="..\Shop.Entities\Shop.Entities.csproj" />
     <ProjectReference Include="..\Shop.Infrastructure.Implementation\Shop.Infrastructure.Implementation.csproj" />
     <ProjectReference Include="..\Shop.Infrastructure.Interfaces\Shop.Infrastructure.Interfaces.csproj" />
