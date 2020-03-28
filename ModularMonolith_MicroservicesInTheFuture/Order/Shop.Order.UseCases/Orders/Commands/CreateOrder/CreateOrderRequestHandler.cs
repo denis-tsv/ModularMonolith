@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Shop.Communication.Contract;
-using Shop.Framework.Interfaces.Cancel;
+using Shop.Framework.Interfaces.Compensation;
 using Shop.Framework.Interfaces.Services;
 using Shop.Order.Infrastructure.Interfaces.DataAccess;
 using Shop.Order.UseCases.Orders.Commands.CancelOrder;
@@ -18,7 +18,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         private readonly ICommunicationContract _communicationContract;
         private readonly ICurrentUserService _currentUserService;
         private readonly IRequestContext _requestContext;
-        private readonly ICancelService _cancelService;
+        private readonly ICompensationService _compensationService;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
@@ -26,14 +26,14 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             ICommunicationContract communicationContract,
             ICurrentUserService currentUserService,
             IRequestContext requestContext,
-            ICancelService cancelService)
+            ICompensationService compensationService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _communicationContract = communicationContract;
             _currentUserService = currentUserService;
             _requestContext = requestContext;
-            _cancelService = cancelService;
+            _compensationService = compensationService;
         }
 
         protected override async Task Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -46,8 +46,8 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            //with cancel
-            _cancelService.AddCancel(new CancelOrderRequest {Id = order.Id});
+            //with compensation
+            _compensationService.AddRequest(new CancelOrderRequest {Id = order.Id});
             await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully", order.Id);
 
             //with request context
