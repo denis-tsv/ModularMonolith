@@ -50,7 +50,7 @@ namespace Shop.Tests.Unit
         {
             var modules = new List<string>
             {
-                "Communication", "Identity", "Order"
+                "Communication", "Order"
             };
 
             var location = Assembly.GetExecutingAssembly().Location;

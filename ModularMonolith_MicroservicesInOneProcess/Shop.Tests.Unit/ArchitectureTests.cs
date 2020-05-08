@@ -10,7 +10,7 @@ namespace Shop.Tests.Unit
 {
     public class ArchitectureTests
     {
-        private readonly string[] _modules = {"Communication", "Identity", "Order"};
+        private readonly string[] _modules = {"Communication", "Order"};
         [Fact]
         public void Use_Cases_Not_Refers_To_DataAccess()
         {

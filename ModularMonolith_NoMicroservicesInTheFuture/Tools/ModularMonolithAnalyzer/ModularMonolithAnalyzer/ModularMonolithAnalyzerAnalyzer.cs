@@ -28,7 +28,7 @@ namespace ModularMonolithAnalyzer
 
         private readonly List<string> _modules = new List<string>
         {
-            "Communication", "Identity", "Order"
+            "Communication", "Order"
         };
 
         private const string Category = "InvalidReference";
