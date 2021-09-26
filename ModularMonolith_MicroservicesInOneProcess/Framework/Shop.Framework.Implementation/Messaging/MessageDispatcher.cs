@@ -20,7 +20,7 @@ namespace Shop.Framework.Implementation.Messaging
 
         public  async Task<TResultMessage> SendMessageAsync<TResultMessage>(Message message) where TResultMessage : Message
         {
-            var resTask = _waitingTasksStore.Add<TResultMessage>();
+            var resTask = _waitingTasksStore.Add<TResultMessage>(message.CorrelationId);
 
             await _messageBroker.PublishAsync(message);
 
@@ -38,7 +38,7 @@ namespace Shop.Framework.Implementation.Messaging
             foreach (var messageType in resultMessageTypes)
             {
                 var method = typeof(IWaitingTasksStore).GetMethod("Add").MakeGenericMethod(messageType);
-                var task = method.Invoke(_waitingTasksStore, new object[]{});
+                var task = method.Invoke(_waitingTasksStore, new object[]{message.CorrelationId});
                 tasks.Add((Task)task);
             }
 

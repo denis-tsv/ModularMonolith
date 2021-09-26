@@ -5,7 +5,7 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 {
     internal interface IWaitingTasksStore
     {
-        Task<TMessage> Add<TMessage>() where TMessage : Message;
+        Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message;
         bool TryComplete<TMessage>(TMessage message) where TMessage : Message;
     }
 }

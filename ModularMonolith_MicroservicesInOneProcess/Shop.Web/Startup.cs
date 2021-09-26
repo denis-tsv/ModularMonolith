@@ -1,5 +1,4 @@
-﻿using Autofac;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,8 +25,6 @@ namespace Shop.Web
 
         public IConfiguration Configuration { get; }
 
-        public ILifetimeScope AutofacContainer { get; private set; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
@@ -46,10 +43,6 @@ namespace Shop.Web
 
             services.RegisterModule<OrderDataAccessModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
-        }
-
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

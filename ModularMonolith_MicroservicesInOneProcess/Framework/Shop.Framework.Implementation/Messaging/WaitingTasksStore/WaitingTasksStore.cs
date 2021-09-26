@@ -11,9 +11,9 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
         //ConcurrentDictionary can be replaced by Dictionary because request processed in single thread
         private readonly ConcurrentDictionary<string, object> _waitingTasks = new ConcurrentDictionary<string, object>();
         
-        public Task<TMessage> Add<TMessage>() where TMessage : Message
+        public Task<TMessage> Add<TMessage>(string correlationId) where TMessage : Message
         {
-            var tcs = _waitingTasks.GetOrAdd(typeof(TMessage).Name, new TaskCompletionSource<TMessage>());
+            var tcs = _waitingTasks.GetOrAdd(correlationId, new TaskCompletionSource<TMessage>());
             return ((TaskCompletionSource<TMessage>)tcs).Task;
         }
 
@@ -31,7 +31,7 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 
         private bool CompleteResult<TMessage>(TMessage message) where TMessage : Message
         {
-            if (!_waitingTasks.TryRemove(typeof(TMessage).Name, out var obj))
+            if (!_waitingTasks.TryRemove(message.CorrelationId, out var obj))
                 return false;
             
             var tcs = (TaskCompletionSource<TMessage>) obj;
