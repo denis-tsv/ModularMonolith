@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shop.Framework.Interfaces.Exceptions;
 using Shop.Framework.Interfaces.Messaging;
@@ -9,25 +11,26 @@ using Shop.Order.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Order.UseCases.Orders.Queries
 {
-    internal class GetOrderMessageHandler : MessageHandler<GetOrderRequestMessage>
+    internal class GetOrderMessageHandler : INotificationHandler<GetOrderRequestMessage>
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IMessageBroker _messageBroker;
 
         public GetOrderMessageHandler(IOrderDbContext dbContext, 
             IMapper mapper, 
             IMessageBroker messageBroker)
-            : base(messageBroker)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _messageBroker = messageBroker;
         }
 
-        protected override async Task Handle(GetOrderRequestMessage message)
+        public async Task Handle(GetOrderRequestMessage message, CancellationToken token)
         {
             var order = await _dbContext.Orders.AsNoTracking()
                 .Include(x => x.Items).ThenInclude(x => x.Product)
-                .SingleOrDefaultAsync(x => x.Id == message.Id);
+                .SingleOrDefaultAsync(x => x.Id == message.Id, token);
 
             if (order == null) throw new EntityNotFoundException();
 
@@ -35,7 +38,7 @@ namespace Shop.Order.UseCases.Orders.Queries
             result.Price = order.GetPrice();
 
             var resultMessage = new GetOrderResponseMessage {Order = result};
-            await MessageBroker.PublishAsync(resultMessage);            
+            await _messageBroker.PublishAsync(resultMessage);            
         }
     }
 }

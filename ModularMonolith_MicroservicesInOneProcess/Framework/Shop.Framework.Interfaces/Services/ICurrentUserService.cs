@@ -4,6 +4,7 @@
     {
         int Id { get; }
         bool IsAuthenticated { get; }
-        string Email { get; set; }
+        string Email { get; }
+        string CorrelationId { get; }
     }
 }

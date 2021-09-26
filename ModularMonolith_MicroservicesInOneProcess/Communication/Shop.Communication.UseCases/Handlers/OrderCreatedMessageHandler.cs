@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using Shop.Communication.Contract.Messages;
 using Shop.Communication.Entities;
 using Shop.Communication.Infrastructure.Interfaces.DataAccess;
@@ -8,20 +11,21 @@ using Shop.Order.Contract.Orders.Messages.CreateOrder;
 
 namespace Shop.Communication.UseCases.Handlers
 {
-    internal class OrderCreatedMessageHandler : MessageHandler<CreateOrderResponseMessage>
+    internal class OrderCreatedMessageHandler : INotificationHandler<CreateOrderResponseMessage>
     {
         private readonly ICommunicationDbContext _dbContext;
+        private readonly IMessageBroker _messageBroker;
         private readonly IUrlHelper _urlHelper;
         private readonly ICurrentUserService _currentUserService;
 
-        public OrderCreatedMessageHandler(ICommunicationDbContext dbContext, IMessageBroker messageBroker, IUrlHelper urlHelper, ICurrentUserService currentUserService) : 
-            base(messageBroker)
+        public OrderCreatedMessageHandler(ICommunicationDbContext dbContext, IMessageBroker messageBroker, IUrlHelper urlHelper, ICurrentUserService currentUserService) 
         {
             _dbContext = dbContext;
+            _messageBroker = messageBroker;
             _urlHelper = urlHelper;
             _currentUserService = currentUserService;
         }
-        protected override async Task Handle(CreateOrderResponseMessage message)
+        public async Task Handle(CreateOrderResponseMessage message, CancellationToken token)
         {
             //TODO fix _urlHelper because it returns null
             var orderDetailsUrl = _urlHelper.Action("get", "/api/orders", new object[] { message.OrderId.ToString() }, "http");
@@ -35,10 +39,17 @@ namespace Shop.Communication.UseCases.Handlers
                 UserId = _currentUserService.Id
             };
 
-            _dbContext.Emails.Add(newEmail);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.Emails.Add(newEmail);
+                await _dbContext.SaveChangesAsync(token);
 
-            await MessageBroker.PublishAsync(new UserEmailNotifiedMessage());
+                await _messageBroker.PublishAsync(new EmailSendMessage { CorrelationId = message.CorrelationId });
+            }
+            catch (Exception e)
+            {
+                await _messageBroker.PublishAsync(new EmailSendFailedMessage { CorrelationId = message.CorrelationId, Exception = e});
+            }
         }
     }
 }

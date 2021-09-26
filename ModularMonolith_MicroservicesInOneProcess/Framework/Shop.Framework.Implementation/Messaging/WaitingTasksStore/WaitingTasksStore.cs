@@ -19,7 +19,7 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
 
         public bool TryComplete<TMessage>(TMessage message) where TMessage : Message
         {
-            if (message is ExceptionMessage exceptionMessage)
+            if (message is ErrorMessage exceptionMessage)
             {
                 return CompleteException(exceptionMessage);
             }
@@ -41,7 +41,7 @@ namespace Shop.Framework.Implementation.Messaging.WaitingTasksStore
             return true;
         }
 
-        private bool CompleteException<TMessage>(TMessage message) where TMessage : ExceptionMessage
+        private bool CompleteException<TMessage>(TMessage message) where TMessage : ErrorMessage
         {
             var keys = _waitingTasks.Keys
                 .ToList();

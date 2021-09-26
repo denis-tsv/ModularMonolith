@@ -15,28 +15,12 @@ namespace Shop.Framework.Implementation.Messaging
 
             return Task.CompletedTask;
         }
-
-        public Task<List<TMessage>> AllOfTypeAsync<TMessage>() where TMessage : Message
-        {
-            var messageType = typeof(TMessage);
-            var result = _messages
-                .Where(x => x.GetType() == messageType)
-                .Cast<TMessage>()
-                .ToList();
-            return Task.FromResult(result);
-        }
-
-        public Task<List<Message>> AllAsync()
-        {
-            var result = _messages.ToList();
-            return Task.FromResult(result);
-        }
-
-        public Task<TMessage> SingleOrDefaultAsync<TMessage>() where TMessage : Message
+        
+        public Task<TMessage> SingleOrDefaultAsync<TMessage>(string correlationId) where TMessage : Message
         {
             var result = _messages
                 .OfType<TMessage>()
-                .SingleOrDefault();
+                .SingleOrDefault(x => x.CorrelationId == correlationId);
             return Task.FromResult(result);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Shop.Framework.Interfaces.Services;
 
 namespace Shop.Framework.Implementation.Services
@@ -10,6 +11,8 @@ namespace Shop.Framework.Implementation.Services
             IsAuthenticated = httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
             Id = 1;
             Email = "test@tets.com";
+            CorrelationId = Guid.NewGuid().ToString("N");
+
 
             //if (IsAuthenticated)
             //{
@@ -20,6 +23,8 @@ namespace Shop.Framework.Implementation.Services
 
         public int Id { get; }
         public bool IsAuthenticated { get; }
-        public string Email { get; set; }
+        public string Email { get; }
+
+        public string CorrelationId { get; }
     }
 }

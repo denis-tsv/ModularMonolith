@@ -2,7 +2,7 @@
 
 namespace Shop.Communication.Contract.Messages
 {
-    public class UserEmailNotifiedMessage : Message
+    public class EmailSendFailedMessage : ErrorMessage
     {
     }
 }
