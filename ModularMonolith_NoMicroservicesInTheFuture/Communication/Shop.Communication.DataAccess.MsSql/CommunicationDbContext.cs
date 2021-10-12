@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shop.Communication.DataAccess.Interfaces;
 using Shop.Communication.Entities;
-using Shop.Communication.Infrastructure.Interfaces.DataAccess;
 
 namespace Shop.Communication.DataAccess.MsSql
 {

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shop.Framework.Interfaces\Shop.Framework.Interfaces.csproj" />
+    <ProjectReference Include="..\Shop.Framework.Interfaces\Shop.Framework.UseCases.Interfaces.csproj" />
     <ProjectReference Include="..\Shop.Utils\Shop.Utils.csproj" />
   </ItemGroup>
 

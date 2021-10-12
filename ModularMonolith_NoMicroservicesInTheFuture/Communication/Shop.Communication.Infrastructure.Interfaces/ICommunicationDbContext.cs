@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Shop.Communication.Entities;
 
-namespace Shop.Communication.Infrastructure.Interfaces.DataAccess
+namespace Shop.Communication.DataAccess.Interfaces
 {
     internal interface ICommunicationDbContext
     {

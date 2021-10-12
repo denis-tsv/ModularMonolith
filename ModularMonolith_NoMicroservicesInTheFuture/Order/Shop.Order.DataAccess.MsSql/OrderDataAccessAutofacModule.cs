@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Shop.Framework.Implementation;
-using Shop.Order.Infrastructure.Interfaces.DataAccess;
+using Shop.Order.DataAccess.Interfaces;
 
 namespace Shop.Order.DataAccess.MsSql
 {

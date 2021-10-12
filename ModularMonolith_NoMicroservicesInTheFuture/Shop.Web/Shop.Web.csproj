@@ -26,14 +26,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Communication\Shop.Communication.Contract.Implementation\Shop.Communication.Contract.Implementation.csproj" />
     <ProjectReference Include="..\Communication\Shop.Communication.DataAccess.MsSql\Shop.Communication.DataAccess.MsSql.csproj" />
-    <ProjectReference Include="..\Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.Infrastructure.Implementation.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.BackgroundJobs.csproj" />
     <ProjectReference Include="..\Communication\Shop.Communication.UseCases\Shop.Communication.UseCases.csproj" />
-    <ProjectReference Include="..\Framework\Shop.Framework.Implementation\Shop.Framework.Implementation.csproj" />
+    <ProjectReference Include="..\Framework\Shop.Framework.Implementation\Shop.Framework.UseCases.Implementation.csproj" />
     <ProjectReference Include="..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.Contract.Implementation\Shop.Order.Contract.Implementation.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.Controllers\Shop.Order.Controllers.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj" />
     <ProjectReference Include="..\Order\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
+    <ProjectReference Include="..\Shop.Email.Implementation\Shop.Emails.Implementation.csproj" />
   </ItemGroup>
 
 </Project>

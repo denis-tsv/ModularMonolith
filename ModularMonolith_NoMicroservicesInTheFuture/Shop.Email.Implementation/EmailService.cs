@@ -2,12 +2,11 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Shop.Communication.Infrastructure.Interfaces.Options;
-using Shop.Communication.Infrastructure.Interfaces.Services;
+using Shop.Emails.Interfaces;
 
-namespace Shop.Communication.Infrastructure.Implementation.Services
+namespace Shop.Emails.Implementation
 {
-    internal class EmailService : IEmailService
+    public class EmailService : IEmailService
     {
         private readonly EmailOptions _emailOptions;
         private readonly SmtpClient _client;

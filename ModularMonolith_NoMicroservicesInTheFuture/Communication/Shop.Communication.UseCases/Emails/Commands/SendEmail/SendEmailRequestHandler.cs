@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Shop.Communication.DataAccess.Interfaces;
 using Shop.Communication.Entities;
-using Shop.Communication.Infrastructure.Interfaces.DataAccess;
 using Shop.Framework.Interfaces.Services;
 
 namespace Shop.Communication.UseCases.Emails.Commands.SendEmail

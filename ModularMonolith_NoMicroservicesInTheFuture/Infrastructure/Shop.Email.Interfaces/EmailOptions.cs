@@ -1,6 +1,6 @@
-﻿namespace Shop.Communication.Infrastructure.Interfaces.Options
+﻿namespace Shop.Emails.Interfaces
 {
-    internal class EmailOptions
+    public class EmailOptions
     {
         public string Server { get; set; }
         public int Port { get; set; }

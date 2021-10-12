@@ -5,7 +5,7 @@ using AutoMapper;
 using MediatR;
 using Shop.Communication.Contract;
 using Shop.Framework.Interfaces.Services;
-using Shop.Order.Infrastructure.Interfaces.DataAccess;
+using Shop.Order.DataAccess.Interfaces;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 {

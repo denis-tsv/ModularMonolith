@@ -18,6 +18,7 @@ using Shop.Communication.Infrastructure.Implementation;
 using Shop.Framework.Implementation;
 using Shop.Order.Contract.Implementation;
 using Shop.Communication.UseCases;
+using Shop.Emails.Implementation;
 
 namespace Shop.Web
 {
@@ -43,6 +44,7 @@ namespace Shop.Web
             services.AddControllers()
                 .AddApplicationPart(typeof(OrdersController).Assembly);
             services.RegisterModule<FrameworkModule>(Configuration);
+            services.RegisterModule<EmailModule>(Configuration);
 
 #if !DB_TRANSACTION
             services.RegisterModule<CommunicationDataAccessModule>(Configuration);

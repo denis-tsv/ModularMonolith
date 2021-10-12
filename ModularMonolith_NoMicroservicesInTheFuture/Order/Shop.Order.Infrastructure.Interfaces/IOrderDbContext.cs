@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Shop.Order.Entities;
 
-namespace Shop.Order.Infrastructure.Interfaces.DataAccess
+namespace Shop.Order.DataAccess.Interfaces
 {
     internal interface IOrderDbContext
     {

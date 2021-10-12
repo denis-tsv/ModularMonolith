@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{5529831C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.Entities", "Order\Shop.Order.Entities\Shop.Order.Entities.csproj", "{82C2E4BA-A095-4247-B164-2B6691AE07F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.Infrastructure.Interfaces", "Order\Shop.Order.Infrastructure.Interfaces\Shop.Order.Infrastructure.Interfaces.csproj", "{A3012741-D25B-4990-9F6C-4098494F6A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.DataAccess.Interfaces", "Order\Shop.Order.Infrastructure.Interfaces\Shop.Order.DataAccess.Interfaces.csproj", "{A3012741-D25B-4990-9F6C-4098494F6A6B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.DataAccess.MsSql", "Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj", "{B5AD31DD-B610-4425-8087-A49B2ABA5BC3}"
 EndProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B5A353C7-275C-42F8-9EFE-16F85B47D2C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Framework.Interfaces", "Framework\Shop.Framework.Interfaces\Shop.Framework.Interfaces.csproj", "{931F706E-EE62-4CF0-B85B-A06D2B7184E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Framework.UseCases.Interfaces", "Framework\Shop.Framework.Interfaces\Shop.Framework.UseCases.Interfaces.csproj", "{931F706E-EE62-4CF0-B85B-A06D2B7184E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Framework.Implementation", "Framework\Shop.Framework.Implementation\Shop.Framework.Implementation.csproj", "{1A56BD6F-44DF-4244-9BA2-EC3769CDAB49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Framework.UseCases.Implementation", "Framework\Shop.Framework.Implementation\Shop.Framework.UseCases.Implementation.csproj", "{1A56BD6F-44DF-4244-9BA2-EC3769CDAB49}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Utils", "Framework\Shop.Utils\Shop.Utils.csproj", "{A9327581-6022-48CB-AA81-68DF29740FE4}"
 EndProject
@@ -45,15 +45,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.Entities", "Communication\Shop.Communication.Entities\Shop.Communication.Entities.csproj", "{8E937A0E-180E-42C1-8AA7-A4387910B87B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.Infrastructure.Implementation", "Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.Infrastructure.Implementation.csproj", "{BE7C6430-2312-482A-ADAF-C6839BB42186}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.BackgroundJobs", "Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.BackgroundJobs.csproj", "{BE7C6430-2312-482A-ADAF-C6839BB42186}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.Infrastructure.Interfaces", "Communication\Shop.Communication.Infrastructure.Interfaces\Shop.Communication.Infrastructure.Interfaces.csproj", "{78D2D1F9-7D31-4D89-8666-DA9DA96F46CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.DataAccess.Interfaces", "Communication\Shop.Communication.Infrastructure.Interfaces\Shop.Communication.DataAccess.Interfaces.csproj", "{78D2D1F9-7D31-4D89-8666-DA9DA96F46CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.Contract", "Order\Shop.Order.Contract\Shop.Order.Contract.csproj", "{E21D6980-A989-4DBA-A810-E455C4D88A05}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Order.Contract.Implementation", "Order\Shop.Order.Contract.Implementation\Shop.Order.Contract.Implementation.csproj", "{3E711D86-1488-4034-80C9-514ED3A6FEA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Communication.UseCases", "Communication\Shop.Communication.UseCases\Shop.Communication.UseCases.csproj", "{54AAF5D4-7923-4ECD-920F-A06A0B79C743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Framework.Entities", "Framework\Shop.Framework.Entities\Shop.Framework.Entities.csproj", "{25249563-C4B5-422F-8176-8371D950DDE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{6833A64D-E39D-4365-A2E8-2B93E894EAA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Emails.Interfaces", "Infrastructure\Shop.Email.Interfaces\Shop.Emails.Interfaces.csproj", "{A4395E5E-54A1-47CB-A505-47988A9C5DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Emails.Implementation", "Shop.Email.Implementation\Shop.Emails.Implementation.csproj", "{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +153,18 @@ Global
 		{54AAF5D4-7923-4ECD-920F-A06A0B79C743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54AAF5D4-7923-4ECD-920F-A06A0B79C743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54AAF5D4-7923-4ECD-920F-A06A0B79C743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25249563-C4B5-422F-8176-8371D950DDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25249563-C4B5-422F-8176-8371D950DDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25249563-C4B5-422F-8176-8371D950DDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25249563-C4B5-422F-8176-8371D950DDE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4395E5E-54A1-47CB-A505-47988A9C5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4395E5E-54A1-47CB-A505-47988A9C5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4395E5E-54A1-47CB-A505-47988A9C5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4395E5E-54A1-47CB-A505-47988A9C5DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,6 +190,9 @@ Global
 		{E21D6980-A989-4DBA-A810-E455C4D88A05} = {5529831C-372F-41B7-BD89-73C34FD80397}
 		{3E711D86-1488-4034-80C9-514ED3A6FEA9} = {5529831C-372F-41B7-BD89-73C34FD80397}
 		{54AAF5D4-7923-4ECD-920F-A06A0B79C743} = {B9B3FCA7-B148-4EAE-9D3E-AB6BB915DD88}
+		{25249563-C4B5-422F-8176-8371D950DDE5} = {D534B626-FBBD-486E-9135-8C5B01594A31}
+		{A4395E5E-54A1-47CB-A505-47988A9C5DDE} = {6833A64D-E39D-4365-A2E8-2B93E894EAA9}
+		{09BC89E3-8F3B-4E2B-BE80-AA6898A59BB6} = {6833A64D-E39D-4365-A2E8-2B93E894EAA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {617CE5A3-534A-4FCB-84F2-118A4E06A762}

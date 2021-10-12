@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shop.Framework.Entities;
 
 namespace Shop.Order.Entities
 {
-    internal class Order
+    internal class Order : Aggregate
     {
-        public int Id { get; set; }
-
         public DateTime CreationDate { get; set; }
 
         public int UserId { get; set; }

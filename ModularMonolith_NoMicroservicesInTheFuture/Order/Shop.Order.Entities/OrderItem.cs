@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Shop.Framework.Entities;
 
 namespace Shop.Order.Entities
 {
-    internal class OrderItem
+    internal class OrderItem : Entity
     {
-        public int Id { get; set; }
-
         public int OrderId { get; set; }
 
         [Required]

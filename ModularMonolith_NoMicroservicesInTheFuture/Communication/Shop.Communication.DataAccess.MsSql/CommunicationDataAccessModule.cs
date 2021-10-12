@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Communication.Infrastructure.Interfaces.DataAccess;
+using Shop.Communication.DataAccess.Interfaces;
 using Shop.Framework.Interfaces.Services;
 using Shop.Utils.Modules;
 

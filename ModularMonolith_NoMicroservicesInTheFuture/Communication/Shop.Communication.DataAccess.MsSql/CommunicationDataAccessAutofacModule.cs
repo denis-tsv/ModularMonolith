@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Shop.Communication.Infrastructure.Interfaces.DataAccess;
+using Shop.Communication.DataAccess.Interfaces;
 using Shop.Framework.Implementation;
 
 namespace Shop.Communication.DataAccess.MsSql
