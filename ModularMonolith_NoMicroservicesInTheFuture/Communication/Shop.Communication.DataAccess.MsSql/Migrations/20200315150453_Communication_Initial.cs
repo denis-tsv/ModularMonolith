@@ -2,7 +2,7 @@
 
 namespace Shop.Communication.DataAccess.MsSql.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Communication_Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -9,8 +9,8 @@ using Shop.Communication.DataAccess.MsSql;
 namespace Shop.Communication.DataAccess.MsSql.Migrations
 {
     [DbContext(typeof(CommunicationDbContext))]
-    [Migration("20200315150453_Initial")]
-    partial class Initial
+    [Migration("20200315150453_Communication_Initial")]
+    partial class Communication_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

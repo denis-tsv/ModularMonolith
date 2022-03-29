@@ -10,8 +10,8 @@ using Shop.Order.DataAccess.MsSql;
 namespace Shop.Order.DataAccess.MsSql.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20200315150200_Initial")]
-    partial class Initial
+    [Migration("20200315150200_Order_Initial")]
+    partial class Order_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

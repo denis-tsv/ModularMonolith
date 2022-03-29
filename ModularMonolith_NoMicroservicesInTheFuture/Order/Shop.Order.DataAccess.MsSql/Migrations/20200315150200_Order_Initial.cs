@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shop.Order.DataAccess.MsSql.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Order_Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
