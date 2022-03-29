@@ -37,6 +37,7 @@ namespace Shop.Web
         {
             services.AddHttpContextAccessor();
 
+            //not works when profiles registered in other modules
             services.AddAutoMapper(typeof(OrdersAutoMapperProfile), typeof(EmailsAutoMapperProfile));
 
             services.AddOptions();

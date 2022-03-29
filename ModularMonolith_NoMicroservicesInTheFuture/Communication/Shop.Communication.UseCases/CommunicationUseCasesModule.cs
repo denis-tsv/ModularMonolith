@@ -9,6 +9,7 @@ namespace Shop.Communication.UseCases
     {
         public override void Load(IServiceCollection services)
         {
+            //works fine when registered in other modules
             services.AddMediatR(typeof(SendEmailRequestHandler));
         }
     }
