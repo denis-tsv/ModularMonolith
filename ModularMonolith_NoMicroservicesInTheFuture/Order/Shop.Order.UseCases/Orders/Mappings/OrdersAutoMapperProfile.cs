@@ -4,7 +4,7 @@ using Shop.Order.UseCases.Orders.Dto;
 
 namespace Shop.Order.UseCases.Orders.Mappings
 {
-    public  class OrdersAutoMapperProfile : Profile
+    internal class OrdersAutoMapperProfile : Profile
     {
         public OrdersAutoMapperProfile()
         {

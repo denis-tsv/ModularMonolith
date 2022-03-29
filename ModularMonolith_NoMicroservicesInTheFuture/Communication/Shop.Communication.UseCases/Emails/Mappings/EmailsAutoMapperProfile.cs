@@ -4,7 +4,7 @@ using Shop.Communication.UseCases.Emails.Dto;
 
 namespace Shop.Communication.UseCases.Emails.Mappings
 {
-    public class EmailsAutoMapperProfile : Profile
+    internal class EmailsAutoMapperProfile : Profile
     {
         public EmailsAutoMapperProfile()
         {

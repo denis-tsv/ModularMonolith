@@ -9,12 +9,12 @@ using Shop.Communication.UseCases.Emails.Dto;
 
 namespace Shop.Communication.UseCases.Emails.Queries.GetEmails
 {
-    internal class SendEmailRequestHandler : IRequestHandler<GetEmailsRequest, EmailDto[]>
+    internal class GetEmailsRequestHandler : IRequestHandler<GetEmailsRequest, EmailDto[]>
     {
         private readonly ICommunicationDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public SendEmailRequestHandler(ICommunicationDbContext dbContext, IMapper mapper)
+        public GetEmailsRequestHandler(ICommunicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;

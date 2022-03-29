@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
-using Shop.Order.UseCases.Orders.Mappings;
 using Shop.Utils.Modules;
 using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
@@ -16,7 +16,6 @@ using Shop.Communication.Contract.Implementation;
 using Shop.Communication.DataAccess.MsSql;
 using Shop.Order.Contract.Implementation;
 using Shop.Communication.UseCases;
-using Shop.Communication.UseCases.Emails.Mappings;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
 
@@ -37,9 +36,6 @@ namespace Shop.Web
         {
             services.AddHttpContextAccessor();
 
-            //not works when profiles registered in other modules
-            services.AddAutoMapper(typeof(OrdersAutoMapperProfile), typeof(EmailsAutoMapperProfile));
-
             services.AddOptions();
 
             services.AddControllers()
@@ -58,6 +54,15 @@ namespace Shop.Web
 
             services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
+
+            var sp = services.BuildServiceProvider();
+
+            var requests = sp.GetServices<IBaseRequest>();
+            services.AddMediatR(requests.Select(x => x.GetType()).ToArray());
+
+            var profiles = sp.GetServices<Profile>();
+            //not works when profiles registered in other modules
+            services.AddAutoMapper(profiles.Select(x => x.GetType()).ToArray());
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
