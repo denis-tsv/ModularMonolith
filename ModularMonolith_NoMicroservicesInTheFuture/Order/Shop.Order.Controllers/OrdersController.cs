@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Order.UseCases.Orders.Commands.CreateOrder;
@@ -20,16 +21,16 @@ namespace Shop.Order.Controllers
 
         // GET api/orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDto>> Get(int id)
+        public async Task<ActionResult<OrderDto>> Get(int id, CancellationToken token)
         {
-            return await _mediator.Send(new GetOrderRequest { Id = id });
+            return await _mediator.Send(new GetOrderRequest { Id = id }, token);
         }
 
         // POST api/orders
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto)
+        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken token)
         {
-            return await _mediator.Send(new CreateOrderRequest { CreateOrderDto = createOrderDto });
+            return await _mediator.Send(new CreateOrderRequest { CreateOrderDto = createOrderDto }, token);
         }
     }
 }

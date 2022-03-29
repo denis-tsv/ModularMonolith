@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Communication.UseCases.Emails.Dto;
@@ -19,9 +20,9 @@ namespace Shop.Communication.Controllers
 
         // GET api/emails
         [HttpGet]
-        public async Task<ActionResult<EmailDto[]>> Get()
+        public async Task<ActionResult<EmailDto[]>> Get(CancellationToken token)
         {
-            return await _mediator.Send(new GetEmailsRequest());
+            return await _mediator.Send(new GetEmailsRequest(), token);
         }
     }
 }
