@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -22,29 +21,18 @@ namespace Shop.Web.Utils
             {
                 await _next(httpContext);
             }
-            catch (EntityNotFoundException e)
+            catch (EntityNotFoundException e)//framework exception (common for all modules). also here can be used any exception from any module
             {
-                await HandleException(httpContext, e);
+                await HandleException(httpContext, e.Message, HttpStatusCode.NotFound);
             }
         }
 
-        private async Task HandleException(HttpContext httpContext, Exception exception)
+        private async Task HandleException(HttpContext httpContext, string message, HttpStatusCode code)
         {
-            var code = HttpStatusCode.InternalServerError;
-
-            var result = string.Empty;
-
-            switch (exception)
-            {
-                case EntityNotFoundException notFoundException:
-                    code = HttpStatusCode.NotFound;
-                    break;
-            }
-
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)code;
 
-            await httpContext.Response.WriteAsync(result);
+            await httpContext.Response.WriteAsync(message);
         }
     }
 
