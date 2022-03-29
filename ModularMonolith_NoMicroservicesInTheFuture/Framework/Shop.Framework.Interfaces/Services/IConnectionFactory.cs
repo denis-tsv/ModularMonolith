@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 
-namespace Shop.Framework.Interfaces.Services
+namespace Shop.Framework.UseCases.Interfaces.Services
 {
     public interface IConnectionFactory : IDisposable
     {

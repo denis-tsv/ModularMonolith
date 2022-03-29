@@ -1,4 +1,4 @@
-﻿namespace Shop.Framework.Interfaces.Transactions
+﻿namespace Shop.Framework.UseCases.Interfaces.Transactions
 {
     public interface ITransactionalRequest
     {

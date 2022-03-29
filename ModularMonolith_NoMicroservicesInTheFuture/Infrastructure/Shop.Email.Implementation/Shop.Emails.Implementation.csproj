@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Framework\Shop.Utils\Shop.Utils.csproj" />
-    <ProjectReference Include="..\Infrastructure\Shop.Email.Interfaces\Shop.Emails.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Email.Interfaces\Shop.Emails.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

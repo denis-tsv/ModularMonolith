@@ -1,27 +1,34 @@
-﻿using System.Threading.Tasks;
-using MediatR;
-using Shop.Communication.UseCases.Emails.Commands.SendEmail;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Shop.Communication.DataAccess.Interfaces;
+using Shop.Communication.Entities;
+using Shop.Framework.UseCases.Interfaces.Services;
 
 namespace Shop.Communication.Contract.Implementation
 {
     internal class CommunicationContract : ICommunicationContract
     {
-        private readonly IMediator _mediator;
+        private readonly ICommunicationDbContext _communicationDbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public CommunicationContract(IMediator mediator)
+        public CommunicationContract(ICommunicationDbContext communicationDbContext, ICurrentUserService currentUserService)
         {
-            _mediator = mediator;
+            _communicationDbContext = communicationDbContext;
+            _currentUserService = currentUserService;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string body, int orderId)
+        public async Task ScheduleOrderCreatedEmailAsync(string email, int orderId, string orderDetailsUrl, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new SendEmailRequest
+            var mail = new Email
             {
                 Address = email,
-                Subject = subject,
-                Body = body,
-                OrderId = orderId
-            });
+                Subject = "Order created",
+                Body = $"Your order {orderId} created successfully. You can find order details using link {orderDetailsUrl}",
+                OrderId = orderId,
+                UserId = _currentUserService.Id
+            };
+            _communicationDbContext.Emails.Add(mail);
+            await _communicationDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

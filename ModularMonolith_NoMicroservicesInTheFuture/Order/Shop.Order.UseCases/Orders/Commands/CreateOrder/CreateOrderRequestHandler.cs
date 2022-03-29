@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Shop.Communication.Contract;
-using Shop.Framework.Interfaces.Services;
+using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.DataAccess.Interfaces;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
@@ -34,7 +34,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         public async Task<int> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
         {
             var order = _mapper.Map<Entities.Order>(request.CreateOrderDto);
-            order.CreationDate = DateTime.Now;
+            order.CreationDate = DateTime.UtcNow;
             order.UserId = _currentUserService.Id;
 
             _dbContext.Orders.Add(order);
@@ -42,7 +42,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             var orderDetailsUrl = _urlHelper.GetOrderDetails(order.Id);
-            await _communicationContract.SendEmailAsync(_currentUserService.Email, "Order created", $"Your order {order.Id} created successfully. You can find order details using link {orderDetailsUrl}", order.Id);
+            await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, orderDetailsUrl, cancellationToken);
 
             return order.Id;
         }

@@ -1,4 +1,4 @@
-﻿namespace Shop.Framework.Interfaces.Services
+﻿namespace Shop.Framework.UseCases.Interfaces.Services
 {
     public interface ICurrentUserService
     {

@@ -1,12 +1,8 @@
-﻿using System.Threading.Tasks;
-using Shop.Order.Contract.Dto;
-
-namespace Shop.Order.Contract
+﻿namespace Shop.Order.Contract
 {
+    //Only for other modules, but not for controllers
     public interface IOrderContract
     {
-        Task<int> CreateOrderAsync(CreateOrderDto createOrderDto);
-
-        Task<OrderDto> GetOrderAsync(int orderId);
+        
     }
 }

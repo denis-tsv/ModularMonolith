@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Framework.Implementation.Services;
-using Shop.Framework.Interfaces.Services;
+using Shop.Framework.UseCases.Implementation.Services;
+using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Utils.Modules;
 using IMvcUrlHelper = Microsoft.AspNetCore.Mvc.IUrlHelper;
 
-namespace Shop.Framework.Implementation
+namespace Shop.Framework.UseCases.Implementation
 {
     public class FrameworkModule : Module
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Shop.Framework.Interfaces.Services;
+using Shop.Framework.UseCases.Interfaces.Services;
 
-namespace Shop.Framework.Implementation.Services
+namespace Shop.Framework.UseCases.Implementation.Services
 {
     internal class CurrentUserService : ICurrentUserService
     {

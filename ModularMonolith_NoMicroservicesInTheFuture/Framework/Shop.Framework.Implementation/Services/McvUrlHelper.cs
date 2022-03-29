@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IMvcUrlHelper = Microsoft.AspNetCore.Mvc.IUrlHelper;
-using IUrlHelper = Shop.Framework.Interfaces.Services.IUrlHelper;
 
-namespace Shop.Framework.Implementation.Services
+namespace Shop.Framework.UseCases.Implementation.Services
 {
-    internal class McvUrlHelper : IUrlHelper
+    internal class McvUrlHelper : Interfaces.Services.IUrlHelper
     {
         private readonly IMvcUrlHelper _urlHelper;
 
@@ -15,7 +14,7 @@ namespace Shop.Framework.Implementation.Services
 
         public string GetOrderDetails(int orderId)
         {
-            return _urlHelper.Action("", "order", new object[] {orderId}, "http");
+            return _urlHelper.Action("", "orders", new object[] {orderId}, "http");
         }
     }
 }

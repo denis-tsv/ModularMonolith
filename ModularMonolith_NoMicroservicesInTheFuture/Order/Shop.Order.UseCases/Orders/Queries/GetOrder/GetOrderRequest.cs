@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Shop.Order.Contract.Dto;
+using Shop.Order.UseCases.Orders.Dto;
 
 namespace Shop.Order.UseCases.Orders.Queries.GetOrder
 {
-    internal class GetOrderRequest : IRequest<OrderDto>
+    internal class GetOrderRequest : IRequest<OrderDto>, IOrderRequest
     {
         public int Id { get; set; }
     }

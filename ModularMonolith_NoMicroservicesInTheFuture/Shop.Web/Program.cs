@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Shop.Web.BackgroundJobsConfig;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Shop.Communication.Infrastructure.Implementation.BackgroundJobs;
+using Shop.Communication.BackgroundJobs.BackgroundJobs;
 
 namespace Shop.Web
 {

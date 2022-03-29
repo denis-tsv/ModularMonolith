@@ -4,7 +4,7 @@ using FluentScheduler;
 using Shop.Communication.DataAccess.Interfaces;
 using Shop.Emails.Interfaces;
 
-namespace Shop.Communication.Infrastructure.Implementation.BackgroundJobs
+namespace Shop.Communication.BackgroundJobs.BackgroundJobs
 {
     internal class SendEmailsJob : IJob
     {
@@ -19,13 +19,13 @@ namespace Shop.Communication.Infrastructure.Implementation.BackgroundJobs
 
         public void Execute()
         {
-            foreach (var email in _dbContext.Emails.Where(x => !x.IsSend && x.Attempts < 3))
+            foreach (var email in _dbContext.Emails.Where(x => !x.IsSended && x.Attempts < 3))
             {
                 try
                 {
                     _emailService.SendEmailAsync(email.Address, email.Subject, email.Body).Wait();
 
-                    email.IsSend = true;
+                    email.IsSended = true;
                 }
                 catch (Exception ex)
                 {

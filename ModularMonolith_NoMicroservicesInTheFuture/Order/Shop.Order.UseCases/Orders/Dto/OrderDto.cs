@@ -1,6 +1,6 @@
-﻿namespace Shop.Order.Contract.Dto
+﻿namespace Shop.Order.UseCases.Orders.Dto
 {
-    public class OrderDto
+    internal class OrderDto
     {
         public int Id { get; set; }
 

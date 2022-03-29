@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Shop.Framework.Implementation;
+using Shop.Framework.UseCases.Implementation;
 using Shop.Order.DataAccess.Interfaces;
 
 namespace Shop.Order.DataAccess.MsSql

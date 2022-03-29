@@ -1,6 +1,6 @@
 ﻿using FluentScheduler;
 
-namespace Shop.Communication.Infrastructure.Implementation.BackgroundJobs
+namespace Shop.Communication.BackgroundJobs.BackgroundJobs
 {
     public class CommunicationJobRegistry : Registry
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Shop.Order.Contract.Dto;
 using Shop.Order.Entities;
+using Shop.Order.UseCases.Orders.Dto;
 
 namespace Shop.Order.UseCases.Orders.Mappings
 {

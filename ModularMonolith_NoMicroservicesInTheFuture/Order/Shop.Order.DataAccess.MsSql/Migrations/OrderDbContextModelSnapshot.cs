@@ -3,10 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Shop.Order.DataAccess.MsSql;
 
-namespace Shop.Order.DataAccess.MsSql.Migrations
+    namespace Shop.Order.DataAccess.MsSql.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
     partial class OrderDbContextModelSnapshot : ModelSnapshot

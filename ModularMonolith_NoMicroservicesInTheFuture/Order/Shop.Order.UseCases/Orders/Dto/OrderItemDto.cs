@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shop.Order.Contract.Dto
+namespace Shop.Order.UseCases.Orders.Dto
 {
-    public class OrderItemDto
+    internal class OrderItemDto
     {
         public int ProductId { get; set; }
 

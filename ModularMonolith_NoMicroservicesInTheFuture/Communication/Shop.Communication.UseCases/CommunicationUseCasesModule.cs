@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Communication.UseCases.Emails.Commands.SendEmail;
+using Shop.Communication.UseCases.Emails.Queries.GetEmails;
 using Shop.Utils.Modules;
 
 namespace Shop.Communication.UseCases
