@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Shop.Communication.Contract;
 using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.DataAccess.Interfaces;
 
@@ -13,18 +12,15 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
     {
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly ICommunicationContract _communicationContract;
         private readonly ICurrentUserService _currentUserService;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
-            ICommunicationContract communicationContract,
             ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _communicationContract = communicationContract;
             _currentUserService = currentUserService;
         }
 
@@ -37,22 +33,6 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             _dbContext.Orders.Add(order);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-
-            try
-            {
-                await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, cancellationToken);
-            }
-            catch (Exception e) //Compensation
-            {
-                //log exception
-
-                _dbContext.Orders.Remove(order);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-
-                throw;
-            }
-
-            
 
             return order.Id;
         }
