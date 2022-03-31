@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.DataAccess.Interfaces;
 using Shop.Utils.Modules;
 
@@ -12,8 +12,7 @@ namespace Shop.Order.DataAccess.MsSql
         {
             services.AddDbContext<IOrderDbContext, OrderDbContext>((sp, bld) =>
             {
-                var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
             });
         }
     }

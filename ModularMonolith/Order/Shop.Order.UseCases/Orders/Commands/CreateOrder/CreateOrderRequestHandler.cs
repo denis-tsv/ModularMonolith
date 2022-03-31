@@ -38,7 +38,21 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, cancellationToken);
+            try
+            {
+                await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, cancellationToken);
+            }
+            catch (Exception e) //Compensation
+            {
+                //log exception
+
+                _dbContext.Orders.Remove(order);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                throw;
+            }
+
+            
 
             return order.Id;
         }
