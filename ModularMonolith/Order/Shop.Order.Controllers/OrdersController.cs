@@ -1,10 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Order.UseCases.Orders.Dto;
 using Shop.Order.UseCases.Orders.Queries.GetOrder;
+using Shop.Order.UseCases.Orders.Sagas;
 
 namespace Shop.Order.Controllers
 {
@@ -28,9 +29,12 @@ namespace Shop.Order.Controllers
 
         // POST api/orders
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken token)
+        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken token, [FromServices] CreateOrderSaga saga)
         {
-            return await _mediator.Send(new CreateOrderRequest { CreateOrderDto = createOrderDto }, token);
+            saga.Start(createOrderDto);
+            var orderId = saga.GetResult();
+            if (orderId == null) throw new Exception("Unable to create order");
+            return orderId;
         }
     }
 }
