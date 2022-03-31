@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
-using Shop.Utils.Modules;
 using Shop.Web.Utils;
 using Microsoft.Extensions.Hosting;
 using Shop.Communication.BackgroundJobs;
@@ -17,6 +16,7 @@ using Shop.Communication.DataAccess.MsSql;
 using Shop.Order.Contract.Implementation;
 using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
+using Shop.Emails.Interfaces;
 using Shop.Framework.UseCases.Implementation;
 
 namespace Shop.Web
@@ -41,40 +41,35 @@ namespace Shop.Web
             services.AddControllers()
                 .ConfigureApplicationPartManager(manager => manager.FeatureProviders.Add(new InternalControllerFeatureProvider()));
 
-            services.RegisterModule<FrameworkModule>(Configuration);
-            services.RegisterModule<EmailModule>(Configuration);
-
-#if !DB_TRANSACTION
-            services.RegisterModule<CommunicationDataAccessModule>(Configuration);
-            services.RegisterModule<OrderDataAccessModule>(Configuration);
-#endif
-            services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
-            services.RegisterModule<CommunicationContractModule>(Configuration);
-            services.RegisterModule<CommunicationUseCasesModule>(Configuration);
-
-            services.RegisterModule<OrderContractModule>(Configuration);
-            services.RegisterModule<OrderUseCasesModule>(Configuration);
+            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
 
             var sp = services.BuildServiceProvider();
 
             var requests = sp.GetServices<IBaseRequest>();
+            //MediatR works when AddMediatR calls in each module
             services.AddMediatR(requests.Select(x => x.GetType()).ToArray());
 
             var profiles = sp.GetServices<Profile>();
-            //not works when profiles registered in other modules
+            //AutoMapper not works when AddAutoMapper calls in each module
             services.AddAutoMapper(profiles.Select(x => x.GetType()).ToArray());
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-#if DB_TRANSACTION
             builder.RegisterGeneric(typeof(DbTransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             
-            builder.RegisterModule<CommunicationDataAccessAutofacModule>();
-            builder.RegisterModule<OrderDataAccessAutofacModule>();
-#else
-            builder.RegisterGeneric(typeof(TransactionScopePipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-#endif
+            builder.RegisterModule<CommunicationDataAccessModule>();
+            builder.RegisterModule<OrderDataAccessModule>();
+
+            builder.RegisterModule<FrameworkModule>();
+            builder.RegisterModule<EmailModule>();
+
+            builder.RegisterModule<CommunicationInfrastructureModule>();
+            builder.RegisterModule<CommunicationContractModule>();
+            builder.RegisterModule<CommunicationUseCasesModule>();
+
+            builder.RegisterModule<OrderContractModule>();
+            builder.RegisterModule<OrderUseCasesModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,22 +1,17 @@
-﻿using AutoMapper;
+﻿using Autofac;
+using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Shop.Communication.UseCases.Emails.Mappings;
 using Shop.Communication.UseCases.Emails.Queries.GetEmails;
-using Shop.Utils.Modules;
 
 namespace Shop.Communication.UseCases
 {
     public class CommunicationUseCasesModule : Module
     {
-        public override void Load(IServiceCollection services)
+        protected override void Load(ContainerBuilder builder)
         {
-            services.AddTransient<Profile, EmailsAutoMapperProfile>();
-
-            services.AddTransient<IBaseRequest, GetEmailsRequest>();
-
-            //works fine when registered in other modules
-            //services.AddMediatR(typeof(GetEmailsRequestHandler));
+            builder.RegisterType<EmailsAutoMapperProfile>().As<Profile>().InstancePerDependency();
+            builder.RegisterType<GetEmailsRequest>().As<IBaseRequest>().InstancePerDependency();
         }
     }
 }

@@ -17,13 +17,13 @@ namespace Shop.Communication.Contract.Implementation
             _currentUserService = currentUserService;
         }
 
-        public async Task ScheduleOrderCreatedEmailAsync(string email, int orderId, string orderDetailsUrl, CancellationToken cancellationToken)
+        public async Task ScheduleOrderCreatedEmailAsync(string email, int orderId, CancellationToken cancellationToken)
         {
             var mail = new Email
             {
                 Address = email,
                 Subject = "Order created",
-                Body = $"Your order {orderId} created successfully. You can find order details using link {orderDetailsUrl}",
+                Body = $"Your order {orderId} created successfully",
                 OrderId = orderId,
                 UserId = _currentUserService.Id
             };

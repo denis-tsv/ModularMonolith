@@ -1,13 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Shop.Utils.Modules;
+﻿using Autofac;
 
 namespace Shop.Communication.Contract.Implementation
 {
     public class CommunicationContractModule : Module
     {
-        public override void Load(IServiceCollection services)
+        protected override void Load(ContainerBuilder builder)
         {
-            services.AddScoped<ICommunicationContract, CommunicationContract>();
+            builder.RegisterType<CommunicationContract>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
     }
 }

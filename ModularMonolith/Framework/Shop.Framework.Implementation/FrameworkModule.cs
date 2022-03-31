@@ -1,29 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
+﻿using Autofac;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.UseCases.Implementation.Services;
-using Shop.Framework.UseCases.Interfaces.Services;
-using Shop.Utils.Modules;
-using IMvcUrlHelper = Microsoft.AspNetCore.Mvc.IUrlHelper;
 
 namespace Shop.Framework.UseCases.Implementation
 {
     public class FrameworkModule : Module
     {
-        public override void Load(IServiceCollection services)
+        protected override void Load(ContainerBuilder builder)
         {
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddScoped<IUrlHelper, McvUrlHelper>();
-            services.AddScoped<IConnectionFactory, ConnectionFactory>(factory => new ConnectionFactory(Configuration.GetConnectionString("MsSqlConnection")));
+            builder.RegisterType<CurrentUserService>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.AddScoped<IMvcUrlHelper>(serviceProvider =>
+            builder.RegisterType<ActionContextAccessor>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.Register(c =>
             {
-                var actionContext = serviceProvider.GetRequiredService<IActionContextAccessor>().ActionContext;
-                var factory = serviceProvider.GetRequiredService<IUrlHelperFactory>();
-                return factory.GetUrlHelper(actionContext);
-            });
+                var configuration = c.Resolve<IConfiguration>();
+                var connectionString = configuration.GetConnectionString("MsSqlConnection");
+                return new ConnectionFactory(connectionString);
+            }).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Communication.Contract\Shop.Communication.Contract.csproj" />
     <ProjectReference Include="..\Shop.Communication.UseCases\Shop.Communication.UseCases.csproj" />

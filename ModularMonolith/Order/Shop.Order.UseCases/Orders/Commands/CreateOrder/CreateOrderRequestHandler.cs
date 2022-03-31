@@ -15,20 +15,17 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         private readonly IMapper _mapper;
         private readonly ICommunicationContract _communicationContract;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IUrlHelper _urlHelper;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
             ICommunicationContract communicationContract,
-            ICurrentUserService currentUserService,
-            IUrlHelper urlHelper)
+            ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _communicationContract = communicationContract;
             _currentUserService = currentUserService;
-            _urlHelper = urlHelper;
         }
 
         public async Task<int> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -41,8 +38,7 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var orderDetailsUrl = _urlHelper.GetOrderDetails(order.Id);
-            await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, orderDetailsUrl, cancellationToken);
+            await _communicationContract.ScheduleOrderCreatedEmailAsync(_currentUserService.Email, order.Id, cancellationToken);
 
             return order.Id;
         }

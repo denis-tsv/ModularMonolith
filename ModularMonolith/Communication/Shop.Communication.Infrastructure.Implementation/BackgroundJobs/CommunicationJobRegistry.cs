@@ -2,7 +2,7 @@
 
 namespace Shop.Communication.BackgroundJobs.BackgroundJobs
 {
-    public class CommunicationJobRegistry : Registry
+    internal class CommunicationJobRegistry : Registry
     {
         public CommunicationJobRegistry()
         {
