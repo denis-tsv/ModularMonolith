@@ -1,8 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
-using Autofac;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -19,8 +16,8 @@ using Shop.Communication.DataAccess.MsSql;
 using Shop.Order.Contract.Implementation;
 using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
-using Shop.Emails.Interfaces;
 using Shop.Framework.UseCases.Implementation;
+using Shop.Utils.Modules;
 
 namespace Shop.Web
 {
@@ -33,8 +30,6 @@ namespace Shop.Web
 
         public IConfiguration Configuration { get; }
 
-        public ILifetimeScope AutofacContainer { get; private set; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
@@ -44,36 +39,30 @@ namespace Shop.Web
             services.AddControllers()
                 .ConfigureApplicationPartManager(manager => manager.FeatureProviders.Add(new InternalControllerFeatureProvider()));
 
-            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
+            services.RegisterModule<CommunicationDataAccessModule>(Configuration);
+            services.RegisterModule<OrderDataAccessModule>(Configuration);
 
-            var location = Assembly.GetExecutingAssembly().Location;
-            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*UseCases.dll")
-                .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
-                .ToArray();
-            
-            //Autofac ContainerBuilder allows to build container only once
+            services.RegisterModule<FrameworkModule>(Configuration);
+            services.RegisterModule<EmailModule>(Configuration);
 
-            services.AddMediatR(assemblies);
+            services.RegisterModule<CommunicationInfrastructureModule>(Configuration);
+            services.RegisterModule<CommunicationContractModule>(Configuration);
+            services.RegisterModule<CommunicationUseCasesModule>(Configuration);
 
-            services.AddAutoMapper(assemblies);
-        }
+            services.RegisterModule<OrderContractModule>(Configuration);
+            services.RegisterModule<OrderUseCasesModule>(Configuration);
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterGeneric(typeof(DbTransactionPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            
-            builder.RegisterModule<CommunicationDataAccessModule>();
-            builder.RegisterModule<OrderDataAccessModule>();
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionScopePipelineBehavior<,>));
 
-            builder.RegisterModule<FrameworkModule>();
-            builder.RegisterModule<EmailModule>();
+            var sp = services.BuildServiceProvider();
 
-            builder.RegisterModule<CommunicationInfrastructureModule>();
-            builder.RegisterModule<CommunicationContractModule>();
-            builder.RegisterModule<CommunicationUseCasesModule>();
+            var requests = sp.GetServices<IBaseRequest>();
+            //MediatR works when AddMediatR calls in each module
+            services.AddMediatR(requests.Select(x => x.GetType()).ToArray());
 
-            builder.RegisterModule<OrderContractModule>();
-            builder.RegisterModule<OrderUseCasesModule>();
+            var profiles = sp.GetServices<Profile>();
+            //AutoMapper not works when AddAutoMapper calls in each module
+            services.AddAutoMapper(profiles.Select(x => x.GetType()).ToArray());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

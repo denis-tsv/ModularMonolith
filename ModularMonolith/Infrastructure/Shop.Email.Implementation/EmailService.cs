@@ -6,7 +6,7 @@ using Shop.Emails.Interfaces;
 
 namespace Shop.Emails.Implementation
 {
-    public class EmailService : IEmailService
+    internal class EmailService : IEmailService
     {
         private readonly EmailOptions _emailOptions;
         private readonly SmtpClient _client;
