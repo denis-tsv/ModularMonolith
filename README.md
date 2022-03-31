@@ -1,5 +1,5 @@
 # ModularMonolith
-Modular monolith sample. Before first run of sample:
-1. Build solution
-2. Run update-database.ps1 script to create database structure
-3. Run CreateUsers.sql script to create a user for each module
+Modular monolith sample. 
+
+Master branch contains version based on Autofac DI container, db transactions, Assembly.Load for MediatR and AutoMapper.
+Run CreateDatabase.sql to start application.
