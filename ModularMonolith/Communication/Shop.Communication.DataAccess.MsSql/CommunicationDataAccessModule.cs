@@ -1,14 +1,20 @@
-﻿using Autofac;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shop.Communication.DataAccess.Interfaces;
-using Shop.Framework.UseCases.Implementation;
+using Shop.Framework.UseCases.Interfaces.Services;
+using Shop.Utils.Modules;
 
 namespace Shop.Communication.DataAccess.MsSql
 {
     public class CommunicationDataAccessModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        public override void Load(IServiceCollection services)
         {
-            builder.AddDbContext<ICommunicationDbContext, CommunicationDbContext>();
+            services.AddDbContext<ICommunicationDbContext, CommunicationDbContext>((sp, bld) =>
+            {
+                var factory = sp.GetRequiredService<IConnectionFactory>();
+                bld.UseSqlServer(factory.GetConnection());
+            });
         }
     }
 }

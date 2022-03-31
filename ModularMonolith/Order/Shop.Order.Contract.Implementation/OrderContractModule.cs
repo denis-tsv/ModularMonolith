@@ -1,12 +1,13 @@
-﻿using Autofac;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shop.Utils.Modules;
 
 namespace Shop.Order.Contract.Implementation
 {
     public class OrderContractModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        public override void Load(IServiceCollection services)
         {
-            builder.RegisterType<OrderContract>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            services.AddScoped<IOrderContract, OrderContract>();
         }
     }
 }

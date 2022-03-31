@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Web.BackgroundJobsConfig;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Shop.Web
@@ -29,7 +28,6 @@ namespace Shop.Web
 
         public static IHostBuilder CreateWebHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

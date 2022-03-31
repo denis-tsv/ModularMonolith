@@ -1,12 +1,16 @@
-﻿using Autofac;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shop.Emails.Interfaces;
+using Shop.Utils.Modules;
 
 namespace Shop.Emails.Implementation
 {
     public class EmailModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        public override void Load(IServiceCollection services)
         {
-            builder.RegisterType<EmailService>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            services.AddScoped<IEmailService, EmailService>();
+
+            services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
         }
     }
 }

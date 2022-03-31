@@ -1,18 +1,17 @@
-﻿using Autofac;
-using FluentScheduler;
+﻿using FluentScheduler;
+using Microsoft.Extensions.DependencyInjection;
 using Shop.Communication.BackgroundJobs.BackgroundJobs;
+using Shop.Utils.Modules;
 
 namespace Shop.Communication.BackgroundJobs
 {
     public class CommunicationInfrastructureModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        public override void Load(IServiceCollection services)
         {
-            builder.RegisterType<SendEmailsJob>().InstancePerDependency();
+            services.AddTransient<SendEmailsJob>();
 
-            builder.RegisterType<CommunicationJobRegistry>()
-                .As<Registry>()
-                .InstancePerDependency();
+            services.AddTransient<Registry, CommunicationJobRegistry> ();
         }
     }
 }

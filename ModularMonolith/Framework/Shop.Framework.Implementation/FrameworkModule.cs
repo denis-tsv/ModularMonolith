@@ -1,23 +1,20 @@
-﻿using Autofac;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.UseCases.Implementation.Services;
+using Shop.Framework.UseCases.Interfaces.Services;
+using Shop.Utils.Modules;
 
 namespace Shop.Framework.UseCases.Implementation
 {
     public class FrameworkModule : Module
     {
-        protected override void Load(ContainerBuilder builder)
+        public override void Load(IServiceCollection services)
         {
-            builder.RegisterType<CurrentUserService>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IConnectionFactory, ConnectionFactory>(factory => new ConnectionFactory(Configuration.GetConnectionString("MsSqlConnection")));
 
-            builder.RegisterType<ActionContextAccessor>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.Register(c =>
-            {
-                var configuration = c.Resolve<IConfiguration>();
-                var connectionString = configuration.GetConnectionString("MsSqlConnection");
-                return new ConnectionFactory(connectionString);
-            }).AsImplementedInterfaces().InstancePerLifetimeScope();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
     }
 }

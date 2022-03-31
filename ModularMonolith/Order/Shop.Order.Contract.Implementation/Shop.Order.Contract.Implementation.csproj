@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="Autofac" Version="6.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
     <ProjectReference Include="..\Shop.Order.Contract\Shop.Order.Contract.csproj" />
     <ProjectReference Include="..\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
