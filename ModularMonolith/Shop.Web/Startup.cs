@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using Autofac;
 using AutoMapper;
 using MediatR;
@@ -43,15 +46,16 @@ namespace Shop.Web
 
             services.Configure<EmailOptions>(Configuration.GetSection("EmailOptions"));
 
-            var sp = services.BuildServiceProvider();
+            var location = Assembly.GetExecutingAssembly().Location;
+            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*UseCases.dll")
+                .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
+                .ToArray();
+            
+            //Autofac ContainerBuilder allows to build container only once
 
-            var requests = sp.GetServices<IBaseRequest>();
-            //MediatR works when AddMediatR calls in each module
-            services.AddMediatR(requests.Select(x => x.GetType()).ToArray());
+            services.AddMediatR(assemblies);
 
-            var profiles = sp.GetServices<Profile>();
-            //AutoMapper not works when AddAutoMapper calls in each module
-            services.AddAutoMapper(profiles.Select(x => x.GetType()).ToArray());
+            services.AddAutoMapper(assemblies);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
