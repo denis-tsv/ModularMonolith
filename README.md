@@ -1,5 +1,6 @@
 # ModularMonolith
 Modular monolith sample. 
+Run CreateDatabase.sql to start application.
 
 Master branch contains version based db transactions, Assembly.Load for MediatR and AutoMapper.
 Run CreateDatabase.sql to start application.
