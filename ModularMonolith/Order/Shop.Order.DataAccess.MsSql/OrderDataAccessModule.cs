@@ -10,10 +10,20 @@ namespace Shop.Order.DataAccess.MsSql
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddDbContext<IOrderDbContext, OrderDbContext>((sp, bld) =>
+            services.AddDbContext<OrderDbContext>((sp, bld) =>
             {
                 var factory = sp.GetRequiredService<IConnectionFactory>();
                 bld.UseSqlServer(factory.GetConnection());
+            });
+
+            services.AddScoped<IOrderDbContext>(sp =>
+            {
+                var context = sp.GetRequiredService<OrderDbContext>();
+                var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
+
+                context.Database.UseTransaction(connectionFactory.GetTransaction());
+
+                return context;
             });
         }
     }

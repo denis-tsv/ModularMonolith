@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
-using AutoMapper;
+using System.Reflection;
+using System.Runtime.Loader;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,17 +53,16 @@ namespace Shop.Web
             services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionScopePipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
 
-            var sp = services.BuildServiceProvider();
+            var location = Assembly.GetExecutingAssembly().Location;
+            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*UseCases.dll")
+                .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
+                .ToArray();
 
-            var requests = sp.GetServices<IBaseRequest>();
-            //MediatR works when AddMediatR calls in each module
-            services.AddMediatR(requests.Select(x => x.GetType()).ToArray());
+            services.AddMediatR(assemblies);
 
-            var profiles = sp.GetServices<Profile>();
-            //AutoMapper not works when AddAutoMapper calls in each module
-            services.AddAutoMapper(profiles.Select(x => x.GetType()).ToArray());
+            services.AddAutoMapper(assemblies);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
