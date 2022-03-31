@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Shop.Framework.Implementation\Shop.Framework.UseCases.Implementation.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Order.Entities\Shop.Order.Entities.csproj" />
+    <ProjectReference Include="..\Shop.Order.Infrastructure.Interfaces\Shop.Order.DataAccess.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

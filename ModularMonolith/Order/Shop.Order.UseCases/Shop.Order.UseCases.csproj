@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Autofac" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Communication\Shop.Communication.Contract\Shop.Communication.Contract.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Framework.Interfaces\Shop.Framework.UseCases.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Framework\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Shop.Order.Contract\Shop.Order.Contract.csproj" />
+    <ProjectReference Include="..\Shop.Order.Entities\Shop.Order.Entities.csproj" />
+    <ProjectReference Include="..\Shop.Order.Infrastructure.Interfaces\Shop.Order.DataAccess.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

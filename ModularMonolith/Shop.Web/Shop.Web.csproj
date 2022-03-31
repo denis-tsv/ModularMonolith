@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="FluentScheduler" Version="5.5.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Communication\Shop.Communication.Contract.Implementation\Shop.Communication.Contract.Implementation.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.Controllers\Shop.Communication.Controllers.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.DataAccess.MsSql\Shop.Communication.DataAccess.MsSql.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.Infrastructure.Implementation\Shop.Communication.BackgroundJobs.csproj" />
+    <ProjectReference Include="..\Communication\Shop.Communication.UseCases\Shop.Communication.UseCases.csproj" />
+    <ProjectReference Include="..\Framework\Shop.Framework.Implementation\Shop.Framework.UseCases.Implementation.csproj" />
+    <ProjectReference Include="..\Framework\Shop.Utils\Shop.Utils.csproj" />
+    <ProjectReference Include="..\Infrastructure\Shop.Email.Implementation\Shop.Emails.Implementation.csproj" />
+    <ProjectReference Include="..\Order\Shop.Order.Contract.Implementation\Shop.Order.Contract.Implementation.csproj" />
+    <ProjectReference Include="..\Order\Shop.Order.Controllers\Shop.Order.Controllers.csproj" />
+    <ProjectReference Include="..\Order\Shop.Order.DataAccess.MsSql\Shop.Order.DataAccess.MsSql.csproj" />
+    <ProjectReference Include="..\Order\Shop.Order.UseCases\Shop.Order.UseCases.csproj" />
+  </ItemGroup>
+
+</Project>
