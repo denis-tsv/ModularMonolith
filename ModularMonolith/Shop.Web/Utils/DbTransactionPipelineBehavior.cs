@@ -7,7 +7,7 @@ using Shop.Framework.UseCases.Interfaces.Transactions;
 namespace Shop.Web.Utils
 {
     public class DbTransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : ITransactionalRequest
+        where TRequest : IRequest<TResponse>, ITransactionalRequest
     {
         private readonly IConnectionFactory _connectionFactory;
         public DbTransactionPipelineBehavior(IConnectionFactory connectionFactory)
