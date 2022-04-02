@@ -18,6 +18,6 @@ DistributedTransactions branch based on master and used TransactionScope instead
 
 TransactionScope-ConnectionString-Direct branch based on DistributedTransactions and used connection string instead of connection for DbContect creation ([diff](https://github.com/denis-tsv/ModularMonolith/pull/9/files)).
 
-Compensation branch based on DistributedTransactions and used compensation instead of transactions ([difference from DistributedTransactions](https://github.com/denis-tsv/ModularMonolith/pull/3/files)). 
+Compensation branch based on DistributedTransactions and used compensation instead of transactions ([diff](https://github.com/denis-tsv/ModularMonolith/pull/3/files)). 
 
-Saga branch based on Compensation and used state machine instead of compensation ([difference from Compensation](https://github.com/denis-tsv/ModularMonolith/pull/4/files)). 
+Saga branch based on Compensation and used state machine instead of compensation ([diff](https://github.com/denis-tsv/ModularMonolith/pull/4/files)). 
