@@ -17,7 +17,6 @@ using Shop.Communication.Entities;
 using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
-using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.Contract.Implementation;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
@@ -38,7 +37,7 @@ namespace Shop.Tests.Unit
             var (connectionString, configuration) = CreateConfiguration();
 
             var services = CreateServiceProvider(configuration);
-            services.RegisterModule<CommunicationDataAccessModule>(configuration);
+            
             var serviceProvider = services.BuildServiceProvider();
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
@@ -66,22 +65,8 @@ namespace Shop.Tests.Unit
             var (connectionString, configuration) = CreateConfiguration();
 
             var services = CreateServiceProvider(configuration);
-            services.AddDbContext<CommunicationDbContext>((sp, bld) =>
-            {
-                var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
-            });
-            services.AddScoped<ICommunicationDbContext>(sp =>
-            {
-                var context = sp.GetRequiredService<CommunicationDbContext>();
-                var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
+            services.Decorate<ICommunicationDbContext, TestCommunicationDbContext>();
 
-                context.Database.UseTransaction(connectionFactory.GetTransaction());
-
-                var testContext = new TestCommunicationDbContext(context);
-
-                return testContext;
-            });
             var serviceProvider = services.BuildServiceProvider();
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
@@ -106,7 +91,7 @@ namespace Shop.Tests.Unit
         {
             private readonly ICommunicationDbContext _context;
 
-            public TestCommunicationDbContext(CommunicationDbContext context)
+            public TestCommunicationDbContext(ICommunicationDbContext context)
             {
                 _context = context;
             }
@@ -157,6 +142,7 @@ namespace Shop.Tests.Unit
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
 
+            services.RegisterModule<CommunicationDataAccessModule>(configuration);
             services.RegisterModule<OrderDataAccessModule>(configuration);
 
             services.RegisterModule<FrameworkModule>(configuration);
