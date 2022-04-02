@@ -1,17 +1,18 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using MediatR;
 using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Framework.UseCases.Interfaces.Transactions;
 
 namespace Shop.Web.Utils
 {
-    public class DbTransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class CommitableTransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>, ITransactionalRequest
     {
         private readonly IConnectionFactory _connectionFactory;
         
-        public DbTransactionPipelineBehavior(IConnectionFactory connectionFactory)
+        public CommitableTransactionPipelineBehavior(IConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
@@ -23,12 +24,14 @@ namespace Shop.Web.Utils
                 return await next();
             }
 
-            await using var connection = _connectionFactory.GetConnection();
-            await using var transaction = _connectionFactory.GetTransaction();
+            using var transaction = new CommittableTransaction(
+                new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted });
+
+            _connectionFactory.SetTransaction(transaction);
 
             var result = await next();
 
-            await transaction.CommitAsync(cancellationToken);
+            transaction.Commit();
 
             return result;
         }

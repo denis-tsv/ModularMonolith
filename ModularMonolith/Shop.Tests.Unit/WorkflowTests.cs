@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -76,7 +77,7 @@ namespace Shop.Tests.Unit
                 var context = sp.GetRequiredService<CommunicationDbContext>();
                 var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
 
-                context.Database.UseTransaction(connectionFactory.GetTransaction());
+                context.Database.EnlistTransaction(connectionFactory.GetTransaction());
 
                 var testContext = new TestCommunicationDbContext(context);
 
@@ -155,7 +156,7 @@ namespace Shop.Tests.Unit
             services.AddMediatR(assemblies);
             services.AddAutoMapper(assemblies);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommitableTransactionPipelineBehavior<,>));
 
             services.RegisterModule<OrderDataAccessModule>(configuration);
 

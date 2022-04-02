@@ -1,4 +1,6 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
+using System.Transactions;
 using Microsoft.Data.SqlClient;
 using Shop.Framework.UseCases.Interfaces.Services;
 
@@ -12,7 +14,7 @@ namespace Shop.Framework.UseCases.Implementation.Services
         }
 
         private DbConnection _connection;
-        private DbTransaction _transaction;
+        private Transaction _transaction;
         private readonly string _connectionString;
 
         public DbConnection GetConnection()
@@ -25,9 +27,14 @@ namespace Shop.Framework.UseCases.Implementation.Services
             return _connection;
         }
 
-        public DbTransaction GetTransaction()
+        public Transaction GetTransaction()
         {
-            return _transaction ??= GetConnection().BeginTransaction();
+            return _transaction ?? throw new InvalidOperationException("Transaction not initialized");
+        }
+
+        public void SetTransaction(Transaction transaction)
+        {
+            _transaction = transaction;
         }
 
         public bool IsConnectionOpened => _connection != null;

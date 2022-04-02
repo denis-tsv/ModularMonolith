@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Transactions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.DataAccess.Interfaces;
@@ -21,7 +22,7 @@ namespace Shop.Order.DataAccess.MsSql
                 var context = sp.GetRequiredService<OrderDbContext>();
                 var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
 
-                context.Database.UseTransaction(connectionFactory.GetTransaction());
+                context.Database.EnlistTransaction(connectionFactory.GetTransaction());
 
                 return context;
             });
