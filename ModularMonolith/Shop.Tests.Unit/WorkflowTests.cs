@@ -68,8 +68,7 @@ namespace Shop.Tests.Unit
             var services = CreateServiceProvider(configuration);
             services.AddDbContext<CommunicationDbContext>((sp, bld) =>
             {
-                var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(configuration.GetConnectionString("MsSqlConnection"));
             });
             services.AddScoped<ICommunicationDbContext>(sp =>
             {
