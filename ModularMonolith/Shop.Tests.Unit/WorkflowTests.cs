@@ -74,9 +74,6 @@ namespace Shop.Tests.Unit
             services.AddScoped<ICommunicationDbContext>(sp =>
             {
                 var context = sp.GetRequiredService<CommunicationDbContext>();
-                var connectionFactory = sp.GetRequiredService<IConnectionFactory>();
-
-                context.Database.UseTransaction(connectionFactory.GetTransaction());
 
                 var testContext = new TestCommunicationDbContext(context);
 
@@ -155,7 +152,7 @@ namespace Shop.Tests.Unit
             services.AddMediatR(assemblies);
             services.AddAutoMapper(assemblies);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionScopePipelineBehavior<,>));
 
             services.RegisterModule<OrderDataAccessModule>(configuration);
 
