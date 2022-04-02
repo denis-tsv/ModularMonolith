@@ -17,14 +17,13 @@ using Shop.Communication.Entities;
 using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
-using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.Contract.Implementation;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
 using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Order.UseCases.Orders.Dto;
+using Shop.Order.UseCases.Orders.Sagas;
 using Shop.Utils.Modules;
-using Shop.Web.Utils;
 using Xunit;
 
 namespace Shop.Tests.Unit
@@ -43,13 +42,17 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
             
-            var sender = serviceProvider.GetRequiredService<ISender>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
-            
+
+            var saga = serviceProvider.GetRequiredService<CreateOrderSaga>();
+
             //act
-            var orderId = await sender.Send(new CreateOrderRequest { CreateOrderDto = dto });
+            saga.Start(dto);
+            var orderId = saga.GetResult();
 
             //assert
+            Assert.NotNull(orderId);
+
             var order = await orderDbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
             var email = await communicationDbContext.Emails.FirstOrDefaultAsync(x => x.OrderId == orderId);
             
@@ -82,13 +85,17 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
 
-            var sender = serviceProvider.GetRequiredService<ISender>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
 
+            var saga = serviceProvider.GetRequiredService<CreateOrderSaga>();
+
             //act
-            await Assert.ThrowsAsync<Exception>(() => sender.Send(new CreateOrderRequest { CreateOrderDto = dto }));
+            saga.Start(dto);
+            var orderId = saga.GetResult();
 
             //assert
+            Assert.Null(orderId);
+
             var ordersCount = await orderDbContext.Orders.CountAsync();
             var emailsCount = await communicationDbContext.Emails.CountAsync();
 
