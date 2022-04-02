@@ -66,18 +66,15 @@ namespace Shop.Tests.Unit
             var (connectionString, configuration) = CreateConfiguration();
 
             var services = CreateServiceProvider(configuration);
+            //TODO Decorator doesn't work
+            //services.RegisterModule<CommunicationDataAccessModule>(configuration);
+            //services.Decorate<ICommunicationDbContext, TestCommunicationDbContext>();
             services.AddDbContext<CommunicationDbContext>((sp, bld) =>
             {
                 bld.UseSqlServer(configuration.GetConnectionString("MsSqlConnection"));
             });
-            services.AddScoped<ICommunicationDbContext>(sp =>
-            {
-                var context = sp.GetRequiredService<CommunicationDbContext>();
+            services.AddScoped<ICommunicationDbContext, TestCommunicationDbContext>();
 
-                var testContext = new TestCommunicationDbContext(context);
-
-                return testContext;
-            });
             var serviceProvider = services.BuildServiceProvider();
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
