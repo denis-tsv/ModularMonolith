@@ -7,7 +7,7 @@ namespace Shop.Framework.UseCases.Implementation.Services
     {
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
-            IsAuthenticated = httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+            IsAuthenticated = httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated == true;
             Id = 1;
             Email = "test@tets.com";
 

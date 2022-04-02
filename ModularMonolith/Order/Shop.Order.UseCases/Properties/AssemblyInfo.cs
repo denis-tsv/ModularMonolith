@@ -2,3 +2,4 @@
 
 [assembly: InternalsVisibleTo("Shop.Order.Controllers")]
 
+[assembly: InternalsVisibleTo("Shop.Tests.Unit")]

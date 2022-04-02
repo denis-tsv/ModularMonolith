@@ -14,7 +14,7 @@ namespace Shop.Tests.Unit
         {
             var wrongReferences = new List<(string From, string To)>
             {
-                ("UseCases", "DataAccess"),
+                ("UseCases", "DataAccess.MsSql"),
                 ("UseCases", "Infrastructure.Implementation"),
                 ("UseCases", "DomainServices.Implementation"),
 
@@ -58,19 +58,19 @@ namespace Shop.Tests.Unit
                 .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
                 .ToList();
 
-            for (int i = 0; i < modules.Count; i++)
+            foreach (var fromModule in modules)
             {
-                for (int j = 0; j < modules.Count; j++)
+                foreach (var toModule in modules)
                 {
-                    if (i == j) continue;
+                    if (fromModule == toModule) continue;
 
                     foreach (var assembly in assemblies)
                     {
                         foreach (var reference in assembly.GetReferencedAssemblies())
                         {
                             //not only reference, but real usage of class from other assembly
-                            Assert.False(assembly.FullName.Contains(modules[i]) && 
-                                         reference.FullName.Contains(modules[j]) && 
+                            Assert.False(assembly.FullName.Contains(fromModule) && 
+                                         reference.FullName.Contains(toModule) && 
                                          !reference.FullName.Contains("Contract"),
                                 $"Cross-context reference from '{assembly.FullName}' to '{reference.FullName}'");
                         }
