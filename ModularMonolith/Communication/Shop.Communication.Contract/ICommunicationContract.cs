@@ -5,6 +5,6 @@ namespace Shop.Communication.Contract
 {
     public interface ICommunicationContract
     {
-        Task ScheduleOrderCreatedEmailAsync(string email, int orderId, CancellationToken cancellationToken);
+        Task<int> GetOrderEmailsCountAsync(int orderId, CancellationToken cancellationToken);
     }
 }
