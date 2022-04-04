@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
+﻿using System.Linq;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -53,8 +50,6 @@ namespace Shop.Web
 
             services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionScopePipelineBehavior<,>));
 
             var sp = services.BuildServiceProvider();
 

@@ -38,7 +38,19 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _publisher.Publish(new OrderCreatedNotification(order.Id, _currentUserService.Id, _currentUserService.Email), cancellationToken);
+            try
+            {
+                await _publisher.Publish(new OrderCreatedNotification(order.Id, _currentUserService.Id, _currentUserService.Email), cancellationToken);
+            }
+            catch (Exception e) //Compensation
+            {
+                //log exception
+
+                _dbContext.Orders.Remove(order);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                throw;
+            }
 
             return order.Id;
         }
