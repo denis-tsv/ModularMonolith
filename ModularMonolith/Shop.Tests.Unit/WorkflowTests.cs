@@ -148,8 +148,6 @@ namespace Shop.Tests.Unit
             services.AddMediatR(assemblies);
             services.AddAutoMapper(assemblies);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionScopePipelineBehavior<,>));
-
             services.RegisterModule<OrderDataAccessModule>(configuration);
 
             services.RegisterModule<FrameworkModule>(configuration);
