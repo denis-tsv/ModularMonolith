@@ -12,9 +12,9 @@ namespace Shop.Web.Controllers
     internal class OrdersController : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken token, [FromServices]CreateOrderSaga saga)
+        public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken cancellationToken, [FromServices]CreateOrderSaga saga)
         {
-            saga.Start(createOrderDto);
+            await saga.Start(createOrderDto, cancellationToken);
             var orderId = saga.GetResult();
             if (orderId == null) throw new Exception("Unable to create order");
             return orderId;

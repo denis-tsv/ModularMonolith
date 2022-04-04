@@ -1,5 +1,7 @@
-﻿using Appccelerate.StateMachine;
-using Appccelerate.StateMachine.Machine;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Appccelerate.StateMachine;
+using Appccelerate.StateMachine.AsyncMachine;
 using MediatR;
 using Shop.Communication.UseCases.Emails.Commands.ScheduleEmail;
 using Shop.Framework.UseCases.Interfaces.Services;
@@ -13,8 +15,9 @@ namespace Shop.Web.Sagas
     {
         private readonly ISender _sender;
         private readonly ICurrentUserService _currentUserService;
-        private readonly PassiveStateMachine<States, Events> _machine;
+        private readonly AsyncPassiveStateMachine<States, Events> _machine;
         private CreateOrderDto _dto;
+        private CancellationToken _cancellationToken;
         private int _orderId;
         private bool _completed;
 
@@ -77,14 +80,15 @@ namespace Shop.Web.Sagas
             _machine = builder
                 .Build()
                 .CreatePassiveStateMachine();
-
-            _machine.Start();
         }
 
-        public void Start(CreateOrderDto dto)
+        public async Task Start(CreateOrderDto dto, CancellationToken cancellationToken)
         {
             _dto = dto;
-            _machine.Fire(Events.CreateOrder);
+            _cancellationToken = cancellationToken;
+
+            await _machine.Start();
+            await _machine.Fire(Events.CreateOrder);
         }
 
         public int? GetResult()
@@ -94,20 +98,20 @@ namespace Shop.Web.Sagas
             return null;
         }
 
-        private void OnCreateOrder()
+        private async Task OnCreateOrder()
         {
             try
             {
-                _orderId = _sender.Send(new CreateOrderRequest { CreateOrderDto = _dto }).GetAwaiter().GetResult();
-                _machine.Fire(Events.SendEmail);
+                _orderId = await _sender.Send(new CreateOrderRequest { CreateOrderDto = _dto }, _cancellationToken);
+                await _machine.Fire(Events.SendEmail);
             }
             catch
             {
-                _machine.Fire(Events.Failed);
+                await _machine.Fire(Events.Failed);
             }
         }
 
-        private void OnSendEmail()
+        private async Task OnSendEmail()
         {
             try
             {
@@ -119,18 +123,18 @@ namespace Shop.Web.Sagas
                     Subject = "Order created",
                     Body = $"Your order {_orderId} created successfully"
                 };
-                _sender.Send(scheduleEmailCommand).Wait();
-                _machine.Fire(Events.Completed);
+                await _sender.Send(scheduleEmailCommand, _cancellationToken);
+                await _machine.Fire(Events.Completed);
             }
             catch
             {
-                _machine.Fire(Events.Failed);
+                await _machine.Fire(Events.Failed);
             }
         }
 
-        private void DeleteOrder()
+        private async Task DeleteOrder()
         {
-            _sender.Send(new DeleteOrderCommand { Id = _orderId }).Wait();
+            await _sender.Send(new DeleteOrderCommand { Id = _orderId }, _cancellationToken);
         }
 
         private void OnCompleted()

@@ -45,7 +45,7 @@ namespace Shop.Tests.Unit
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
             
             //act
-            saga.Start(dto);
+            await saga.Start(dto, CancellationToken.None);
 
             //assert
             var orderId = saga.GetResult();
@@ -84,7 +84,7 @@ namespace Shop.Tests.Unit
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
 
             //act
-            saga.Start(dto);
+            await saga.Start(dto, CancellationToken.None);
 
             //assert
             var orderId = saga.GetResult();
