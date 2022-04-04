@@ -17,6 +17,7 @@ using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
 using Shop.Utils.Modules;
+using Shop.Web.Sagas;
 
 namespace Shop.Web
 {
@@ -50,6 +51,8 @@ namespace Shop.Web
 
             services.RegisterModule<OrderContractModule>(Configuration);
             services.RegisterModule<OrderUseCasesModule>(Configuration);
+
+            services.AddScoped<CreateOrderSaga>();
 
             var sp = services.BuildServiceProvider();
 
