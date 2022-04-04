@@ -14,8 +14,7 @@ namespace Shop.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromBody] CreateOrderDto createOrderDto, CancellationToken cancellationToken, [FromServices]CreateOrderSaga saga)
         {
-            await saga.Start(createOrderDto, cancellationToken);
-            var orderId = saga.GetResult();
+            var orderId = await saga.RunAsync(createOrderDto, cancellationToken);
             if (orderId == null) throw new Exception("Unable to create order");
             return orderId;
         }

@@ -45,10 +45,9 @@ namespace Shop.Tests.Unit
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
             
             //act
-            await saga.Start(dto, CancellationToken.None);
+            var orderId = await saga.RunAsync(dto, CancellationToken.None);
 
             //assert
-            var orderId = saga.GetResult();
             Assert.NotNull(orderId);
 
             var order = await orderDbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
@@ -84,10 +83,9 @@ namespace Shop.Tests.Unit
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
 
             //act
-            await saga.Start(dto, CancellationToken.None);
+            var orderId = await saga.RunAsync(dto, CancellationToken.None);
 
             //assert
-            var orderId = saga.GetResult();
             Assert.Null(orderId);
 
             var ordersCount = await orderDbContext.Orders.CountAsync();

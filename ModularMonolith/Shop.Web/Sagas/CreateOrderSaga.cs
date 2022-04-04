@@ -49,19 +49,19 @@ namespace Shop.Web.Sagas
                 .In(States.Initial)
                 .On(Events.CreateOrder)
                 .Goto(States.OrderCreated)
-                .Execute(OnCreateOrder);
+                .Execute(CreateOrderAsync);
 
             builder
                 .In(States.OrderCreated)
                 .On(Events.SendEmail)
                 .Goto(States.EmailSend)
-                .Execute(OnSendEmail);
+                .Execute(SendEmailAsync);
 
             builder
                 .In(States.EmailSend)
                 .On(Events.Completed)
                 .Goto(States.Completed)
-                .Execute(OnCompleted);
+                .Execute(Complete);
 
             builder
                 .In(States.OrderCreated)
@@ -72,7 +72,7 @@ namespace Shop.Web.Sagas
                 .In(States.EmailSend)
                 .On(Events.Failed)
                 .Goto(States.Failed)
-                .Execute(DeleteOrder);
+                .Execute(DeleteOrderAsync);
 
             builder
                 .WithInitialState(States.Initial);
@@ -82,23 +82,18 @@ namespace Shop.Web.Sagas
                 .CreatePassiveStateMachine();
         }
 
-        public async Task Start(CreateOrderDto dto, CancellationToken cancellationToken)
+        public async Task<int?> RunAsync(CreateOrderDto dto, CancellationToken cancellationToken)
         {
             _dto = dto;
             _cancellationToken = cancellationToken;
 
             await _machine.Start();
             await _machine.Fire(Events.CreateOrder);
+
+            return _completed ? _orderId : null;
         }
 
-        public int? GetResult()
-        {
-            if (_completed) return _orderId;
-
-            return null;
-        }
-
-        private async Task OnCreateOrder()
+        private async Task CreateOrderAsync()
         {
             try
             {
@@ -111,7 +106,7 @@ namespace Shop.Web.Sagas
             }
         }
 
-        private async Task OnSendEmail()
+        private async Task SendEmailAsync()
         {
             try
             {
@@ -132,12 +127,12 @@ namespace Shop.Web.Sagas
             }
         }
 
-        private async Task DeleteOrder()
+        private async Task DeleteOrderAsync()
         {
             await _sender.Send(new DeleteOrderCommand { Id = _orderId }, _cancellationToken);
         }
 
-        private void OnCompleted()
+        private void Complete()
         {
             _completed = true;
         }
