@@ -12,7 +12,6 @@ namespace Shop.Framework.UseCases.Implementation.Services
         }
 
         private DbConnection _connection;
-        private DbTransaction _transaction;
         private readonly string _connectionString;
 
         public DbConnection GetConnection()
@@ -25,18 +24,10 @@ namespace Shop.Framework.UseCases.Implementation.Services
             return _connection;
         }
 
-        public DbTransaction GetTransaction()
-        {
-            return _transaction ??= GetConnection().BeginTransaction();
-        }
-
         public bool IsConnectionOpened => _connection != null;
-
-        public bool IsTransactionStarted => _transaction != null;
 
         public void Dispose()
         {
-            _transaction?.Dispose();
             _connection?.Dispose();
         }
     }
