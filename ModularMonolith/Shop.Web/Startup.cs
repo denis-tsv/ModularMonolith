@@ -5,6 +5,7 @@ using System.Runtime.Loader;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.DataAccess.MsSql;
@@ -60,7 +61,7 @@ namespace Shop.Web
                 .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
                 .ToArray();
 
-            services.AddMediatR(assemblies);
+            services.AddMediatR(assemblies, cfg => cfg.AsScoped());
 
             services.AddAutoMapper(assemblies);
         }
