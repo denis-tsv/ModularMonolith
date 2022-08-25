@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
-using Shop.Order.UseCases.Orders.Mappings;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shop.Utils.Modules;
 
 namespace Shop.Order.UseCases
@@ -11,9 +7,6 @@ namespace Shop.Order.UseCases
     {
         public override void Load(IServiceCollection services)
         {
-            services.AddTransient<Profile, OrdersAutoMapperProfile>();
-
-            services.AddTransient<IBaseRequest, CreateOrderRequest>();
         }
     }
 }
