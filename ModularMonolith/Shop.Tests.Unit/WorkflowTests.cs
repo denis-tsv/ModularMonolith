@@ -140,7 +140,7 @@ namespace Shop.Tests.Unit
             services.AddMediatR(assemblies);
             services.AddAutoMapper(assemblies);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommitableTransactionPipelineBehavior<,>));
 
             services.RegisterModule<CommunicationDataAccessModule>(configuration);
             services.RegisterModule<OrderDataAccessModule>(configuration);
