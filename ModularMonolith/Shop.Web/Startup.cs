@@ -5,7 +5,6 @@ using System.Runtime.Loader;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Order.DataAccess.MsSql;
@@ -20,6 +19,7 @@ using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
 using Shop.Utils.Modules;
+using Microsoft.AspNetCore.Routing;
 
 namespace Shop.Web
 {
@@ -64,6 +64,15 @@ namespace Shop.Web
             services.AddMediatR(assemblies, cfg => cfg.AsScoped());
 
             services.AddAutoMapper(assemblies);
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +81,9 @@ namespace Shop.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseExceptionHandlerMiddleware();
