@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.DataAccess.Interfaces;
@@ -13,7 +14,8 @@ namespace Shop.Order.DataAccess.MsSql
             services.AddDbContext<OrderDbContext>((sp, bld) =>
             {
                 var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(factory.GetConnection(),
+                    opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, OrderDbContext.Schema));
             });
 
             services.AddScoped<IOrderDbContext>(sp =>

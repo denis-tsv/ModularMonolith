@@ -6,6 +6,8 @@ namespace Shop.Communication.DataAccess.MsSql
 {
     internal class CommunicationDbContext : DbContext, ICommunicationDbContext
     {
+        public static string Schema = "Communication";
+
         public CommunicationDbContext(DbContextOptions<CommunicationDbContext> options) : base(options)
         {
         }
@@ -14,7 +16,7 @@ namespace Shop.Communication.DataAccess.MsSql
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("Communication");
+            modelBuilder.HasDefaultSchema(Schema);
         }
     }
 }

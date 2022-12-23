@@ -6,6 +6,8 @@ namespace Shop.Order.DataAccess.MsSql
 {
     internal class OrderDbContext : DbContext, IOrderDbContext
     {
+        public const string Schema = "Order";
+
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
         {            
         }
@@ -18,7 +20,7 @@ namespace Shop.Order.DataAccess.MsSql
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("Order");
+            modelBuilder.HasDefaultSchema(Schema);
 
             DataSeed(modelBuilder);
         }

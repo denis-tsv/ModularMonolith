@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Communication.DataAccess.Interfaces;
 using Shop.Framework.UseCases.Interfaces.Services;
@@ -13,7 +14,8 @@ namespace Shop.Communication.DataAccess.MsSql
             services.AddDbContext<CommunicationDbContext>((sp, bld) =>
             {
                 var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(factory.GetConnection(),
+                    opt => opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, CommunicationDbContext.Schema));
             });
 
             services.AddScoped<ICommunicationDbContext>(sp =>
