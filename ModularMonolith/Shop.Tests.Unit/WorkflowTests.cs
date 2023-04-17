@@ -127,7 +127,7 @@ namespace Shop.Tests.Unit
         private ServiceCollection CreateServiceProvider(IConfiguration configuration)
         {
             var location = Assembly.GetExecutingAssembly().Location;
-            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*UseCases.dll")
+            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location)!, "Shop*UseCases.dll")
                 .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
                 .ToArray();
 
@@ -137,7 +137,7 @@ namespace Shop.Tests.Unit
 
             services.AddOptions();
 
-            services.AddMediatR(assemblies);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
             services.AddAutoMapper(assemblies);
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));

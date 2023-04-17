@@ -4,9 +4,9 @@ using MediatR;
 
 namespace Shop.Order.UseCases.Orders.Commands.UpdateOrder
 {
-    internal class UpdateOrderRequestHandler : AsyncRequestHandler<UpdateOrderRequest>
+    internal class UpdateOrderRequestHandler : IRequestHandler<UpdateOrderRequest>
     {
-        protected override Task Handle(UpdateOrderRequest request, CancellationToken cancellationToken)
+        public Task Handle(UpdateOrderRequest request, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

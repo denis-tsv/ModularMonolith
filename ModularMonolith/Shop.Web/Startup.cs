@@ -57,11 +57,11 @@ namespace Shop.Web
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DbTransactionPipelineBehavior<,>));
 
             var location = Assembly.GetExecutingAssembly().Location;
-            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location), "Shop*UseCases.dll")
+            var assemblies = Directory.EnumerateFiles(Path.GetDirectoryName(location)!, "Shop*UseCases.dll")
                 .Select(AssemblyLoadContext.Default.LoadFromAssemblyPath)
                 .ToArray();
 
-            services.AddMediatR(assemblies, cfg => cfg.AsScoped());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
 
             services.AddAutoMapper(assemblies);
 
