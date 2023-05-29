@@ -7,4 +7,4 @@ The most important thing for Modular Monolith is data consistency for workflows 
 - TransactionScope-Connection branch based on master and used TransactionScope instead of DbTransaction for data consistency ([diff](https://github.com/denis-tsv/ModularMonolith/pull/11/files))
 - TransactionScope-ConnectionString branch based on TransactionScope-Connection and used connection string instead of connection for DbContect creation ([diff](https://github.com/denis-tsv/ModularMonolith/pull/12/files))
 - Compensation branch based on TransactionScope-ConnectionString and used compensation instead of transactions ([diff](https://github.com/denis-tsv/ModularMonolith/pull/13/files))
-- Saga branch based on Compensation and used state machine instead of compensation ([diff](https://github.com/denis-tsv/ModularMonolith/pull/14/files))
+- StateMachime branch based on Compensation and used state machine instead of compensation ([diff](https://github.com/denis-tsv/ModularMonolith/pull/15/files))
