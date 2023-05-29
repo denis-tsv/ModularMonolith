@@ -9,9 +9,9 @@ using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Order.UseCases.Orders.Commands.DeleteOrder;
 using Shop.Order.UseCases.Orders.Dto;
 
-namespace Shop.Web.Sagas
+namespace Shop.Web.StateMachines
 {
-    internal class CreateOrderSaga
+    internal class CreateOrderStateMachine
     {
         private readonly ISender _sender;
         private readonly ICurrentUserService _currentUserService;
@@ -38,7 +38,7 @@ namespace Shop.Web.Sagas
             Failed
         }
 
-        public CreateOrderSaga(ISender sender, ICurrentUserService currentUserService)
+        public CreateOrderStateMachine(ISender sender, ICurrentUserService currentUserService)
         {
             _sender = sender;
             _currentUserService = currentUserService;

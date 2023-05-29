@@ -22,12 +22,12 @@ using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
 using Shop.Order.UseCases.Orders.Dto;
 using Shop.Utils.Modules;
-using Shop.Web.Sagas;
+using Shop.Web.StateMachines;
 using Xunit;
 
 namespace Shop.Tests.Unit
 {
-    public class WorkflowTests
+    public class StateMachineTests
     {
         [Fact]
         public async Task Should_Create_Order_And_Email()
@@ -41,11 +41,11 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
             
-            var saga = serviceProvider.GetRequiredService<CreateOrderSaga>();
+            var stateMachine = serviceProvider.GetRequiredService<CreateOrderStateMachine>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
             
             //act
-            var orderId = await saga.RunAsync(dto, CancellationToken.None);
+            var orderId = await stateMachine.RunAsync(dto, CancellationToken.None);
 
             //assert
             Assert.NotNull(orderId);
@@ -79,11 +79,11 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
 
-            var saga = serviceProvider.GetRequiredService<CreateOrderSaga>();
+            var stateMachine = serviceProvider.GetRequiredService<CreateOrderStateMachine>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
 
             //act
-            var orderId = await saga.RunAsync(dto, CancellationToken.None);
+            var orderId = await stateMachine.RunAsync(dto, CancellationToken.None);
 
             //assert
             Assert.Null(orderId);
@@ -162,7 +162,7 @@ namespace Shop.Tests.Unit
             services.RegisterModule<OrderContractModule>(configuration);
             services.RegisterModule<OrderUseCasesModule>(configuration);
 
-            services.AddScoped<CreateOrderSaga>();
+            services.AddScoped<CreateOrderStateMachine>();
 
             return services;
         }
