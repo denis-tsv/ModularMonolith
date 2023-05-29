@@ -17,19 +17,17 @@ using Shop.Communication.Entities;
 using Shop.Communication.UseCases;
 using Shop.Emails.Implementation;
 using Shop.Framework.UseCases.Implementation;
-using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Order.Contract.Implementation;
 using Shop.Order.DataAccess.MsSql;
 using Shop.Order.UseCases;
-using Shop.Order.UseCases.Orders.Commands.CreateOrder;
 using Shop.Order.UseCases.Orders.Dto;
 using Shop.Utils.Modules;
-using Shop.Web.Utils;
+using Shop.Web.StateMachines;
 using Xunit;
 
 namespace Shop.Tests.Unit
 {
-    public class WorkflowTests
+    public class StateMachineTests
     {
         [Fact]
         public async Task Should_Create_Order_And_Email()
@@ -43,13 +41,15 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
             
-            var sender = serviceProvider.GetRequiredService<ISender>();
+            var stateMachine = serviceProvider.GetRequiredService<CreateOrderStateMachine>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
             
             //act
-            var orderId = await sender.Send(new CreateOrderRequest { CreateOrderDto = dto });
+            var orderId = await stateMachine.RunAsync(dto, CancellationToken.None);
 
             //assert
+            Assert.NotNull(orderId);
+
             var order = await orderDbContext.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
             var email = await communicationDbContext.Emails.FirstOrDefaultAsync(x => x.OrderId == orderId);
             
@@ -79,13 +79,15 @@ namespace Shop.Tests.Unit
 
             var (orderDbContext, communicationDbContext) = await CreateDatabase(connectionString);
 
-            var sender = serviceProvider.GetRequiredService<ISender>();
+            var stateMachine = serviceProvider.GetRequiredService<CreateOrderStateMachine>();
             var dto = new CreateOrderDto { Items = new[] { new OrderItemDto { Count = 1, ProductId = 1 } } };
 
             //act
-            await Assert.ThrowsAsync<Exception>(() => sender.Send(new CreateOrderRequest { CreateOrderDto = dto }));
+            var orderId = await stateMachine.RunAsync(dto, CancellationToken.None);
 
             //assert
+            Assert.Null(orderId);
+
             var ordersCount = await orderDbContext.Orders.CountAsync();
             var emailsCount = await communicationDbContext.Emails.CountAsync();
 
@@ -159,6 +161,8 @@ namespace Shop.Tests.Unit
 
             services.RegisterModule<OrderContractModule>(configuration);
             services.RegisterModule<OrderUseCasesModule>(configuration);
+
+            services.AddScoped<CreateOrderStateMachine>();
 
             return services;
         }

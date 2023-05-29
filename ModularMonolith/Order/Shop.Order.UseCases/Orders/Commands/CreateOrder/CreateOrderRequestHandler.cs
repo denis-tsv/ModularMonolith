@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Shop.Framework.UseCases.Interfaces.Services;
-using Shop.Order.Contract.Notifications;
 using Shop.Order.DataAccess.Interfaces;
 
 namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
@@ -14,18 +13,15 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
         private readonly IOrderDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IPublisher _publisher;
 
         public CreateOrderRequestHandler(
             IOrderDbContext dbContext, 
             IMapper mapper, 
-            ICurrentUserService currentUserService,
-            IPublisher publisher)
+            ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _currentUserService = currentUserService;
-            _publisher = publisher;
         }
 
         public async Task<int> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -37,20 +33,6 @@ namespace Shop.Order.UseCases.Orders.Commands.CreateOrder
             _dbContext.Orders.Add(order);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-
-            try
-            {
-                await _publisher.Publish(new OrderCreatedNotification(order.Id, _currentUserService.Id, _currentUserService.Email), cancellationToken);
-            }
-            catch (Exception e) //Compensation
-            {
-                //log exception
-
-                _dbContext.Orders.Remove(order);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-
-                throw;
-            }
 
             return order.Id;
         }

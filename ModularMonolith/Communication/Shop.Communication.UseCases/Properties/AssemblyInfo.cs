@@ -2,3 +2,4 @@
 
 [assembly: InternalsVisibleTo("Shop.Communication.Contract.Implementation")]
 [assembly: InternalsVisibleTo("Shop.Communication.Controllers")]
+[assembly: InternalsVisibleTo("Shop.Web")]
