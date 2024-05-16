@@ -71,8 +71,7 @@ namespace Shop.Tests.Unit
             //services.Decorate<ICommunicationDbContext, TestCommunicationDbContext>();
             services.AddDbContext<CommunicationDbContext>((sp, bld) =>
             {
-                var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(configuration.GetConnectionString("MsSqlConnection"));
             });
             services.AddScoped<ICommunicationDbContext, TestCommunicationDbContext>();
 

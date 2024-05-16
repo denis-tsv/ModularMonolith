@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Communication.DataAccess.Interfaces;
-using Shop.Framework.UseCases.Interfaces.Services;
 using Shop.Utils.Modules;
 
 namespace Shop.Communication.DataAccess.MsSql
@@ -12,8 +12,7 @@ namespace Shop.Communication.DataAccess.MsSql
         {
             services.AddDbContext<ICommunicationDbContext, CommunicationDbContext>((sp, bld) =>
             {
-                var factory = sp.GetRequiredService<IConnectionFactory>();
-                bld.UseSqlServer(factory.GetConnection());
+                bld.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"));
             });
         }
     }
